@@ -1,0 +1,7 @@
+{
+  "sample": "pagetext.json",
+  "container": "bare",
+  "sampleFilter": { "pageId": "overview" },
+  "width": 1824,
+  "height": 140
+}

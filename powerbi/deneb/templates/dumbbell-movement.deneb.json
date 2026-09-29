@@ -1,0 +1,554 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health dumbbell-movement",
+      "description": "Each core domain's score at the start of the period and now, drawn as a dumbbell, sorted by the biggest fall first.",
+      "author": "Platform Health contributors",
+      "uuid": "ecfb041f-53fb-5edf-83c6-d82554610daa",
+      "generated": "2026-09-29T20:45:43.045Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "domainId",
+        "description": "One row per core domain; the selection key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "domain",
+        "description": "Domain name, printed on the left",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "scope",
+        "description": "`Estate` or a lab name; filter the visual to one scope. The first row's value becomes the subtitle",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__3__",
+        "name": "from",
+        "description": "Domain score at the start of the period; the sample uses last quarter (quarter 5 of 6)",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__4__",
+        "name": "to",
+        "description": "Domain score now (quarter 6)",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__5__",
+        "name": "delta",
+        "description": "`to` minus `from`; sorts the rows, lowest first, and sets the colour and the word",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Each core domain's score at the start of the period and now, drawn as a dumbbell, sorted by the biggest fall first.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "WHAT MOVED OVER THE PERIOD"
+    },
+    {
+      "name": "domainOrder",
+      "value": [
+        "stability",
+        "incidents",
+        "problems",
+        "maturity",
+        "architecture",
+        "risk",
+        "security",
+        "resilience",
+        "change",
+        "estate",
+        "governance",
+        "delivery",
+        "people",
+        "cost",
+        "operability"
+      ]
+    },
+    {
+      "name": "labelWidth",
+      "value": 220
+    },
+    {
+      "name": "valueWidth",
+      "value": 140
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "subtitle": {
+      "expr": "[length(data('dataset')) ? (data('dataset')[0]['__2__'] === 'Estate' ? 'Whole estate' : data('dataset')[0]['__2__']) + (data('dataset')[0].quarters ? ', over the last ' + data('dataset')[0].quarters + ' quarters' : '') : '', 'Change in health score, 60 to 100. Up is better.']"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": {
+      "expr": "muted"
+    },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    {
+      "calculate": "datum['__5__'] > 0 ? emerald : datum['__5__'] < 0 ? amber : muted",
+      "as": "moveColour"
+    },
+    {
+      "calculate": "(datum['__5__'] > 0 ? '+' + datum['__5__'] : datum['__5__'] < 0 ? '−' + abs(datum['__5__']) : '0') + ' ' + (datum['__5__'] > 0 ? 'better' : datum['__5__'] < 0 ? 'worse' : 'held')",
+      "as": "moveLabel"
+    },
+    {
+      "calculate": "max(60, datum['__3__'])",
+      "as": "fromAt"
+    },
+    {
+      "calculate": "max(60, datum['__4__'])",
+      "as": "toAt"
+    },
+    {
+      "calculate": "min(datum['__3__'], datum['__4__']) < 60",
+      "as": "clamped"
+    },
+    {
+      "calculate": "max(datum.fromAt, datum.toAt)",
+      "as": "rightEnd"
+    },
+    {
+      "calculate": "min(datum.fromAt, datum.toAt)",
+      "as": "leftEnd"
+    },
+    {
+      "calculate": "datum.clamped ? datum['__1__'] + ' <60' : datum['__1__']",
+      "as": "domainLabel"
+    },
+    {
+      "calculate": "indexof(domainOrder, datum['__0__']) < 0 ? length(domainOrder) : indexof(domainOrder, datum['__0__'])",
+      "as": "domainRank"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "moveOrder"
+        }
+      ],
+      "sort": [
+        {
+          "field": "__5__",
+          "order": "ascending"
+        },
+        {
+          "field": "domainRank",
+          "order": "ascending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
+        }
+      ]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "type": "quantitative",
+      "scale": {
+        "domain": [
+          60,
+          100
+        ],
+        "nice": false,
+        "zero": false,
+        "clamp": true,
+        "range": [
+          {
+            "expr": "labelWidth"
+          },
+          {
+            "expr": "max(labelWidth + 60, width - valueWidth)"
+          }
+        ]
+      },
+      "axis": {
+        "title": "Domain score, 60 to 100",
+        "titlePadding": 10,
+        "values": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "grid": false
+      }
+    },
+    "y": {
+      "field": "__1__",
+      "type": "nominal",
+      "sort": {
+        "field": "moveOrder",
+        "op": "min",
+        "order": "ascending"
+      },
+      "scale": {
+        "paddingInner": 0.2,
+        "paddingOuter": 0.2,
+        "range": [
+          22,
+          {
+            "expr": "max(22, height)"
+          }
+        ]
+      },
+      "axis": null
+    },
+    "tooltip": [
+      {
+        "field": "__1__",
+        "title": "Domain"
+      },
+      {
+        "field": "__3__",
+        "title": "Start of period"
+      },
+      {
+        "field": "__4__",
+        "title": "Now"
+      },
+      {
+        "field": "moveLabel",
+        "title": "Change"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {
+            "at": 60
+          },
+          {
+            "at": 80
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "y": 0,
+        "y2": {
+          "expr": "height"
+        },
+        "color": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "at",
+          "type": "quantitative"
+        },
+        "y": null,
+        "tooltip": null,
+        "opacity": null
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "at": 60,
+            "word": "WATCH"
+          },
+          {
+            "at": 80,
+            "word": "HEALTHY"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "y": 0,
+        "dx": 6,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "at",
+          "type": "quantitative"
+        },
+        "y": null,
+        "text": {
+          "field": "word"
+        },
+        "tooltip": null,
+        "opacity": null
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": {
+          "expr": "muted"
+        },
+        "strokeWidth": 1.5,
+        "strokeOpacity": 0.6
+      },
+      "encoding": {
+        "x": {
+          "field": "fromAt"
+        },
+        "x2": {
+          "field": "toAt"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 90,
+        "fill": {
+          "expr": "surface"
+        },
+        "stroke": {
+          "expr": "muted"
+        },
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "fromAt"
+        },
+        "shape": {
+          "condition": {
+            "test": "datum['__3__'] < 60",
+            "value": "triangle-left"
+          },
+          "value": "circle"
+        }
+      }
+    },
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 110,
+        "stroke": {
+          "expr": "surface"
+        },
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "toAt"
+        },
+        "shape": {
+          "condition": {
+            "test": "datum['__4__'] < 60",
+            "value": "triangle-left"
+          },
+          "value": "circle"
+        },
+        "color": {
+          "field": "moveColour",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 14,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "surface"
+        },
+        "stroke": {
+          "expr": "surface"
+        },
+        "strokeWidth": 5,
+        "strokeJoin": "round"
+      },
+      "encoding": {
+        "x": {
+          "field": "rightEnd"
+        },
+        "text": {
+          "field": "moveLabel"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 14,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "x": {
+          "field": "rightEnd"
+        },
+        "text": {
+          "field": "moveLabel"
+        },
+        "color": {
+          "field": "moveColour",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -14,
+        "fontSize": 13,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "leftEnd"
+        },
+        "text": {
+          "field": "domainLabel"
+        }
+      }
+    }
+  ]
+}

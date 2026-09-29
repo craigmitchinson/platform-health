@@ -1,0 +1,72 @@
+table MovementStep
+	lineageTag: 275166d1-e234-5f1b-937d-94f60e36a604
+
+	column Step
+		dataType: int64
+		formatString: 0
+		lineageTag: 52c72870-1029-532b-91ae-c833668e7329
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Step]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Label
+		dataType: string
+		lineageTag: 17dcc523-e5d2-5f2a-9bdb-d11ecc8a6840
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Label]
+		sortByColumn: Step
+
+		annotation SummarizationSetBy = Automatic
+
+	column Short
+		dataType: string
+		lineageTag: 32f120ac-246e-5ca4-b334-0313f90927eb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Short]
+		sortByColumn: Step
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kind
+		dataType: string
+		lineageTag: a08d6b43-1e6e-509f-bcd1-76456e5daf4c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Kind]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainKey
+		dataType: string
+		lineageTag: a7f1776e-6052-54b2-bcc7-512f52ae22db
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DomainKey]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MovementStep = calculated
+		mode: import
+		source =
+				VAR _Core =
+				    SELECTCOLUMNS (
+				        FILTER ( ALLNOBLANKROW ( 'Domain' ), 'Domain'[IsCore] = TRUE () ),
+				        "Step", 'Domain'[SortOrder],
+				        "Label", 'Domain'[DomainName],
+				        "Short", SWITCH ( 'Domain'[DomainKey], "maturity", "Maturity", "architecture", "Arch.", 'Domain'[DomainName] ),
+				        "Kind", "delta",
+				        "DomainKey", 'Domain'[DomainKey]
+				    )
+				VAR _EndStep = MAXX ( _Core, [Step] ) + 1
+				RETURN
+				    UNION (
+				        ROW ( "Step", 0, "Label", "Period start", "Short", "Period start", "Kind", "start", "DomainKey", BLANK () ),
+				        _Core,
+				        ROW ( "Step", _EndStep, "Label", "Now", "Short", "Now", "Kind", "end", "DomainKey", BLANK () )
+				    )
+
+	annotation PBI_ResultType = Table

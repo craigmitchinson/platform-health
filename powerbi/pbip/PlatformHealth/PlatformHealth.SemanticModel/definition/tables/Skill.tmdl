@@ -1,0 +1,40 @@
+table Skill
+	lineageTag: 08b67a46-0b4b-51fc-9e4f-1721451e9213
+
+	column SkillKey
+		dataType: string
+		lineageTag: d1e0777d-7bdc-5640-ad00-f21aa3cff03b
+		summarizeBy: none
+		sourceColumn: SkillKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SkillName
+		dataType: string
+		lineageTag: dc73f85d-dee5-584c-a4ee-3f5984071ebd
+		summarizeBy: none
+		sourceColumn: SkillName
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 345e9845-a225-58f1-8216-0be8192a589a
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Skill = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Skill.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"SkillKey", type text}, {"SkillName", type text}, {"SortOrder", Int64.Type}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

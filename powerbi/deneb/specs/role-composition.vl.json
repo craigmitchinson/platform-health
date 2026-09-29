@@ -1,0 +1,227 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Role composition by lab: one stacked bar per lab, a segment per role group labelled with its count, and each segment's contractors as a lighter tail. The lab's contractor share is written to the right; a key names the groups and the tail.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "groupColours", "expr": "[pbiColor(0), pbiColor(5), pbiColor(2), pbiColor(1), pbiColor(3), pbiColor(6), pbiColor(7)]" },
+    { "name": "roleOrder", "value": ["Leadership", "Product and delivery", "Engineering", "SRE and operations", "Data", "QA"] },
+    { "name": "labOrder", "value": ["24*7 Services", "Colleague Tooling", "Agentic Operations", "Data & Insights"] },
+    { "name": "title", "value": "ROLE COMPOSITION BY LAB" },
+    { "name": "shareW", "value": 150 },
+    { "name": "keyH", "value": 46 }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    { "calculate": "indexof(labOrder, datum.lab) < 0 ? length(labOrder) : indexof(labOrder, datum.lab)", "as": "labPos" },
+    { "calculate": "indexof(roleOrder, datum.roleGroup) < 0 ? length(roleOrder) : indexof(roleOrder, datum.roleGroup)", "as": "groupRank" },
+    { "calculate": "groupColours[min(datum.groupRank, length(groupColours) - 1)]", "as": "groupColour" },
+    { "calculate": "isValid(datum.count) ? toNumber(datum.count) : 0", "as": "n" },
+    { "calculate": "isValid(datum.contractors) ? toNumber(datum.contractors) : 0", "as": "c" },
+    {
+      "window": [{ "op": "sum", "field": "n", "as": "cumEnd" }],
+      "groupby": ["lab"],
+      "sort": [{ "field": "groupRank", "order": "ascending" }],
+      "frame": [null, 0]
+    },
+    { "calculate": "datum.cumEnd - datum.n", "as": "cumStart" },
+    { "calculate": "datum.cumEnd - datum.c", "as": "tailStart" },
+    { "calculate": "(datum.cumStart + datum.cumEnd) / 2", "as": "segMid" },
+    { "joinaggregate": [{ "op": "sum", "field": "n", "as": "labTotal" }, { "op": "sum", "field": "c", "as": "labContractors" }], "groupby": ["lab"] },
+    { "calculate": "isValid(datum.labCode) && datum.labCode !== '' ? datum.labCode + '' : upper(substring(datum.lab + '', 0, 2))", "as": "chipCode" },
+    { "calculate": "isValid(datum.labColour) && datum.labColour !== '' ? datum.labColour + '' : muted", "as": "chipColour" }
+  ],
+  "encoding": {
+    "y": {
+      "field": "lab",
+      "type": "nominal",
+      "sort": { "field": "labPos", "op": "min", "order": "ascending" },
+      "scale": { "range": [{ "expr": "keyH" }, { "expr": "height" }], "paddingInner": 0.55, "paddingOuter": 0.3 },
+      "axis": null
+    },
+    "tooltip": [
+      { "field": "lab", "title": "Lab" },
+      { "field": "roleGroup", "title": "Role group" },
+      { "field": "n", "title": "People" },
+      { "field": "c", "title": "Contractors" }
+    ]
+  },
+  "layer": [
+    {
+      "transform": [{ "filter": "datum.n > 0" }],
+      "mark": { "type": "rect", "stroke": { "expr": "surface" }, "strokeWidth": 1.5 },
+      "encoding": {
+        "x": {
+          "field": "cumStart",
+          "type": "quantitative",
+          "scale": { "nice": false, "zero": true, "range": [0, { "expr": "max(0, width - shareW)" }] },
+          "axis": null
+        },
+        "x2": { "field": "cumEnd" },
+        "color": { "field": "groupColour", "type": "nominal", "scale": null }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.c > 0" }],
+      "mark": { "type": "rect", "color": { "expr": "surface" }, "opacity": 0.5, "stroke": { "expr": "surface" }, "strokeWidth": 1.5 },
+      "encoding": { "x": { "field": "tailStart", "type": "quantitative" }, "x2": { "field": "cumEnd" } }
+    },
+    {
+      "transform": [{ "filter": "datum.n > 0" }],
+      "mark": { "type": "text", "align": "center", "baseline": "middle", "fontSize": 12.5, "fontWeight": 700, "color": { "expr": "surface" } },
+      "encoding": {
+        "x": { "field": "segMid", "type": "quantitative" },
+        "text": {
+          "condition": { "test": "scale('x', datum.cumEnd) - scale('x', datum.cumStart) < 20", "value": "" },
+          "field": "n"
+        }
+      }
+    },
+    {
+      "transform": [
+        { "aggregate": [{ "op": "min", "field": "labPos", "as": "labPos" }, { "op": "min", "field": "labTotal", "as": "labTotal" }, { "op": "min", "field": "labContractors", "as": "labContractors" }], "groupby": ["lab", "chipCode", "chipColour"] },
+        { "calculate": "datum.labTotal ? round(100 * datum.labContractors / datum.labTotal) : 0", "as": "pct" },
+        { "calculate": "format(datum.labTotal, ',') + ' people'", "as": "totalText" },
+        { "calculate": "format(datum.pct, 'd') + '%'", "as": "pctText" }
+      ],
+      "encoding": { "y": null, "tooltip": null },
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 5,
+            "x": 0,
+            "x2": 22,
+            "y": { "expr": "scale('y', datum.lab) - 25" },
+            "y2": { "expr": "scale('y', datum.lab) - 8" }
+          },
+          "encoding": { "color": { "field": "chipColour", "type": "nominal", "scale": null } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": 11,
+            "y": { "expr": "scale('y', datum.lab) - 16.5" },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": { "expr": "surface" }
+          },
+          "encoding": { "text": { "field": "chipCode" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": 30,
+            "y": { "expr": "scale('y', datum.lab) - 16.5" },
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 14,
+            "fontWeight": 600,
+            "color": { "expr": "ink" },
+            "limit": { "expr": "max(40, width - shareW - 120)" }
+          },
+          "encoding": { "text": { "field": "lab" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "max(0, width - shareW)" },
+            "y": { "expr": "scale('y', datum.lab) - 16.5" },
+            "align": "right",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12,
+            "color": { "expr": "muted" }
+          },
+          "encoding": { "text": { "field": "totalText" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "width - shareW + 14" },
+            "y": { "expr": "scale('y', datum.lab) + bandwidth('y') / 2" },
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 15,
+            "fontWeight": 700,
+            "color": { "expr": "ink" }
+          },
+          "encoding": { "text": { "field": "pctText" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "width - shareW + 14" },
+            "y": { "expr": "scale('y', datum.lab) + bandwidth('y') / 2 + 1" },
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11.5,
+            "color": { "expr": "muted" },
+            "dx": 44
+          },
+          "encoding": { "text": { "value": "contractors" } }
+        }
+      ]
+    },
+    {
+      "transform": [
+        { "aggregate": [{ "op": "min", "field": "groupRank", "as": "groupRank" }], "groupby": ["roleGroup", "groupColour"] }
+      ],
+      "encoding": { "y": null, "tooltip": null },
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 3,
+            "x": { "expr": "(datum.groupRank % 4) * 180" },
+            "x2": { "expr": "(datum.groupRank % 4) * 180 + 12" },
+            "y": { "expr": "floor(datum.groupRank / 4) * 20" },
+            "y2": { "expr": "floor(datum.groupRank / 4) * 20 + 12" }
+          },
+          "encoding": { "color": { "field": "groupColour", "type": "nominal", "scale": null } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "(datum.groupRank % 4) * 180 + 18" },
+            "y": { "expr": "floor(datum.groupRank / 4) * 20 + 6" },
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 13,
+            "color": { "expr": "ink" }
+          },
+          "encoding": { "text": { "field": "roleGroup" } }
+        }
+      ]
+    },
+    {
+      "transform": [{ "aggregate": [{ "op": "count", "as": "rows" }] }],
+      "encoding": { "y": null, "tooltip": null },
+      "layer": [
+        { "mark": { "type": "rect", "cornerRadius": 3, "x": 540, "x2": 552, "y": 20, "y2": 32, "color": { "expr": "groupColours[2]" } } },
+        { "mark": { "type": "rect", "x": 546, "x2": 552, "y": 20, "y2": 32, "color": { "expr": "surface" }, "opacity": 0.5 } },
+        {
+          "mark": { "type": "text", "x": 558, "y": 26, "align": "left", "baseline": "middle", "fontSize": 13, "color": { "expr": "ink" } },
+          "encoding": { "text": { "value": "Lighter tail: contractors" } }
+        }
+      ]
+    }
+  ]
+}

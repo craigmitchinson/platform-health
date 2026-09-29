@@ -1,0 +1,343 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Overview grid of domain cards, two rows with columns derived from the domain count: name, score, band pill, change since last quarter (named in the title), weakest driver with units, and a six-quarter sparkline against the healthy band.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "DOMAINS · CHANGE ON LAST QUARTER" },
+    {
+      "name": "domainOrder",
+      "value": ["stability", "incidents", "problems", "maturity", "architecture", "risk", "security", "resilience", "change", "estate", "governance", "delivery", "people", "cost", "operability"]
+    },
+    { "name": "rowGap", "value": 12 },
+    { "name": "rowH", "expr": "max(0, (height - rowGap) / 2)" }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    { "calculate": "indexof(domainOrder, datum.domainId) < 0 ? length(domainOrder) : indexof(domainOrder, datum.domainId)", "as": "domainRank" },
+    {
+      "window": [{ "op": "row_number", "as": "card" }],
+      "sort": [{ "field": "domainRank", "order": "ascending" }, { "field": "domain", "order": "ascending" }]
+    },
+    { "joinaggregate": [{ "op": "count", "as": "cardCount" }] },
+    { "calculate": "max(1, ceil(datum.cardCount / 2))", "as": "cols" },
+    { "calculate": "width / datum.cols", "as": "cardW" },
+    { "calculate": "(datum.card - 1) % datum.cols", "as": "c0" },
+    { "calculate": "(datum.c0 + 1) * datum.cardW", "as": "c1" },
+    { "calculate": "floor((datum.card - 1) / datum.cols)", "as": "r0" },
+    { "calculate": "datum.c0 * datum.cardW", "as": "cellX" },
+    { "calculate": "datum.r0 * (rowH + rowGap)", "as": "cardTop" },
+    { "calculate": "datum.cardTop + rowH", "as": "cardBottom" },
+    { "calculate": "datum.cardTop - 6", "as": "cellY" },
+    {
+      "calculate": "{'healthy': 'HEALTHY', 'watch': 'WATCH', 'act': 'ACT', 'context': 'CONTEXT'}[datum.band] || upper(datum.band)",
+      "as": "bandWord"
+    },
+    {
+      "calculate": "datum.band === 'healthy' ? emerald : datum.band === 'watch' ? amber : datum.band === 'act' ? red : muted",
+      "as": "bandKey"
+    },
+    {
+      "calculate": "datum.driverLabel + ' ' + datum.driverValueFormatted + ' vs ' + datum.driverTargetFormatted",
+      "as": "driverText"
+    },
+    { "calculate": "datum.q6 - datum.q5", "as": "change" },
+    {
+      "calculate": "(datum.change > 0 ? '+' : datum.change < 0 ? '−' : '±') + abs(datum.change) + (datum.change > 0 ? ' better' : datum.change < 0 ? ' worse' : ' held') ",
+      "as": "changeText"
+    },
+    {
+      "calculate": "datum.change > 0 ? emerald : datum.change < 0 ? amber : muted",
+      "as": "changeColour"
+    },
+    {
+      "calculate": "min(datum.q1, datum.q2, datum.q3, datum.q4, datum.q5, datum.q6)",
+      "as": "cardMin"
+    },
+    {
+      "calculate": "max(datum.q1, datum.q2, datum.q3, datum.q4, datum.q5, datum.q6)",
+      "as": "cardMax"
+    },
+    {
+      "joinaggregate": [
+        { "op": "min", "field": "cardMin", "as": "allMin" },
+        { "op": "max", "field": "cardMax", "as": "allMax" }
+      ]
+    },
+    { "calculate": "min(datum.allMin, 76) - 4", "as": "sparkLow" },
+    { "calculate": "min(100, max(datum.allMax, 88) + 3)", "as": "sparkHigh" },
+    { "calculate": "datum.proposed === true ? 0.5 : 1", "as": "dim" }
+  ],
+  "encoding": {
+    "x": {
+      "field": "cellX",
+      "type": "quantitative",
+      "scale": null,
+      "axis": null
+    },
+    "y": { "field": "cellY", "type": "quantitative", "scale": null },
+    "tooltip": [
+      { "field": "domain", "title": "Domain" },
+      { "field": "score", "title": "Score" },
+      { "field": "bandWord", "title": "Band" },
+      { "field": "changeText", "title": "Change" },
+      { "field": "driverText", "title": "Driver" }
+    ]
+  },
+  "layer": [
+    {
+      "params": [
+        { "name": "__select__", "select": { "type": "point", "fields": ["domainId"], "on": "click", "clear": "dblclick" } }
+      ],
+      "mark": {
+        "type": "rect",
+        "xOffset": 6,
+        "x2Offset": -6,
+        "cornerRadius": 18,
+        "fill": { "expr": "surface" },
+        "stroke": { "expr": "line" },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x2": { "field": "c1" },
+        "y": { "field": "cardTop", "type": "quantitative", "scale": null },
+        "y2": { "field": "cardBottom" },
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "dx": 24,
+        "dy": 22,
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 17,
+        "fontWeight": 600,
+        "color": { "expr": "ink" },
+        "limit": { "expr": "max(40, datum.cardW - 36 - (datum.proposed === true ? 60 : 0))" }
+      },
+      "encoding": {
+        "text": { "field": "domain" },
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.proposed === true" }],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "dx": -24,
+        "dy": 24,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": { "expr": "muted" }
+      },
+      "encoding": {
+        "x": { "field": "c1", "type": "quantitative", "scale": null },
+        "text": { "value": "PROPOSED" },
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "dx": 24,
+        "dy": 82,
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 36,
+        "fontWeight": 600,
+        "color": { "expr": "ink" }
+      },
+      "encoding": {
+        "text": { "field": "score" },
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+      }
+    },
+    {
+      "transform": [
+        { "calculate": "34 + length(datum.bandWord) * 7.4", "as": "pillW" },
+        { "calculate": "datum.cellX + 104", "as": "pillX" },
+        { "calculate": "datum.pillX + datum.pillW", "as": "pillX2" },
+        { "calculate": "datum.cellY + 48", "as": "pillY" },
+        { "calculate": "datum.pillY + 24", "as": "pillY2" },
+        { "calculate": "datum.pillY + 12", "as": "pillMid" },
+        { "calculate": "datum.pillX + 15", "as": "pillDotX" },
+        { "calculate": "datum.pillX + 25", "as": "pillTextX" },
+        {
+          "calculate": "datum.band === 'healthy' ? goodFill : datum.band === 'watch' ? warnFill : datum.band === 'act' ? badFill : sage",
+          "as": "pillFill"
+        }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "rect", "cornerRadius": 12, "strokeWidth": 1, "strokeOpacity": 0.35 },
+          "encoding": {
+            "x": { "field": "pillX", "type": "quantitative", "scale": null },
+            "x2": { "field": "pillX2" },
+            "y": { "field": "pillY", "type": "quantitative", "scale": null },
+            "y2": { "field": "pillY2" },
+            "fill": { "field": "pillFill", "type": "nominal", "scale": null },
+            "stroke": { "field": "bandKey", "type": "nominal", "scale": null },
+            "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+          }
+        },
+        {
+          "mark": { "type": "circle", "size": 64 },
+          "encoding": {
+            "x": { "field": "pillDotX", "type": "quantitative", "scale": null },
+            "y": { "field": "pillMid", "type": "quantitative", "scale": null },
+            "color": { "field": "bandKey", "type": "nominal", "scale": null },
+            "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": { "expr": "ink" }
+          },
+          "encoding": {
+            "x": { "field": "pillTextX", "type": "quantitative", "scale": null },
+            "y": { "field": "pillMid", "type": "quantitative", "scale": null },
+            "text": { "field": "bandWord" },
+            "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        { "calculate": "datum.cellX + 104", "as": "changeX" },
+        { "calculate": "datum.cellY + 88", "as": "changeY" }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11.5,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "x": { "field": "changeX", "type": "quantitative", "scale": null },
+        "y": { "field": "changeY", "type": "quantitative", "scale": null },
+        "text": { "field": "changeText" },
+        "color": { "field": "changeColour", "type": "nominal", "scale": null },
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "dx": 24,
+        "dy": 104,
+        "fontSize": 13,
+        "limit": { "expr": "max(40, datum.cardW - 36)" },
+        "color": { "expr": "muted" }
+      },
+      "encoding": {
+        "text": { "field": "driverText" },
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+      }
+    },
+    {
+      "transform": [
+        { "calculate": "datum.cellX + 24", "as": "bandX" },
+        { "calculate": "datum.cellX + datum.cardW - 24", "as": "bandX2" },
+        { "calculate": "datum.cellY + 110", "as": "sparkTop" },
+        { "calculate": "max(datum.cellY + 124, datum.cardBottom - 10)", "as": "sparkBase" },
+        {
+          "calculate": "datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (80 - datum.sparkLow) / (datum.sparkHigh - datum.sparkLow)",
+          "as": "band80"
+        }
+      ],
+      "mark": { "type": "rect", "color": { "expr": "goodFill" }, "opacity": 0.35, "cornerRadius": 2 },
+      "encoding": {
+        "x": { "field": "bandX", "type": "quantitative", "scale": null },
+        "x2": { "field": "bandX2" },
+        "y": { "field": "sparkTop", "type": "quantitative", "scale": null },
+        "y2": { "field": "band80" }
+      }
+    },
+    {
+      "transform": [
+        { "calculate": "[datum.q1, datum.q2, datum.q3, datum.q4, datum.q5, datum.q6]", "as": "quarterScores" },
+        { "calculate": "sequence(0, 6)", "as": "quarterIndex" },
+        { "flatten": ["quarterScores", "quarterIndex"], "as": ["quarterScore", "qi"] },
+        { "calculate": "datum.cellY + 110", "as": "sparkTop" },
+        { "calculate": "max(datum.cellY + 124, datum.cardBottom - 10)", "as": "sparkBase" },
+        { "calculate": "datum.cellX + 24 + (datum.cardW - 48) * datum.qi / 5", "as": "sx" },
+        {
+          "calculate": "datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (clamp(datum.quarterScore, datum.sparkLow, datum.sparkHigh) - datum.sparkLow) / (datum.sparkHigh - datum.sparkLow)",
+          "as": "sy"
+        }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "area", "color": { "expr": "emerald" }, "opacity": 0.15 },
+          "encoding": {
+            "x": { "field": "sx", "type": "quantitative", "scale": null },
+            "y": { "field": "sy", "type": "quantitative", "scale": null },
+            "y2": { "field": "sparkBase" },
+            "detail": { "field": "domainId" }
+          }
+        },
+        {
+          "mark": { "type": "line", "strokeWidth": 1.75, "color": { "expr": "evergreen" } },
+          "encoding": {
+            "x": { "field": "sx", "type": "quantitative", "scale": null },
+            "y": { "field": "sy", "type": "quantitative", "scale": null },
+            "detail": { "field": "domainId" },
+            "order": { "field": "qi", "type": "quantitative" },
+            "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+          }
+        },
+        {
+          "transform": [{ "filter": "datum.qi === 5" }],
+          "mark": { "type": "circle", "size": 44, "stroke": { "expr": "surface" }, "strokeWidth": 1.5 },
+          "encoding": {
+            "x": { "field": "sx", "type": "quantitative", "scale": null },
+            "y": { "field": "sy", "type": "quantitative", "scale": null },
+            "color": { "field": "bandKey", "type": "nominal", "scale": null },
+            "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "field": "dim", "type": "quantitative", "scale": null }
+          }
+        }
+      ]
+    }
+  ]
+}

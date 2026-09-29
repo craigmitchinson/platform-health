@@ -1,0 +1,489 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health overview-key",
+      "description": "Overview key for the sixteenth domain slot: three lines: the three band pills in a row, each with its threshold beside it, the four domain group tags, and the Proposed tag. Constant; the one bound field only gives Deneb a row to render.",
+      "author": "Platform Health contributors",
+      "uuid": "84a356db-be76-5532-975a-a7d1f7573ba8",
+      "generated": "2026-09-29T21:01:36.665Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "quarters",
+        "description": "Any non-blank value; bound to [Selected Quarters] only so Deneb has a row",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Overview key for the sixteenth domain slot: three lines: the three band pills in a row, each with its threshold beside it, the four domain group tags, and the Proposed tag. Constant; the one bound field only gives Deneb a row to render.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "KEY"
+    },
+    {
+      "name": "rowH",
+      "expr": "max(14, height / 3)"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "filter": "isValid(datum['__0__'])"
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {
+            "slot": 0,
+            "word": "HEALTHY",
+            "band": "healthy",
+            "note": "80+"
+          },
+          {
+            "slot": 1,
+            "word": "WATCH",
+            "band": "watch",
+            "note": "60–79"
+          },
+          {
+            "slot": 2,
+            "word": "ACT",
+            "band": "act",
+            "note": "<60"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "0.5 * rowH",
+          "as": "yMid"
+        },
+        {
+          "calculate": "datum.yMid - 9",
+          "as": "y0"
+        },
+        {
+          "calculate": "datum.yMid + 9",
+          "as": "y1"
+        },
+        {
+          "calculate": "datum.slot * width * 0.365",
+          "as": "x0"
+        },
+        {
+          "calculate": "datum.x0 + 6 + length(datum.word) * 5.2",
+          "as": "x1"
+        },
+        {
+          "calculate": "(datum.x0 + datum.x1) / 2",
+          "as": "xMid"
+        },
+        {
+          "calculate": "datum.x1 + 3",
+          "as": "noteX"
+        },
+        {
+          "calculate": "datum.band === 'healthy' ? goodFill : datum.band === 'watch' ? warnFill : badFill",
+          "as": "fill"
+        },
+        {
+          "calculate": "datum.band === 'healthy' ? emerald : datum.band === 'watch' ? amber : red",
+          "as": "dot"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 9,
+            "strokeWidth": 1,
+            "strokeOpacity": 0.35
+          },
+          "encoding": {
+            "x": {
+              "field": "x0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "x1"
+            },
+            "y": {
+              "field": "y0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "y1"
+            },
+            "fill": {
+              "field": "fill",
+              "type": "nominal",
+              "scale": null
+            },
+            "stroke": {
+              "field": "dot",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 8.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "xMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "yMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "word"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 10,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "noteX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "yMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "note"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "tag": "OPS",
+            "slot": 0
+          },
+          {
+            "tag": "RISK",
+            "slot": 1
+          },
+          {
+            "tag": "ARCH",
+            "slot": 2
+          },
+          {
+            "tag": "DEL",
+            "slot": 3
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "1.5 * rowH",
+          "as": "yMid"
+        },
+        {
+          "calculate": "datum.yMid - 8",
+          "as": "y0"
+        },
+        {
+          "calculate": "datum.yMid + 8",
+          "as": "y1"
+        },
+        {
+          "calculate": "datum.slot * width / 4",
+          "as": "x0"
+        },
+        {
+          "calculate": "datum.x0 + width / 4 - 6",
+          "as": "x1"
+        },
+        {
+          "calculate": "(datum.x0 + datum.x1) / 2",
+          "as": "xMid"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 4,
+            "fill": {
+              "expr": "cream"
+            },
+            "stroke": {
+              "expr": "line"
+            },
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "x0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "x1"
+            },
+            "y": {
+              "field": "y0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "y1"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11,
+            "fontWeight": 600,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "xMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "yMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "tag"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "tag": "PROPOSED",
+            "note": "not yet sourced"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "2.5 * rowH",
+          "as": "yMid"
+        },
+        {
+          "calculate": "datum.yMid - 8",
+          "as": "y0"
+        },
+        {
+          "calculate": "datum.yMid + 8",
+          "as": "y1"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "x": 0,
+            "x2": 72,
+            "cornerRadius": 4,
+            "fill": {
+              "expr": "sage"
+            },
+            "stroke": {
+              "expr": "muted"
+            },
+            "strokeWidth": 1,
+            "strokeDash": [
+              3,
+              2
+            ]
+          },
+          "encoding": {
+            "y": {
+              "field": "y0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "y1"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": 36,
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "y": {
+              "field": "yMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "tag"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": 80,
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 11,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "y": {
+              "field": "yMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "note"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

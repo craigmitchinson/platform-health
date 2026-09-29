@@ -1,0 +1,397 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "labs_movers",
+  "position": {
+    "x": 1352,
+    "y": 638,
+    "z": 5000,
+    "width": 520,
+    "height": 338,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "TeamName"
+                }
+              },
+              "queryRef": "Team.TeamName",
+              "nativeQueryRef": "TeamName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "LabName"
+                }
+              },
+              "queryRef": "Team.LabName",
+              "nativeQueryRef": "LabName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "LabCode"
+                }
+              },
+              "queryRef": "Team.LabCode",
+              "nativeQueryRef": "LabCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "LabColour"
+                }
+              },
+              "queryRef": "Team.LabColour",
+              "nativeQueryRef": "LabColour"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Quarter"
+                    }
+                  },
+                  "Property": "QuarterKey"
+                }
+              },
+              "queryRef": "Quarter.QuarterKey",
+              "nativeQueryRef": "QuarterKey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Quarter"
+                    }
+                  },
+                  "Property": "QuarterLabel"
+                }
+              },
+              "queryRef": "Quarter.QuarterLabel",
+              "nativeQueryRef": "QuarterLabel"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Composite"
+                }
+              },
+              "queryRef": "_Measures.Composite",
+              "nativeQueryRef": "Composite"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Team Rank"
+                }
+              },
+              "queryRef": "_Measures.Team Rank",
+              "nativeQueryRef": "Team Rank"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Team ranking over the quarters in the data: each team''s rank by composite, 1 at the top, with this quarter''s top three and bottom three drawn strong and labelled with their rank.\",\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"width\": \"container\",\n  \"height\": \"container\",\n  \"background\": \"transparent\",\n  \"params\": [\n    {\n      \"name\": \"evergreen\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"emerald\",\n      \"expr\": \"pbiColor(1)\"\n    },\n    {\n      \"name\": \"sage\",\n      \"value\": \"#DCE8E0\"\n    },\n    {\n      \"name\": \"amber\",\n      \"expr\": \"pbiColor(3)\"\n    },\n    {\n      \"name\": \"red\",\n      \"expr\": \"pbiColor(4)\"\n    },\n    {\n      \"name\": \"ink\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"muted\",\n      \"expr\": \"pbiColor(6)\"\n    },\n    {\n      \"name\": \"line\",\n      \"expr\": \"pbiColor(8)\"\n    },\n    {\n      \"name\": \"surface\",\n      \"value\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"cream\",\n      \"value\": \"#F7F6F2\"\n    },\n    {\n      \"name\": \"goodFill\",\n      \"value\": \"#DDF0E8\"\n    },\n    {\n      \"name\": \"warnFill\",\n      \"value\": \"#F5EAD6\"\n    },\n    {\n      \"name\": \"badFill\",\n      \"value\": \"#F3E0DA\"\n    },\n    {\n      \"name\": \"title\",\n      \"value\": \"TEAM RANKING\"\n    },\n    {\n      \"name\": \"endLabelWidth\",\n      \"value\": 210\n    },\n    {\n      \"name\": \"highlight\",\n      \"value\": 3\n    },\n    {\n      \"name\": \"narrow\",\n      \"expr\": \"width < 700\"\n    },\n    {\n      \"name\": \"quarterWords\",\n      \"value\": [\n        \"no\",\n        \"one\",\n        \"two\",\n        \"three\",\n        \"four\",\n        \"five\",\n        \"six\",\n        \"seven\",\n        \"eight\",\n        \"nine\",\n        \"ten\",\n        \"eleven\",\n        \"twelve\"\n      ]\n    },\n    {\n      \"name\": \"quarterCount\",\n      \"expr\": \"length(domain(''x''))\"\n    }\n  ],\n  \"title\": {\n    \"text\": {\n      \"expr\": \"title\"\n    },\n    \"subtitle\": {\n      \"expr\": \"[''Rank by composite over '' + (quarterCount === 1 ? ''one quarter'' : (quarterCount < length(quarterWords) ? quarterWords[quarterCount] : quarterCount) + '' quarters'') + '', 1 is best.'', ''This quarter’s top three and bottom three are drawn strong.'']\"\n    },\n    \"font\": \"JetBrains Mono, Consolas, monospace\",\n    \"fontSize\": 12.5,\n    \"fontWeight\": 600,\n    \"color\": {\n      \"expr\": \"muted\"\n    },\n    \"anchor\": \"start\",\n    \"offset\": 6,\n    \"subtitleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"subtitleFontSize\": 12,\n    \"subtitleColor\": {\n      \"expr\": \"muted\"\n    },\n    \"subtitlePadding\": 4\n  },\n  \"transform\": [\n    {\n      \"calculate\": \"toNumber(datum[''QuarterKey''])\",\n      \"as\": \"q\"\n    },\n    {\n      \"calculate\": \"toNumber(datum[''Team Rank''])\",\n      \"as\": \"rankNum\"\n    },\n    {\n      \"calculate\": \"length(split(datum[''QuarterLabel''] + '''', '' '')) === 2 ? split(datum[''QuarterLabel''], '' '')[0] + '' '' + substring(split(datum[''QuarterLabel''], '' '')[1], 2) : datum[''QuarterLabel'']\",\n      \"as\": \"quarterShort\"\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"max\",\n          \"field\": \"q\",\n          \"as\": \"lastQuarter\"\n        },\n        {\n          \"op\": \"max\",\n          \"field\": \"rankNum\",\n          \"as\": \"teamCount\"\n        }\n      ]\n    },\n    {\n      \"calculate\": \"datum.q === datum.lastQuarter ? datum.rankNum : 0\",\n      \"as\": \"rankIfLast\"\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"max\",\n          \"field\": \"rankIfLast\",\n          \"as\": \"rankNow\"\n        }\n      ],\n      \"groupby\": [\n        \"TeamName\"\n      ]\n    },\n    {\n      \"calculate\": \"datum.rankNow <= highlight ? ''top'' : datum.rankNow > datum.teamCount - highlight ? ''bottom'' : ''middle''\",\n      \"as\": \"group\"\n    },\n    {\n      \"calculate\": \"datum.group === ''top'' ? evergreen : datum.group === ''bottom'' ? amber : line\",\n      \"as\": \"lineColour\"\n    },\n    {\n      \"calculate\": \"1\",\n      \"as\": \"dim\"\n    },\n    {\n      \"calculate\": \"datum[''TeamName''] + '' · '' + datum.rankNow\",\n      \"as\": \"endLabel\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabCode'']) && datum[''LabCode''] !== '''' ? datum[''LabCode''] + '''' : upper(substring(datum[''LabName''] + '''', 0, 2))\",\n      \"as\": \"chipCode\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabColour'']) && datum[''LabColour''] !== '''' ? datum[''LabColour''] + '''' : muted\",\n      \"as\": \"chipColour\"\n    }\n  ],\n  \"encoding\": {\n    \"x\": {\n      \"field\": \"quarterShort\",\n      \"type\": \"ordinal\",\n      \"sort\": {\n        \"field\": \"q\",\n        \"op\": \"min\"\n      },\n      \"scale\": {\n        \"range\": [\n          0,\n          {\n            \"expr\": \"max(60, width - endLabelWidth)\"\n          }\n        ],\n        \"padding\": 0.2\n      },\n      \"axis\": {\n        \"title\": null,\n        \"labelAngle\": 0,\n        \"labelPadding\": 10,\n        \"labelOverlap\": false\n      }\n    },\n    \"y\": {\n      \"field\": \"rankNum\",\n      \"type\": \"quantitative\",\n      \"scale\": {\n        \"reverse\": true,\n        \"nice\": false,\n        \"zero\": false,\n        \"padding\": 14\n      },\n      \"axis\": {\n        \"title\": \"Rank\",\n        \"titlePadding\": 10,\n        \"values\": {\n          \"expr\": \"sequence(ceil(domain(''y'')[0]), floor(domain(''y'')[1]) + 1)\"\n        },\n        \"format\": \"d\",\n        \"grid\": false\n      }\n    },\n    \"detail\": {\n      \"field\": \"TeamName\"\n    },\n    \"opacity\": {\n      \"condition\": {\n        \"test\": \"datum.__selected__ === ''off''\",\n        \"value\": 0.35\n      },\n      \"field\": \"dim\",\n      \"type\": \"quantitative\",\n      \"scale\": null\n    }\n  },\n  \"layer\": [\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.group === ''middle''\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"line\",\n        \"strokeWidth\": 2\n      },\n      \"encoding\": {\n        \"color\": {\n          \"field\": \"lineColour\",\n          \"type\": \"nominal\",\n          \"scale\": null\n        },\n        \"detail\": {\n          \"field\": \"TeamName\"\n        },\n        \"order\": {\n          \"field\": \"q\",\n          \"type\": \"quantitative\"\n        },\n        \"opacity\": {\n          \"condition\": {\n            \"test\": \"datum.__selected__ === ''off''\",\n            \"value\": 0.35\n          },\n          \"value\": 1\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.group !== ''middle''\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"line\",\n        \"strokeWidth\": 3\n      },\n      \"encoding\": {\n        \"color\": {\n          \"field\": \"lineColour\",\n          \"type\": \"nominal\",\n          \"scale\": null\n        },\n        \"detail\": {\n          \"field\": \"TeamName\"\n        },\n        \"order\": {\n          \"field\": \"q\",\n          \"type\": \"quantitative\"\n        },\n        \"opacity\": {\n          \"condition\": {\n            \"test\": \"datum.__selected__ === ''off''\",\n            \"value\": 0.35\n          },\n          \"value\": 1\n        }\n      }\n    },\n    {\n      \"params\": [\n        {\n          \"name\": \"__select__\",\n          \"select\": {\n            \"type\": \"point\",\n            \"fields\": [\n              \"TeamName\"\n            ],\n            \"on\": \"click\",\n            \"clear\": \"dblclick\"\n          }\n        }\n      ],\n      \"mark\": {\n        \"type\": \"point\",\n        \"filled\": true,\n        \"size\": 70,\n        \"stroke\": {\n          \"expr\": \"surface\"\n        },\n        \"strokeWidth\": 1.5\n      },\n      \"encoding\": {\n        \"color\": {\n          \"field\": \"lineColour\",\n          \"type\": \"nominal\",\n          \"scale\": null\n        },\n        \"tooltip\": [\n          {\n            \"field\": \"TeamName\",\n            \"title\": \"Team\"\n          },\n          {\n            \"field\": \"LabName\",\n            \"title\": \"Lab\"\n          },\n          {\n            \"field\": \"QuarterLabel\",\n            \"title\": \"Quarter\"\n          },\n          {\n            \"field\": \"Composite\",\n            \"title\": \"Composite\"\n          },\n          {\n            \"field\": \"rankNum\",\n            \"title\": \"Rank\"\n          }\n        ]\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.q === datum.lastQuarter\"\n        }\n      ],\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"rect\",\n            \"cornerRadius\": 4,\n            \"x\": {\n              \"expr\": \"scale(''x'', datum.quarterShort) + 12\"\n            },\n            \"x2\": {\n              \"expr\": \"scale(''x'', datum.quarterShort) + 34\"\n            },\n            \"y\": {\n              \"expr\": \"scale(''y'', datum.rankNum) - 9\"\n            },\n            \"y2\": {\n              \"expr\": \"scale(''y'', datum.rankNum) + 9\"\n            }\n          },\n          \"encoding\": {\n            \"x\": null,\n            \"y\": null,\n            \"color\": {\n              \"field\": \"chipColour\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            },\n            \"opacity\": {\n              \"condition\": {\n                \"test\": \"datum.__selected__ === ''off''\",\n                \"value\": 0.35\n              },\n              \"value\": 1\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"scale(''x'', datum.quarterShort) + 23\"\n            },\n            \"y\": {\n              \"expr\": \"scale(''y'', datum.rankNum)\"\n            },\n            \"align\": \"center\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 10,\n            \"fontWeight\": 700,\n            \"color\": {\n              \"expr\": \"surface\"\n            }\n          },\n          \"encoding\": {\n            \"x\": null,\n            \"y\": null,\n            \"text\": {\n              \"field\": \"chipCode\"\n            },\n            \"opacity\": {\n              \"condition\": {\n                \"test\": \"datum.__selected__ === ''off''\",\n                \"value\": 0.35\n              },\n              \"value\": 1\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.q === datum.lastQuarter && datum.group === ''middle''\"\n        },\n        {\n          \"calculate\": \"narrow ? '''' : datum.endLabel\",\n          \"as\": \"middleLabel\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"dx\": 40,\n        \"fontSize\": 12.5,\n        \"color\": {\n          \"expr\": \"muted\"\n        }\n      },\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"middleLabel\"\n        },\n        \"opacity\": {\n          \"condition\": {\n            \"test\": \"datum.__selected__ === ''off''\",\n            \"value\": 0.35\n          },\n          \"value\": 1\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.q === datum.lastQuarter && datum.group !== ''middle''\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"dx\": 40,\n        \"fontSize\": 13,\n        \"fontWeight\": 600\n      },\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"endLabel\"\n        },\n        \"color\": {\n          \"field\": \"lineColour\",\n          \"type\": \"nominal\",\n          \"scale\": null\n        },\n        \"opacity\": {\n          \"condition\": {\n            \"test\": \"datum.__selected__ === ''off''\",\n            \"value\": 0.35\n          },\n          \"value\": 1\n        }\n      }\n    }\n  ]\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'canvas'"
+                }
+              }
+            },
+            "isNewDialogOpen": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D6D9D2'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3395f9561b360f5f2caf",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "In Selected Period"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "_Measures",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "t"
+                        }
+                      },
+                      "Property": "In Selected Period"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "sample": "waterfall.json",
+  "container": "bare",
+  "sampleFilter": { "scope": "Estate", "step": 0 },
+  "width": 420,
+  "height": 36
+}

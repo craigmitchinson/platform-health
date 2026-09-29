@@ -1,0 +1,7 @@
+{
+  "sample": "movement.json",
+  "container": "card",
+  "sampleFilter": { "scope": "Estate" },
+  "width": 900,
+  "height": 420
+}

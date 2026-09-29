@@ -1,0 +1,428 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "movement_teams",
+  "position": {
+    "x": 48,
+    "y": 654,
+    "z": 4000,
+    "width": 1824,
+    "height": 322,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "TeamName"
+                }
+              },
+              "queryRef": "Team.TeamName",
+              "nativeQueryRef": "TeamName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "LabName"
+                }
+              },
+              "queryRef": "Team.LabName",
+              "nativeQueryRef": "LabName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "LabCode"
+                }
+              },
+              "queryRef": "Team.LabCode",
+              "nativeQueryRef": "LabCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Team"
+                    }
+                  },
+                  "Property": "LabColour"
+                }
+              },
+              "queryRef": "Team.LabColour",
+              "nativeQueryRef": "LabColour"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Composite Period Start"
+                }
+              },
+              "queryRef": "_Measures.Composite Period Start",
+              "nativeQueryRef": "Composite Period Start"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Composite"
+                }
+              },
+              "queryRef": "_Measures.Composite",
+              "nativeQueryRef": "Composite"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score Delta over Period"
+                }
+              },
+              "queryRef": "_Measures.Score Delta over Period",
+              "nativeQueryRef": "Score Delta over Period"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Band Movement"
+                }
+              },
+              "queryRef": "_Measures.Band Movement",
+              "nativeQueryRef": "Band Movement"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Team Score Q1"
+                }
+              },
+              "queryRef": "_Measures.Team Score Q1",
+              "nativeQueryRef": "Team Score Q1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Team Score Q2"
+                }
+              },
+              "queryRef": "_Measures.Team Score Q2",
+              "nativeQueryRef": "Team Score Q2"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Team Score Q3"
+                }
+              },
+              "queryRef": "_Measures.Team Score Q3",
+              "nativeQueryRef": "Team Score Q3"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Team Score Q4"
+                }
+              },
+              "queryRef": "_Measures.Team Score Q4",
+              "nativeQueryRef": "Team Score Q4"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Team Score Q5"
+                }
+              },
+              "queryRef": "_Measures.Team Score Q5",
+              "nativeQueryRef": "Team Score Q5"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Team Composite"
+                }
+              },
+              "queryRef": "_Measures.Team Composite",
+              "nativeQueryRef": "Team Composite"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Movement by team: each team''s composite at the start of the period and now, the signed change with better, worse or held in words, and the band movement, most worsened first. The lab is a chip only; the page''s lab legend names the chips.\",\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"width\": \"container\",\n  \"height\": \"container\",\n  \"background\": \"transparent\",\n  \"params\": [\n    {\n      \"name\": \"evergreen\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"emerald\",\n      \"expr\": \"pbiColor(1)\"\n    },\n    {\n      \"name\": \"sage\",\n      \"value\": \"#DCE8E0\"\n    },\n    {\n      \"name\": \"amber\",\n      \"expr\": \"pbiColor(3)\"\n    },\n    {\n      \"name\": \"red\",\n      \"expr\": \"pbiColor(4)\"\n    },\n    {\n      \"name\": \"ink\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"muted\",\n      \"expr\": \"pbiColor(6)\"\n    },\n    {\n      \"name\": \"line\",\n      \"expr\": \"pbiColor(8)\"\n    },\n    {\n      \"name\": \"surface\",\n      \"value\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"cream\",\n      \"value\": \"#F7F6F2\"\n    },\n    {\n      \"name\": \"goodFill\",\n      \"value\": \"#DDF0E8\"\n    },\n    {\n      \"name\": \"warnFill\",\n      \"value\": \"#F5EAD6\"\n    },\n    {\n      \"name\": \"badFill\",\n      \"value\": \"#F3E0DA\"\n    },\n    {\n      \"name\": \"caption\",\n      \"value\": \"Teams by change in composite over the period, most worsened first. Change in health score, 0 to 100. Up is better.\"\n    },\n    {\n      \"name\": \"headY\",\n      \"value\": 34\n    },\n    {\n      \"name\": \"bodyY\",\n      \"value\": 48\n    },\n    {\n      \"name\": \"labX\",\n      \"value\": 460\n    },\n    {\n      \"name\": \"compX\",\n      \"value\": 520\n    },\n    {\n      \"name\": \"changeX\",\n      \"value\": 740\n    },\n    {\n      \"name\": \"bandX\",\n      \"value\": 920\n    },\n    {\n      \"name\": \"title\",\n      \"value\": \"MOVEMENT BY TEAM\"\n    },\n    {\n      \"name\": \"sparkX\",\n      \"expr\": \"max(bandX + 220, width - 560)\"\n    },\n    {\n      \"name\": \"sparkW\",\n      \"expr\": \"max(60, width - sparkX - 40)\"\n    }\n  ],\n  \"title\": {\n    \"text\": {\n      \"expr\": \"title\"\n    },\n    \"font\": \"JetBrains Mono, Consolas, monospace\",\n    \"fontSize\": 12.5,\n    \"fontWeight\": 600,\n    \"color\": {\n      \"expr\": \"muted\"\n    },\n    \"anchor\": \"start\",\n    \"offset\": 6\n  },\n  \"transform\": [\n    {\n      \"window\": [\n        {\n          \"op\": \"row_number\",\n          \"as\": \"rank\"\n        }\n      ],\n      \"sort\": [\n        {\n          \"field\": \"Score Delta over Period\",\n          \"order\": \"ascending\"\n        },\n        {\n          \"field\": \"TeamName\",\n          \"order\": \"ascending\"\n        }\n      ]\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"count\",\n          \"as\": \"total\"\n        }\n      ]\n    },\n    {\n      \"calculate\": \"min(28, max(16, (height - bodyY) / max(1, datum.total)))\",\n      \"as\": \"rowH\"\n    },\n    {\n      \"calculate\": \"bodyY + (datum.rank - 1) * datum.rowH\",\n      \"as\": \"y0\"\n    },\n    {\n      \"calculate\": \"datum.y0 + datum.rowH\",\n      \"as\": \"y1\"\n    },\n    {\n      \"calculate\": \"datum.y0 + datum.rowH / 2\",\n      \"as\": \"yMid\"\n    },\n    {\n      \"calculate\": \"datum[''Composite Period Start''] + '' → '' + datum[''Composite'']\",\n      \"as\": \"fromTo\"\n    },\n    {\n      \"calculate\": \"(datum[''Score Delta over Period''] > 0 ? ''+'' + datum[''Score Delta over Period''] : datum[''Score Delta over Period''] < 0 ? ''−'' + abs(datum[''Score Delta over Period'']) : ''0'') + '' '' + (datum[''Score Delta over Period''] > 0 ? ''better'' : datum[''Score Delta over Period''] < 0 ? ''worse'' : ''held'')\",\n      \"as\": \"changeText\"\n    },\n    {\n      \"calculate\": \"datum[''Score Delta over Period''] > 0 ? emerald : datum[''Score Delta over Period''] < 0 ? amber : muted\",\n      \"as\": \"changeColour\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabCode'']) && datum[''LabCode''] !== '''' ? datum[''LabCode''] + '''' : upper(substring(datum[''LabName''] + '''', 0, 2))\",\n      \"as\": \"chipCode\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabColour'']) && datum[''LabColour''] !== '''' ? datum[''LabColour''] + '''' : muted\",\n      \"as\": \"chipColour\"\n    }\n  ],\n  \"layer\": [\n    {\n      \"data\": {\n        \"values\": [\n          {\n            \"rule\": 1\n          }\n        ]\n      },\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": 0,\n            \"y\": 8,\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 12,\n            \"color\": {\n              \"expr\": \"muted\"\n            },\n            \"text\": {\n              \"expr\": \"caption\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"rule\",\n            \"x\": 0,\n            \"x2\": {\n              \"expr\": \"width\"\n            },\n            \"color\": {\n              \"expr\": \"line\"\n            },\n            \"strokeWidth\": 1\n          },\n          \"transform\": [\n            {\n              \"calculate\": \"bodyY - 0.5\",\n              \"as\": \"ruleY\"\n            }\n          ],\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"ruleY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"data\": {\n        \"values\": [\n          {\n            \"head\": \"TEAM\",\n            \"at\": 0\n          },\n          {\n            \"head\": \"LAB\",\n            \"at\": 460\n          },\n          {\n            \"head\": \"COMPOSITE\",\n            \"at\": 520\n          },\n          {\n            \"head\": \"CHANGE\",\n            \"at\": 740\n          },\n          {\n            \"head\": \"BAND\",\n            \"at\": 920\n          },\n          {\n            \"head\": \"SIX QUARTERS\",\n            \"at\": -1\n          }\n        ]\n      },\n      \"mark\": {\n        \"type\": \"text\",\n        \"y\": {\n          \"expr\": \"headY\"\n        },\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 11,\n        \"fontWeight\": 700,\n        \"color\": {\n          \"expr\": \"muted\"\n        }\n      },\n      \"transform\": [\n        {\n          \"calculate\": \"datum.at < 0 ? sparkX : datum.at\",\n          \"as\": \"headX\"\n        }\n      ],\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"headX\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"head\"\n        }\n      }\n    },\n    {\n      \"encoding\": {\n        \"y\": {\n          \"field\": \"yMid\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"opacity\": {\n          \"condition\": {\n            \"test\": \"datum.__selected__ === ''off''\",\n            \"value\": 0.35\n          },\n          \"value\": 1\n        }\n      },\n      \"layer\": [\n        {\n          \"params\": [\n            {\n              \"name\": \"__select__\",\n              \"select\": {\n                \"type\": \"point\",\n                \"fields\": [\n                  \"TeamName\"\n                ],\n                \"on\": \"click\",\n                \"clear\": \"dblclick\"\n              }\n            }\n          ],\n          \"mark\": {\n            \"type\": \"rect\",\n            \"x\": 0,\n            \"x2\": {\n              \"expr\": \"width\"\n            },\n            \"fill\": \"transparent\"\n          },\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"y0\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"y1\"\n            },\n            \"tooltip\": [\n              {\n                \"field\": \"TeamName\",\n                \"title\": \"Team\"\n              },\n              {\n                \"field\": \"LabName\",\n                \"title\": \"Lab\"\n              },\n              {\n                \"field\": \"fromTo\",\n                \"title\": \"Composite\"\n              },\n              {\n                \"field\": \"changeText\",\n                \"title\": \"Change\"\n              },\n              {\n                \"field\": \"Band Movement\",\n                \"title\": \"Band\"\n              }\n            ]\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"rule\",\n            \"x\": 0,\n            \"x2\": {\n              \"expr\": \"width\"\n            },\n            \"color\": {\n              \"expr\": \"line\"\n            },\n            \"strokeWidth\": 1\n          },\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"y1\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": 0,\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13.5,\n            \"fontWeight\": 600,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": 450\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"TeamName\"\n            }\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"calculate\": \"datum.yMid - 9\",\n              \"as\": \"chipY\"\n            },\n            {\n              \"calculate\": \"datum.yMid + 9\",\n              \"as\": \"chipY2\"\n            }\n          ],\n          \"mark\": {\n            \"type\": \"rect\",\n            \"x\": {\n              \"expr\": \"labX\"\n            },\n            \"x2\": {\n              \"expr\": \"labX + 22\"\n            },\n            \"cornerRadius\": 4\n          },\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"chipY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"chipY2\"\n            },\n            \"color\": {\n              \"field\": \"chipColour\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"labX + 11\"\n            },\n            \"align\": \"center\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 10,\n            \"fontWeight\": 700,\n            \"color\": {\n              \"expr\": \"surface\"\n            }\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"chipCode\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"compX\"\n            },\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 13,\n            \"color\": {\n              \"expr\": \"ink\"\n            }\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"fromTo\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"changeX\"\n            },\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 13,\n            \"fontWeight\": 600\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"changeText\"\n            },\n            \"color\": {\n              \"field\": \"changeColour\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"bandX\"\n            },\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13.5,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"max(40, sparkX - bandX - 24)\"\n            }\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"Band Movement\"\n            }\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"calculate\": \"[datum[''Team Score Q1''], datum[''Team Score Q2''], datum[''Team Score Q3''], datum[''Team Score Q4''], datum[''Team Score Q5''], datum[''Team Composite'']]\",\n              \"as\": \"sparkValues\"\n            },\n            {\n              \"calculate\": \"sequence(0, 6)\",\n              \"as\": \"sparkIndex\"\n            },\n            {\n              \"flatten\": [\n                \"sparkValues\",\n                \"sparkIndex\"\n              ],\n              \"as\": [\n                \"sparkValue\",\n                \"si\"\n              ]\n            },\n            {\n              \"filter\": \"isValid(datum.sparkValue)\"\n            },\n            {\n              \"joinaggregate\": [\n                {\n                  \"op\": \"min\",\n                  \"field\": \"sparkValue\",\n                  \"as\": \"sMin\"\n                },\n                {\n                  \"op\": \"max\",\n                  \"field\": \"sparkValue\",\n                  \"as\": \"sMax\"\n                }\n              ]\n            },\n            {\n              \"calculate\": \"sparkX + sparkW * datum.si / 5\",\n              \"as\": \"sx\"\n            },\n            {\n              \"calculate\": \"datum.yMid + datum.rowH * 0.3 - datum.rowH * 0.6 * (datum.sMax > datum.sMin ? (datum.sparkValue - datum.sMin) / (datum.sMax - datum.sMin) : 0.5)\",\n              \"as\": \"sy\"\n            }\n          ],\n          \"layer\": [\n            {\n              \"mark\": {\n                \"type\": \"line\",\n                \"strokeWidth\": 1.5,\n                \"color\": {\n                  \"expr\": \"evergreen\"\n                }\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"sx\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"y\": {\n                  \"field\": \"sy\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"detail\": {\n                  \"field\": \"TeamName\"\n                },\n                \"order\": {\n                  \"field\": \"si\",\n                  \"type\": \"quantitative\"\n                }\n              }\n            },\n            {\n              \"transform\": [\n                {\n                  \"filter\": \"datum.si === 5\"\n                }\n              ],\n              \"mark\": {\n                \"type\": \"circle\",\n                \"size\": 36,\n                \"opacity\": 1,\n                \"stroke\": {\n                  \"expr\": \"surface\"\n                },\n                \"strokeWidth\": 1\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"sx\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"y\": {\n                  \"field\": \"sy\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"color\": {\n                  \"field\": \"changeColour\",\n                  \"type\": \"nominal\",\n                  \"scale\": null\n                }\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'canvas'"
+                }
+              }
+            },
+            "isNewDialogOpen": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D6D9D2'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

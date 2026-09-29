@@ -1,0 +1,64 @@
+table Lab
+	lineageTag: f9e37aec-c3c8-5a95-8703-569e52c86cde
+
+	column LabKey
+		dataType: string
+		lineageTag: e894ec88-b8d9-5566-a7e7-2cfccc7cb6f3
+		summarizeBy: none
+		sourceColumn: LabKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabName
+		dataType: string
+		lineageTag: b7852701-8f74-5bed-82aa-639cb26acf7b
+		summarizeBy: none
+		sourceColumn: LabName
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabCode
+		dataType: string
+		lineageTag: 82666c54-d762-5988-9a20-c71979763350
+		summarizeBy: none
+		sourceColumn: LabCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabColour
+		dataType: string
+		lineageTag: 07e9fc46-f6af-5763-863f-cd99aa0500cc
+		summarizeBy: none
+		sourceColumn: LabColour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lead
+		dataType: string
+		lineageTag: 0dd63772-12bd-516c-821f-0344f17cd6a9
+		summarizeBy: none
+		sourceColumn: Lead
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 46449460-ad2f-570f-8e3a-c232a39311aa
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Lab = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Lab.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"LabKey", type text}, {"LabName", type text}, {"LabCode", type text}, {"LabColour", type text}, {"Lead", type text}, {"SortOrder", Int64.Type}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

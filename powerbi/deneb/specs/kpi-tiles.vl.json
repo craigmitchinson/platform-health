@@ -1,0 +1,388 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A row of KPI tiles for one domain: label, value, band pill, progress against target, six-quarter sparkline, direction-aware change and target.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "METRICS" },
+    { "name": "maxTiles", "value": 5 },
+    { "name": "moreCount", "expr": "max(0, length(data('dataset')) - maxTiles)" },
+    { "name": "tileH", "expr": "moreCount > 0 ? height - 22 : height" },
+    { "name": "tileW", "expr": "width / max(1, min(maxTiles, length(data('dataset'))))" },
+    { "name": "compact", "expr": "tileW < 420" },
+    { "name": "pad", "expr": "compact ? 18 : 30" },
+    { "name": "kickerFit", "expr": "floor((tileW - 12 - 2 * pad) / 6.8)" },
+    { "name": "valueY", "expr": "compact ? tileH - 63 : max(90, tileH - 70)" },
+    { "name": "valueSize", "expr": "compact ? min(32, tileW / 9) : 44" },
+    { "name": "pillMid", "expr": "compact ? tileH - 21 : 30" },
+    {
+      "name": "metricOrder",
+      "value": ["openSncs", "sncAge", "repeatSncs", "mttr", "serviceMaturity", "triageMaturity", "incidentMaturity", "recoveryMaturity", "resolutionMaturity", "runbookCoverage", "mtta", "techDebt", "archExceptions", "strategicAlignment", "brams", "techRisks", "riskTrend", "vulns", "patchCompliance", "criticalFindings", "drCompliance", "resilienceActions", "controlHealth", "failedChanges", "changeSuccess", "releases", "applications", "infraFootprint", "currency", "cloudMigration", "auditActions", "regActions", "overdueActions", "milestones", "roadmapHealth", "commitmentsAtRisk", "vacancies", "skillsRisks", "contractorDependency", "runCostVsBudget", "cloudSpendTrend", "orphanedSpend", "sloAttainment", "monitoringCoverage", "alertNoise"]
+    }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    { "calculate": "indexof(metricOrder, datum.metricId) < 0 ? length(metricOrder) : indexof(metricOrder, datum.metricId)", "as": "metricRank" },
+    {
+      "window": [{ "op": "row_number", "as": "tile" }],
+      "sort": [{ "field": "metricRank", "order": "ascending" }, { "field": "label", "order": "ascending" }]
+    },
+    { "filter": "datum.tile <= maxTiles" },
+    { "joinaggregate": [{ "op": "count", "as": "tiles" }] },
+    { "calculate": "datum.tile - 1", "as": "c0" },
+    { "calculate": "datum.tile", "as": "c1" },
+    { "calculate": "width * datum.c0 / datum.tiles", "as": "tileX" },
+    { "calculate": "width * datum.c1 / datum.tiles", "as": "tileX2" },
+    {
+      "calculate": "{'pct': '%', 'days': ' days', 'perMonth': ' / month', 'level': ' of 5'}[datum.unit] || ''",
+      "as": "suffix"
+    },
+    {
+      "calculate": "datum.unit === 'gbp' ? pbiFormat(abs(datum.delta), '£#,0') : format(abs(datum.delta), datum.unit === 'level' ? '.1f' : ',') + datum.suffix",
+      "as": "deltaAbs"
+    },
+    {
+      "calculate": "(datum.delta > 0 ? '▲ +' : datum.delta < 0 ? '▼ −' : '±') + datum.deltaAbs + (datum.delta === 0 ? ' held' : (datum.direction === 'lower') === (datum.delta < 0) ? ' better' : ' worse') + ' over the period'",
+      "as": "deltaText"
+    },
+    {
+      "calculate": "datum.delta === 0 ? muted : (datum.direction === 'lower') === (datum.delta < 0) ? emerald : amber",
+      "as": "deltaColour"
+    },
+    { "calculate": "datum.suffix !== '' && datum.unit !== 'pct' ? replace(datum.formatted + '', datum.suffix, '') : datum.formatted + ''", "as": "valueNum" },
+    { "calculate": "{'days': 'days', 'perMonth': 'per month', 'level': 'of 5'}[datum.unit] || ''", "as": "unitWord" },
+    { "calculate": "datum.tileX + pad + length(datum.valueNum) * valueSize * 0.56 + 6", "as": "unitX" },
+    { "calculate": "datum.unitX + length(datum.unitWord) * 7.6", "as": "unitEnd" },
+    { "calculate": "'Target ' + datum.targetFormatted", "as": "targetText" },
+    { "calculate": "compact ? datum.tileX + pad : datum.tileX2 - pad", "as": "targetX" },
+    { "calculate": "upper(datum.label)", "as": "kicker" },
+    { "calculate": "lastindexof(substring(datum.kicker, 0, kickerFit + 1), ' ')", "as": "kickerBreak" },
+    {
+      "calculate": "compact && length(datum.kicker) > kickerFit && datum.kickerBreak > 0 ? [substring(datum.kicker, 0, datum.kickerBreak), substring(datum.kicker, datum.kickerBreak + 1)] : datum.kicker",
+      "as": "kickerLines"
+    },
+    { "calculate": "compact ? replace(datum.deltaText, ' over the period', '') : datum.deltaText", "as": "deltaLine" },
+    {
+      "calculate": "{'healthy': 'HEALTHY', 'watch': 'WATCH', 'act': 'ACT', 'context': 'CONTEXT'}[datum.band] || upper(datum.band)",
+      "as": "bandWord"
+    },
+    {
+      "calculate": "datum.band === 'healthy' ? emerald : datum.band === 'watch' ? amber : datum.band === 'act' ? red : muted",
+      "as": "bandKey"
+    },
+    {
+      "calculate": "datum.direction === 'lower' ? (datum.value <= datum.target ? 1 : datum.target / datum.value) : (datum.target <= 0 || datum.value >= datum.target ? 1 : datum.value / datum.target)",
+      "as": "progressRaw"
+    },
+    { "calculate": "clamp(datum.progressRaw, 0, 1)", "as": "progress" },
+    { "calculate": "pbiFormat(datum.progress, '0%') + ' of target'", "as": "progressText" }
+  ],
+  "encoding": {
+    "x": {
+      "field": "c0",
+      "type": "quantitative",
+      "scale": { "nice": false, "zero": true },
+      "axis": null
+    },
+    "tooltip": [
+      { "field": "label", "title": "Metric" },
+      { "field": "formatted", "title": "Value" },
+      { "field": "targetText", "title": "Target" },
+      { "field": "progressText", "title": "Progress" },
+      { "field": "deltaText", "title": "Change" },
+      { "field": "bandWord", "title": "Band" }
+    ],
+    "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+  },
+  "layer": [
+    {
+      "params": [
+        { "name": "__select__", "select": { "type": "point", "fields": ["metricId"], "on": "click", "clear": "dblclick" } }
+      ],
+      "mark": {
+        "type": "rect",
+        "y": 0,
+        "y2": { "expr": "tileH" },
+        "xOffset": 6,
+        "x2Offset": -6,
+        "cornerRadius": 18,
+        "fill": { "expr": "surface" },
+        "stroke": { "expr": "line" },
+        "strokeWidth": 1
+      },
+      "encoding": { "x2": { "field": "c1" } }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": { "expr": "compact ? 'top' : 'middle'" },
+        "y": { "expr": "compact ? 12 : 30" },
+        "dx": { "expr": "pad" },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": { "expr": "compact ? 11 : 12.5" },
+        "lineHeight": 14,
+        "limit": { "expr": "tileW - 2 * pad - 12" },
+        "fontWeight": 600,
+        "color": { "expr": "muted" }
+      },
+      "encoding": { "text": { "field": "kickerLines" } }
+    },
+    {
+      "transform": [
+        { "calculate": "34 + length(datum.bandWord) * 7.4", "as": "pillW" },
+        { "calculate": "datum.tileX2 - pad", "as": "pillX2" },
+        { "calculate": "datum.pillX2 - datum.pillW", "as": "pillX" },
+        { "calculate": "datum.pillX + 15", "as": "pillDotX" },
+        { "calculate": "datum.pillX + 25", "as": "pillTextX" },
+        {
+          "calculate": "datum.band === 'healthy' ? goodFill : datum.band === 'watch' ? warnFill : datum.band === 'act' ? badFill : sage",
+          "as": "pillFill"
+        }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "rect", "y": { "expr": "pillMid - 12" }, "y2": { "expr": "pillMid + 12" }, "cornerRadius": 12, "strokeWidth": 1, "strokeOpacity": 0.35 },
+          "encoding": {
+            "x": { "field": "pillX", "type": "quantitative", "scale": null },
+            "x2": { "field": "pillX2" },
+            "fill": { "field": "pillFill", "type": "nominal", "scale": null },
+            "stroke": { "field": "bandKey", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": { "type": "circle", "y": { "expr": "pillMid" }, "size": 64, "opacity": 1 },
+          "encoding": {
+            "x": { "field": "pillDotX", "type": "quantitative", "scale": null },
+            "color": { "field": "bandKey", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "y": { "expr": "pillMid" },
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": { "expr": "ink" }
+          },
+          "encoding": {
+            "x": { "field": "pillTextX", "type": "quantitative", "scale": null },
+            "text": { "field": "bandWord" }
+          }
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": { "expr": "valueY" },
+        "dx": { "expr": "pad" },
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": { "expr": "valueSize" },
+        "fontWeight": 600,
+        "color": { "expr": "ink" }
+      },
+      "encoding": { "text": { "field": "valueNum" } }
+    },
+    {
+      "transform": [{ "filter": "datum.unitWord !== ''" }],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": { "expr": "valueY" },
+        "fontSize": 14,
+        "color": { "expr": "muted" }
+      },
+      "encoding": {
+        "x": { "field": "unitX", "type": "quantitative", "scale": null },
+        "text": { "field": "unitWord" }
+      }
+    },
+    {
+      "transform": [
+        { "calculate": "datum.tileX + pad", "as": "barX" },
+        { "calculate": "datum.tileX + (datum.tileX2 - datum.tileX) * (compact ? 0.42 : 0.46)", "as": "barEnd" },
+        { "calculate": "datum.barX + (datum.barEnd - datum.barX) * datum.progress", "as": "barFillEnd" }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "y": { "expr": "valueY + 12" },
+            "y2": { "expr": "valueY + 18" },
+            "cornerRadius": 3,
+            "color": { "expr": "sage" }
+          },
+          "encoding": {
+            "x": { "field": "barX", "type": "quantitative", "scale": null },
+            "x2": { "field": "barEnd" }
+          }
+        },
+        {
+          "transform": [{ "filter": "datum.progress > 0" }],
+          "mark": {
+            "type": "rect",
+            "y": { "expr": "valueY + 12" },
+            "y2": { "expr": "valueY + 18" },
+            "cornerRadius": 3
+          },
+          "encoding": {
+            "x": { "field": "barX", "type": "quantitative", "scale": null },
+            "x2": { "field": "barFillEnd" },
+            "color": { "field": "bandKey", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "transform": [
+            { "calculate": "datum.barEnd + 8", "as": "progressX" },
+            { "calculate": "pbiFormat(datum.progress, '0%')", "as": "progressShort" }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "y": { "expr": "valueY + 15" },
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11.5,
+            "fontWeight": 600,
+            "color": { "expr": "muted" }
+          },
+          "encoding": {
+            "x": { "field": "progressX", "type": "quantitative", "scale": null },
+            "text": { "field": "progressShort" }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        { "calculate": "[datum.q1, datum.q2, datum.q3, datum.q4, datum.q5, datum.q6]", "as": "quarterValues" },
+        { "calculate": "sequence(0, 6)", "as": "quarterIndex" },
+        { "flatten": ["quarterValues", "quarterIndex"], "as": ["quarterValue", "qi"] },
+        {
+          "joinaggregate": [
+            { "op": "min", "field": "quarterValue", "as": "qMin" },
+            { "op": "max", "field": "quarterValue", "as": "qMax" }
+          ],
+          "groupby": ["metricId"]
+        },
+        { "calculate": "datum.qMax > datum.qMin ? datum.qMax - datum.qMin : 1", "as": "qRange" },
+        { "calculate": "min(datum.tileX2 - pad - 40, max(datum.tileX + (datum.tileX2 - datum.tileX) * (compact ? 0.6 : 0.56), datum.unitEnd + 12))", "as": "sparkX0" },
+        { "calculate": "datum.tileX2 - pad", "as": "sparkX1" },
+        { "calculate": "compact ? 46 : 56", "as": "sparkTop" },
+        { "calculate": "valueY + 18", "as": "sparkBase" },
+        { "calculate": "datum.sparkX0 + (datum.sparkX1 - datum.sparkX0) * datum.qi / 5", "as": "sx" },
+        {
+          "calculate": "datum.sparkBase - 4 - (datum.sparkBase - datum.sparkTop - 8) * (datum.qMax > datum.qMin ? (datum.quarterValue - datum.qMin) / datum.qRange : 0.5)",
+          "as": "sy"
+        }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "area", "color": { "expr": "emerald" } },
+          "encoding": {
+            "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.05 }, "value": 0.15 },
+            "x": { "field": "sx", "type": "quantitative", "scale": null },
+            "y": { "field": "sy", "type": "quantitative", "scale": null },
+            "y2": { "field": "sparkBase" },
+            "detail": { "field": "metricId" }
+          }
+        },
+        {
+          "mark": { "type": "line", "strokeWidth": 1.5, "color": { "expr": "evergreen" } },
+          "encoding": {
+            "x": { "field": "sx", "type": "quantitative", "scale": null },
+            "y": { "field": "sy", "type": "quantitative", "scale": null },
+            "detail": { "field": "metricId" },
+            "order": { "field": "qi", "type": "quantitative" }
+          }
+        },
+        {
+          "transform": [{ "filter": "datum.qi === 5" }],
+          "mark": { "type": "circle", "size": 44, "opacity": 1, "stroke": { "expr": "surface" }, "strokeWidth": 1.5 },
+          "encoding": {
+            "x": { "field": "sx", "type": "quantitative", "scale": null },
+            "y": { "field": "sy", "type": "quantitative", "scale": null },
+            "color": { "field": "bandKey", "type": "nominal", "scale": null }
+          }
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": { "expr": "compact ? tileH - 31 : max(130, tileH - 24)" },
+        "dx": { "expr": "pad" },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": { "expr": "compact ? 11.5 : 12.5" },
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": { "field": "deltaLine" },
+        "color": { "field": "deltaColour", "type": "nominal", "scale": null }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": { "expr": "compact ? 'left' : 'right'" },
+        "baseline": "alphabetic",
+        "y": { "expr": "compact ? tileH - 11 : max(130, tileH - 24)" },
+        "fontSize": 13,
+        "color": { "expr": "muted" }
+      },
+      "encoding": {
+        "x": { "field": "targetX", "type": "quantitative", "scale": null },
+        "text": { "field": "targetText" }
+      }
+    },
+    {
+      "data": { "values": [{ "more": 1 }] },
+      "transform": [{ "filter": "moreCount > 0" }],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "alphabetic",
+        "x": { "expr": "width - 6" },
+        "y": { "expr": "height - 4" },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": { "expr": "muted" },
+        "text": { "expr": "'+' + moreCount + ' more in the heat below'" }
+      },
+      "encoding": { "x": null, "tooltip": null, "opacity": null }
+    }
+  ]
+}

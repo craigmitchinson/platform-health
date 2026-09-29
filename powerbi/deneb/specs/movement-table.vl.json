@@ -1,0 +1,247 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Movement by team: each team's composite at the start of the period and now, the signed change with better, worse or held in words, and the band movement, most worsened first. The lab is a chip only; the page's lab legend names the chips.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "caption", "value": "Teams by change in composite over the period, most worsened first. Change in health score, 0 to 100. Up is better." },
+    { "name": "headY", "value": 34 },
+    { "name": "bodyY", "value": 48 },
+    { "name": "labX", "value": 460 },
+    { "name": "compX", "value": 520 },
+    { "name": "changeX", "value": 740 },
+    { "name": "bandX", "value": 920 },
+    { "name": "title", "value": "MOVEMENT BY TEAM" },
+    { "name": "sparkX", "expr": "max(bandX + 220, width - 560)" },
+    { "name": "sparkW", "expr": "max(60, width - sparkX - 40)" }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "window": [{ "op": "row_number", "as": "rank" }],
+      "sort": [{ "field": "delta", "order": "ascending" }, { "field": "team", "order": "ascending" }]
+    },
+    { "joinaggregate": [{ "op": "count", "as": "total" }] },
+    { "calculate": "min(28, max(16, (height - bodyY) / max(1, datum.total)))", "as": "rowH" },
+    { "calculate": "bodyY + (datum.rank - 1) * datum.rowH", "as": "y0" },
+    { "calculate": "datum.y0 + datum.rowH", "as": "y1" },
+    { "calculate": "datum.y0 + datum.rowH / 2", "as": "yMid" },
+    { "calculate": "datum.from + ' → ' + datum.to", "as": "fromTo" },
+    {
+      "calculate": "(datum.delta > 0 ? '+' + datum.delta : datum.delta < 0 ? '−' + abs(datum.delta) : '0') + ' ' + (datum.delta > 0 ? 'better' : datum.delta < 0 ? 'worse' : 'held')",
+      "as": "changeText"
+    },
+    { "calculate": "datum.delta > 0 ? emerald : datum.delta < 0 ? amber : muted", "as": "changeColour" },
+    {
+      "calculate": "isValid(datum.labCode) && datum.labCode !== '' ? datum.labCode + '' : upper(substring(datum.lab + '', 0, 2))",
+      "as": "chipCode"
+    },
+    { "calculate": "isValid(datum.labColour) && datum.labColour !== '' ? datum.labColour + '' : muted", "as": "chipColour" }
+  ],
+  "layer": [
+    {
+      "data": { "values": [{ "rule": 1 }] },
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "x": 0,
+            "y": 8,
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12,
+            "color": { "expr": "muted" },
+            "text": { "expr": "caption" }
+          }
+        },
+        {
+          "mark": { "type": "rule", "x": 0, "x2": { "expr": "width" }, "color": { "expr": "line" }, "strokeWidth": 1 },
+          "transform": [{ "calculate": "bodyY - 0.5", "as": "ruleY" }],
+          "encoding": { "y": { "field": "ruleY", "type": "quantitative", "scale": null } }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          { "head": "TEAM", "at": 0 },
+          { "head": "LAB", "at": 460 },
+          { "head": "COMPOSITE", "at": 520 },
+          { "head": "CHANGE", "at": 740 },
+          { "head": "BAND", "at": 920 },
+          { "head": "SIX QUARTERS", "at": -1 }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "y": { "expr": "headY" },
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "color": { "expr": "muted" }
+      },
+      "transform": [{ "calculate": "datum.at < 0 ? sparkX : datum.at", "as": "headX" }],
+      "encoding": {
+        "x": { "field": "headX", "type": "quantitative", "scale": null },
+        "text": { "field": "head" }
+      }
+    },
+    {
+      "encoding": {
+        "y": { "field": "yMid", "type": "quantitative", "scale": null },
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+      },
+      "layer": [
+        {
+          "params": [
+            { "name": "__select__", "select": { "type": "point", "fields": ["team"], "on": "click", "clear": "dblclick" } }
+          ],
+          "mark": { "type": "rect", "x": 0, "x2": { "expr": "width" }, "fill": "transparent" },
+          "encoding": {
+            "y": { "field": "y0", "type": "quantitative", "scale": null },
+            "y2": { "field": "y1" },
+            "tooltip": [
+              { "field": "team", "title": "Team" },
+              { "field": "lab", "title": "Lab" },
+              { "field": "fromTo", "title": "Composite" },
+              { "field": "changeText", "title": "Change" },
+              { "field": "bandText", "title": "Band" }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "rule", "x": 0, "x2": { "expr": "width" }, "color": { "expr": "line" }, "strokeWidth": 1 },
+          "encoding": { "y": { "field": "y1", "type": "quantitative", "scale": null } }
+        },
+        {
+          "mark": { "type": "text", "x": 0, "align": "left", "baseline": "middle", "fontSize": 13.5, "fontWeight": 600, "color": { "expr": "ink" }, "limit": 450 },
+          "encoding": { "text": { "field": "team" } }
+        },
+        {
+          "transform": [
+            { "calculate": "datum.yMid - 9", "as": "chipY" },
+            { "calculate": "datum.yMid + 9", "as": "chipY2" }
+          ],
+          "mark": { "type": "rect", "x": { "expr": "labX" }, "x2": { "expr": "labX + 22" }, "cornerRadius": 4 },
+          "encoding": {
+            "y": { "field": "chipY", "type": "quantitative", "scale": null },
+            "y2": { "field": "chipY2" },
+            "color": { "field": "chipColour", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "labX + 11" },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": { "expr": "surface" }
+          },
+          "encoding": { "text": { "field": "chipCode" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "compX" },
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 13,
+            "color": { "expr": "ink" }
+          },
+          "encoding": { "text": { "field": "fromTo" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "changeX" },
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 13,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "text": { "field": "changeText" },
+            "color": { "field": "changeColour", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "bandX" },
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 13.5,
+            "color": { "expr": "ink" },
+            "limit": { "expr": "max(40, sparkX - bandX - 24)" }
+          },
+          "encoding": { "text": { "field": "bandText" } }
+        },
+        {
+          "transform": [
+            { "calculate": "[datum.q1, datum.q2, datum.q3, datum.q4, datum.q5, datum.q6]", "as": "sparkValues" },
+            { "calculate": "sequence(0, 6)", "as": "sparkIndex" },
+            { "flatten": ["sparkValues", "sparkIndex"], "as": ["sparkValue", "si"] },
+            { "filter": "isValid(datum.sparkValue)" },
+            { "joinaggregate": [{ "op": "min", "field": "sparkValue", "as": "sMin" }, { "op": "max", "field": "sparkValue", "as": "sMax" }] },
+            { "calculate": "sparkX + sparkW * datum.si / 5", "as": "sx" },
+            {
+              "calculate": "datum.yMid + datum.rowH * 0.3 - datum.rowH * 0.6 * (datum.sMax > datum.sMin ? (datum.sparkValue - datum.sMin) / (datum.sMax - datum.sMin) : 0.5)",
+              "as": "sy"
+            }
+          ],
+          "layer": [
+            {
+              "mark": { "type": "line", "strokeWidth": 1.5, "color": { "expr": "evergreen" } },
+              "encoding": {
+                "x": { "field": "sx", "type": "quantitative", "scale": null },
+                "y": { "field": "sy", "type": "quantitative", "scale": null },
+                "detail": { "field": "team" },
+                "order": { "field": "si", "type": "quantitative" }
+              }
+            },
+            {
+              "transform": [{ "filter": "datum.si === 5" }],
+              "mark": { "type": "circle", "size": 36, "opacity": 1, "stroke": { "expr": "surface" }, "strokeWidth": 1 },
+              "encoding": {
+                "x": { "field": "sx", "type": "quantitative", "scale": null },
+                "y": { "field": "sy", "type": "quantitative", "scale": null },
+                "color": { "field": "changeColour", "type": "nominal", "scale": null }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

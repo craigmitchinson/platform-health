@@ -1,0 +1,458 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health metric-heat",
+      "description": "Metric by team for one domain: teams worst domain score first, a column per scored metric in domain order, each cell the team's formatted value tinted and striped by its metric band, so the value and the tooltip's band word carry the state as well as colour.",
+      "author": "Platform Health contributors",
+      "uuid": "6d8441fb-9509-5455-8be5-3c986f44fe57",
+      "generated": "2026-09-29T18:14:26.449Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "team",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "metricOrder",
+        "description": "",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "short",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "formatted",
+        "description": "",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__6__",
+        "name": "band",
+        "description": "",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__7__",
+        "name": "teamScore",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Metric by team for one domain: teams worst domain score first, a column per scored metric in domain order, each cell the team's formatted value tinted and striped by its metric band, so the value and the tooltip's band word carry the state as well as colour.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "BY TEAM AND METRIC"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "filter": "isValid(datum['__0__']) && isValid(datum['__4__'])"
+    },
+    {
+      "calculate": "isValid(datum['__7__']) ? datum['__7__'] : 999",
+      "as": "rowScore"
+    },
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "rowRank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "rowScore",
+          "order": "ascending"
+        },
+        {
+          "field": "__0__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "isValid(datum['__5__']) ? datum['__5__'] + '' : ''",
+      "as": "cellText"
+    },
+    {
+      "calculate": "{'healthy': 'Healthy', 'watch': 'Watch', 'act': 'Act'}[datum['__6__']] || 'Context'",
+      "as": "bandWord"
+    },
+    {
+      "calculate": "isValid(datum['__1__']) && datum['__1__'] !== '' ? datum['__1__'] + '' : upper(substring(datum['__0__'] + '', 0, 2))",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__2__']) && datum['__2__'] !== '' ? datum['__2__'] + '' : muted",
+      "as": "chipColour"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "__4__",
+      "type": "nominal",
+      "sort": {
+        "field": "__3__",
+        "op": "min"
+      },
+      "scale": {
+        "paddingInner": 0.08,
+        "paddingOuter": 0
+      },
+      "axis": {
+        "title": null,
+        "orient": "top",
+        "domain": false,
+        "ticks": false,
+        "grid": false,
+        "labelAngle": 0,
+        "labelAlign": "center",
+        "labelBaseline": "bottom",
+        "labelFont": "Fraunces, Cambria, Georgia, serif",
+        "labelFontSize": 11,
+        "labelFontWeight": 600,
+        "labelColor": {
+          "expr": "ink"
+        },
+        "labelExpr": "indexof(datum.label, ' ') > 0 ? [substring(datum.label, 0, indexof(datum.label, ' ')), substring(datum.label, indexof(datum.label, ' ') + 1)] : ['', datum.label]",
+        "labelLineHeight": 13,
+        "labelPadding": 18,
+        "labelLimit": 0
+      }
+    },
+    "y": {
+      "field": "__0__",
+      "type": "nominal",
+      "sort": {
+        "field": "rowRank",
+        "op": "min",
+        "order": "ascending"
+      },
+      "scale": {
+        "paddingInner": 0.14,
+        "paddingOuter": 0
+      },
+      "axis": {
+        "title": null,
+        "orient": "left",
+        "domain": false,
+        "ticks": false,
+        "grid": false,
+        "labelAlign": "left",
+        "labelFontSize": 12,
+        "labelColor": {
+          "expr": "ink"
+        },
+        "labelPadding": 132,
+        "labelLimit": 126
+      }
+    },
+    "tooltip": [
+      {
+        "field": "__0__",
+        "title": "Team"
+      },
+      {
+        "field": "__4__",
+        "title": "Metric"
+      },
+      {
+        "field": "cellText",
+        "title": "Value"
+      },
+      {
+        "field": "bandWord",
+        "title": "Band"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "rowRank",
+              "as": "rowRank"
+            }
+          ],
+          "groupby": [
+            "__0__",
+            "chipCode",
+            "chipColour"
+          ]
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 4,
+            "x": -160,
+            "x2": -138,
+            "y": {
+              "expr": "scale('y', datum['__0__']) + bandwidth('y') / 2 - 8"
+            },
+            "y2": {
+              "expr": "scale('y', datum['__0__']) + bandwidth('y') / 2 + 8"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "color": {
+              "field": "chipColour",
+              "type": "nominal",
+              "scale": null
+            },
+            "tooltip": null,
+            "opacity": null
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": -149,
+            "y": {
+              "expr": "scale('y', datum['__0__']) + bandwidth('y') / 2"
+            },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": {
+              "expr": "surface"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "text": {
+              "field": "chipCode"
+            },
+            "tooltip": null,
+            "opacity": null
+          }
+        }
+      ]
+    },
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 4
+      },
+      "encoding": {
+        "color": {
+          "condition": [
+            {
+              "test": "datum['__6__'] === 'healthy'",
+              "value": {
+                "expr": "goodFill"
+              }
+            },
+            {
+              "test": "datum['__6__'] === 'watch'",
+              "value": {
+                "expr": "warnFill"
+              }
+            },
+            {
+              "test": "datum['__6__'] === 'act'",
+              "value": {
+                "expr": "badFill"
+              }
+            }
+          ],
+          "value": {
+            "expr": "sage"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "rect",
+        "width": 3,
+        "xOffset": {
+          "expr": "1.5 - bandwidth('x') / 2"
+        },
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusBottomLeft": 3
+      },
+      "encoding": {
+        "color": {
+          "condition": [
+            {
+              "test": "datum['__6__'] === 'healthy'",
+              "value": {
+                "expr": "emerald"
+              }
+            },
+            {
+              "test": "datum['__6__'] === 'watch'",
+              "value": {
+                "expr": "amber"
+              }
+            },
+            {
+              "test": "datum['__6__'] === 'act'",
+              "value": {
+                "expr": "red"
+              }
+            }
+          ],
+          "value": {
+            "expr": "muted"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        },
+        "xOffset": 1.5,
+        "limit": {
+          "expr": "bandwidth('x') - 8"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "cellText"
+        }
+      }
+    }
+  ]
+}

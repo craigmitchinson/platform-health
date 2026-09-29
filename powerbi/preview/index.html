@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Platform Health: Deneb preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2F0EA;
+    --canvas: #E9E8E4;
+    --surface: #FFFFFF;
+    --line: #D6D9D2;
+    --ink: #0F4D43;
+    --muted: #5F6E69;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 0;
+    background: var(--canvas);
+    font-family: Inter, "Segoe UI", sans-serif;
+    color: var(--ink);
+  }
+  .page {
+    width: 1920px;
+    margin: 0 auto 32px;
+    padding: 32px 48px 48px;
+    background: var(--bg);
+  }
+  .page { min-height: 1080px; }
+  .kicker {
+    margin: 0 0 6px;
+    font-family: "JetBrains Mono", Consolas, monospace;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1, h2 {
+    margin: 0 0 20px;
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 600;
+  }
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .row { display: flex; gap: 24px; align-items: flex-start; }
+  .card {
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1px var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    line-height: 0;
+  }
+  img { display: block; }
+</style>
+</head>
+<body>
+  <section class="page page--one" aria-labelledby="page-one">
+    <p class="kicker">Deneb preview · Page one</p>
+    <h1 id="page-one">Platform Health overview</h1>
+    <div class="stack">
+      <img src="page-text.svg" width="1824" height="140" alt="Page header: kicker, title and headline for the Overview">
+      <div class="card"><img src="overview-hero.svg" width="1824" height="220" alt="Overview hero: composite health score, band, six-quarter sparkline and the domain mix by band"></div>
+      <img src="domain-cards.svg" width="1824" height="342" alt="Domain cards: score, band, change since last quarter, weakest driver and sparkline against the healthy band for each domain">
+      <div class="row">
+        <div class="card"><img src="heat-matrix.svg" width="1000" height="260" alt="Heat matrix: score by lab and core domain, with each lab's composite"></div>
+        <div class="card"><img src="trend-target.svg" width="800" height="360" alt="Trend against target: domain score over six quarters"></div>
+      </div>
+      <div class="card"><img src="actions-list.svg" width="700" height="250" alt="Actions this week: open actions by severity then due date, with severity pills, due dates and a count of the rest"></div>
+      <img src="kpi-tiles.svg" width="1600" height="180" alt="KPI tiles: metric value, band, progress against target, sparkline, change and target for one domain">
+    </div>
+  </section>
+
+  <section class="page page--two" aria-labelledby="page-two">
+    <p class="kicker">Deneb preview · Page two</p>
+    <h2 id="page-two">Domain detail</h2>
+    <div class="stack">
+      <div class="card"><img src="bar-list.svg" width="900" height="420" alt="Bar list: team scores for one domain, worst first, against the scope mean"></div>
+      <div class="row">
+        <div class="card"><img src="read-outs.svg" width="600" height="150" alt="Read-out: three bullet lines for one domain"></div>
+        <div class="card"><img src="sources-strip.svg" width="700" height="160" alt="Sources: each source system and ingestion mode for one domain with its readiness pill"></div>
+      </div>
+      <div class="card"><img src="maturity-ladder.svg" width="1200" height="520" alt="Maturity ladder: each team's level per capability"></div>
+    </div>
+  </section>
+
+  <section class="page page--three" aria-labelledby="page-three">
+    <p class="kicker">Deneb preview · Page three</p>
+    <h2 id="page-three">Enrichment</h2>
+    <div class="stack">
+      <div class="row">
+        <div class="card"><img src="dumbbell-movement.svg" width="900" height="420" alt="Dumbbell: each core domain's score last quarter and this quarter, worst mover first, with the change in words"></div>
+        <div class="card"><img src="bump-rank.svg" width="900" height="420" alt="Bump chart: each team's rank by composite over six quarters, top three and bottom three drawn strong"></div>
+      </div>
+      <div class="card"><img src="composite-waterfall.svg" width="900" height="360" alt="Waterfall: the composite six quarters ago, each core domain's contribution to the change, and the composite now"></div>
+      <div class="card"><img src="lab-sparkline-grid.svg" width="1400" height="360" alt="Sparkline grid: six-quarter trend for each lab and core domain, shaded and labelled by this quarter's band"></div>
+      <div class="card"><img src="actions-timeline.svg" width="1400" height="520" alt="Actions timeline: every open action by due date, Act above Watch, with the next 30 days shaded"></div>
+      <div class="card"><img src="readiness-matrix.svg" width="1000" height="360" alt="Readiness matrix: metrics per domain and ingestion mode, sized by count and labelled with the least ready source"></div>
+      <div class="card"><img src="actions-table.svg" width="1824" height="700" alt="Open actions table: domain, team, lab, action, due date and status pill, by severity then due date"></div>
+      <div class="card"><img src="team-matrix.svg" width="1284" height="520" alt="Teams table: each team's lab, composite and score per core domain, weakest first"></div>
+      <div class="card"><img src="movement-table.svg" width="1824" height="376" alt="Movement by team: composite at the start of the period and now, change in words and band movement, biggest fall first"></div>
+      <div class="card"><img src="lineage-table.svg" width="1824" height="700" alt="Metric lineage in two tables: domain, metric, source system, mode, refresh, owner and readiness"></div>
+      <img src="lab-cards.svg" width="1824" height="170" alt="Lab cards: each lab's composite, band, teams by band and six-quarter composite sparkline">
+    </div>
+  </section>
+</body>
+</html>

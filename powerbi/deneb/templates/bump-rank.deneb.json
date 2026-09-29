@@ -1,0 +1,590 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health bump-rank",
+      "description": "Team ranking over the quarters in the data: each team's rank by composite, 1 at the top, with this quarter's top three and bottom three drawn strong and labelled with their rank.",
+      "author": "Platform Health contributors",
+      "uuid": "11b97b0a-7d89-5eb2-a0f8-dd9ed9d9bae7",
+      "generated": "2026-09-29T18:20:47.507Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "team",
+        "description": "One line per team; the selection key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "lab",
+        "description": "Shown in the tooltip",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "quarter",
+        "description": "1 to 6, oldest first; sorts the x axis and orders each line. Read with `toNumber`, so text keys work",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "quarterLabel",
+        "description": "For example \"Q3 2026\"; shown on the x axis as \"Q3 26\" and in full in the tooltip",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__6__",
+        "name": "composite",
+        "description": "The team's composite at that quarter; shown in the tooltip",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__7__",
+        "name": "rank",
+        "description": "1 is the highest composite at that quarter; the sample breaks ties by team name",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Team ranking over the quarters in the data: each team's rank by composite, 1 at the top, with this quarter's top three and bottom three drawn strong and labelled with their rank.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "TEAM RANKING"
+    },
+    {
+      "name": "endLabelWidth",
+      "value": 210
+    },
+    {
+      "name": "highlight",
+      "value": 3
+    },
+    {
+      "name": "narrow",
+      "expr": "width < 700"
+    },
+    {
+      "name": "quarterWords",
+      "value": [
+        "no",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+        "eleven",
+        "twelve"
+      ]
+    },
+    {
+      "name": "quarterCount",
+      "expr": "length(domain('x'))"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "subtitle": {
+      "expr": "['Rank by composite over ' + (quarterCount === 1 ? 'one quarter' : (quarterCount < length(quarterWords) ? quarterWords[quarterCount] : quarterCount) + ' quarters') + ', 1 is best.', 'This quarter’s top three and bottom three are drawn strong.']"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": {
+      "expr": "muted"
+    },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    {
+      "calculate": "toNumber(datum['__4__'])",
+      "as": "q"
+    },
+    {
+      "calculate": "toNumber(datum['__7__'])",
+      "as": "rankNum"
+    },
+    {
+      "calculate": "length(split(datum['__5__'] + '', ' ')) === 2 ? split(datum['__5__'], ' ')[0] + ' ' + substring(split(datum['__5__'], ' ')[1], 2) : datum['__5__']",
+      "as": "quarterShort"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "max",
+          "field": "q",
+          "as": "lastQuarter"
+        },
+        {
+          "op": "max",
+          "field": "rankNum",
+          "as": "teamCount"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.q === datum.lastQuarter ? datum.rankNum : 0",
+      "as": "rankIfLast"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "max",
+          "field": "rankIfLast",
+          "as": "rankNow"
+        }
+      ],
+      "groupby": [
+        "__0__"
+      ]
+    },
+    {
+      "calculate": "datum.rankNow <= highlight ? 'top' : datum.rankNow > datum.teamCount - highlight ? 'bottom' : 'middle'",
+      "as": "group"
+    },
+    {
+      "calculate": "datum.group === 'top' ? evergreen : datum.group === 'bottom' ? amber : line",
+      "as": "lineColour"
+    },
+    {
+      "calculate": "1",
+      "as": "dim"
+    },
+    {
+      "calculate": "datum['__0__'] + ' · ' + datum.rankNow",
+      "as": "endLabel"
+    },
+    {
+      "calculate": "isValid(datum['__2__']) && datum['__2__'] !== '' ? datum['__2__'] + '' : upper(substring(datum['__1__'] + '', 0, 2))",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__3__']) && datum['__3__'] !== '' ? datum['__3__'] + '' : muted",
+      "as": "chipColour"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "quarterShort",
+      "type": "ordinal",
+      "sort": {
+        "field": "q",
+        "op": "min"
+      },
+      "scale": {
+        "range": [
+          0,
+          {
+            "expr": "max(60, width - endLabelWidth)"
+          }
+        ],
+        "padding": 0.2
+      },
+      "axis": {
+        "title": null,
+        "labelAngle": 0,
+        "labelPadding": 10,
+        "labelOverlap": false
+      }
+    },
+    "y": {
+      "field": "rankNum",
+      "type": "quantitative",
+      "scale": {
+        "reverse": true,
+        "nice": false,
+        "zero": false,
+        "padding": 14
+      },
+      "axis": {
+        "title": "Rank",
+        "titlePadding": 10,
+        "values": {
+          "expr": "sequence(ceil(domain('y')[0]), floor(domain('y')[1]) + 1)"
+        },
+        "format": "d",
+        "grid": false
+      }
+    },
+    "detail": {
+      "field": "__0__"
+    },
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "field": "dim",
+      "type": "quantitative",
+      "scale": null
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.group === 'middle'"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "color": {
+          "field": "lineColour",
+          "type": "nominal",
+          "scale": null
+        },
+        "detail": {
+          "field": "__0__"
+        },
+        "order": {
+          "field": "q",
+          "type": "quantitative"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.group !== 'middle'"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
+      },
+      "encoding": {
+        "color": {
+          "field": "lineColour",
+          "type": "nominal",
+          "scale": null
+        },
+        "detail": {
+          "field": "__0__"
+        },
+        "order": {
+          "field": "q",
+          "type": "quantitative"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      }
+    },
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 70,
+        "stroke": {
+          "expr": "surface"
+        },
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "color": {
+          "field": "lineColour",
+          "type": "nominal",
+          "scale": null
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "title": "Team"
+          },
+          {
+            "field": "__1__",
+            "title": "Lab"
+          },
+          {
+            "field": "__5__",
+            "title": "Quarter"
+          },
+          {
+            "field": "__6__",
+            "title": "Composite"
+          },
+          {
+            "field": "rankNum",
+            "title": "Rank"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.q === datum.lastQuarter"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 4,
+            "x": {
+              "expr": "scale('x', datum.quarterShort) + 12"
+            },
+            "x2": {
+              "expr": "scale('x', datum.quarterShort) + 34"
+            },
+            "y": {
+              "expr": "scale('y', datum.rankNum) - 9"
+            },
+            "y2": {
+              "expr": "scale('y', datum.rankNum) + 9"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "color": {
+              "field": "chipColour",
+              "type": "nominal",
+              "scale": null
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "value": 1
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "scale('x', datum.quarterShort) + 23"
+            },
+            "y": {
+              "expr": "scale('y', datum.rankNum)"
+            },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": {
+              "expr": "surface"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "text": {
+              "field": "chipCode"
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.q === datum.lastQuarter && datum.group === 'middle'"
+        },
+        {
+          "calculate": "narrow ? '' : datum.endLabel",
+          "as": "middleLabel"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 40,
+        "fontSize": 12.5,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "middleLabel"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.q === datum.lastQuarter && datum.group !== 'middle'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 40,
+        "fontSize": 13,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "endLabel"
+        },
+        "color": {
+          "field": "lineColour",
+          "type": "nominal",
+          "scale": null
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      }
+    }
+  ]
+}

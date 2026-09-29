@@ -1,0 +1,297 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health read-outs",
+      "description": "A domain page read-out: the three read-out measures as bullet lines in order, each wrapped to two lines within the width.",
+      "author": "Platform Health contributors",
+      "uuid": "9d0dbf1f-72b6-5e13-a7e3-b25aa5c9dd23",
+      "generated": "2026-09-29T18:14:26.462Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "domainId",
+        "description": "Filter the visual to one domain; the first row by `domainId` is drawn",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "readOut1",
+        "description": "The three read-out sentences, folded into bullets in that order",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__2__",
+        "name": "readOut2",
+        "description": "The three read-out sentences, folded into bullets in that order",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__3__",
+        "name": "readOut3",
+        "description": "The three read-out sentences, folded into bullets in that order",
+        "type": "text",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "A domain page read-out: the three read-out measures as bullet lines in order, each wrapped to two lines within the width.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "READ-OUT"
+    },
+    {
+      "name": "indent",
+      "value": 18
+    },
+    {
+      "name": "lineH",
+      "value": 19
+    },
+    {
+      "name": "bulletGap",
+      "value": 4
+    },
+    {
+      "name": "lineChars",
+      "expr": "max(20, floor((width - indent) / 6.6))"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 8
+  },
+  "transform": [
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rowNo"
+        }
+      ],
+      "sort": [
+        {
+          "field": "__0__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rowNo === 1"
+    },
+    {
+      "fold": [
+        "__1__",
+        "__2__",
+        "__3__"
+      ],
+      "as": [
+        "readOutKey",
+        "readOutText"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "order"
+        }
+      ]
+    },
+    {
+      "calculate": "isValid(datum.readOutText) ? datum.readOutText + '' : ''",
+      "as": "line1"
+    },
+    {
+      "filter": "datum.line1 !== ''"
+    },
+    {
+      "calculate": "length(datum.line1) <= lineChars ? -1 : lastindexof(substring(datum.line1, 0, lineChars + 1), ' ')",
+      "as": "breakAt"
+    },
+    {
+      "calculate": "datum.breakAt <= 0 ? [datum.line1] : [substring(datum.line1, 0, datum.breakAt), substring(datum.line1, datum.breakAt + 1)]",
+      "as": "lines"
+    },
+    {
+      "calculate": "length(datum.lines)",
+      "as": "lineCount"
+    },
+    {
+      "window": [
+        {
+          "op": "sum",
+          "field": "lineCount",
+          "as": "linesSoFar"
+        },
+        {
+          "op": "row_number",
+          "as": "bullet"
+        }
+      ],
+      "sort": [
+        {
+          "field": "order",
+          "order": "ascending"
+        },
+        {
+          "field": "line1",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "(datum.linesSoFar - datum.lineCount) * lineH + (datum.bullet - 1) * bulletGap",
+      "as": "lineY"
+    },
+    {
+      "calculate": "datum.lineY + 9",
+      "as": "dotY"
+    }
+  ],
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "line1",
+        "title": "Read-out"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "x": 5,
+        "size": 18,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "dotY",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "x": {
+          "expr": "indent"
+        },
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 13.5,
+        "lineHeight": {
+          "expr": "lineH"
+        },
+        "dy": 2,
+        "color": {
+          "expr": "ink"
+        },
+        "limit": {
+          "expr": "max(40, width - indent)"
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "lineY",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "lines"
+        }
+      }
+    }
+  ]
+}

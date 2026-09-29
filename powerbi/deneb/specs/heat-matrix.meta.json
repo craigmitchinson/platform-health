@@ -1,0 +1,8 @@
+{
+  "sample": "heat.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "sampleFilter": { "rowType": "lab" },
+  "width": 1000,
+  "height": 210
+}

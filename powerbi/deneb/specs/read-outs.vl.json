@@ -1,0 +1,89 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A domain page read-out: the three read-out measures as bullet lines in order, each wrapped to two lines within the width.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "READ-OUT" },
+    { "name": "indent", "value": 18 },
+    { "name": "lineH", "value": 19 },
+    { "name": "bulletGap", "value": 4 },
+    { "name": "lineChars", "expr": "max(20, floor((width - indent) / 6.6))" }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 8
+  },
+  "transform": [
+    { "window": [{ "op": "row_number", "as": "rowNo" }], "sort": [{ "field": "domainId", "order": "ascending" }] },
+    { "filter": "datum.rowNo === 1" },
+    { "fold": ["readOut1", "readOut2", "readOut3"], "as": ["readOutKey", "readOutText"] },
+    { "window": [{ "op": "row_number", "as": "order" }] },
+    { "calculate": "isValid(datum.readOutText) ? datum.readOutText + '' : ''", "as": "line1" },
+    { "filter": "datum.line1 !== ''" },
+    {
+      "calculate": "length(datum.line1) <= lineChars ? -1 : lastindexof(substring(datum.line1, 0, lineChars + 1), ' ')",
+      "as": "breakAt"
+    },
+    {
+      "calculate": "datum.breakAt <= 0 ? [datum.line1] : [substring(datum.line1, 0, datum.breakAt), substring(datum.line1, datum.breakAt + 1)]",
+      "as": "lines"
+    },
+    { "calculate": "length(datum.lines)", "as": "lineCount" },
+    {
+      "window": [
+        { "op": "sum", "field": "lineCount", "as": "linesSoFar" },
+        { "op": "row_number", "as": "bullet" }
+      ],
+      "sort": [{ "field": "order", "order": "ascending" }, { "field": "line1", "order": "ascending" }]
+    },
+    { "calculate": "(datum.linesSoFar - datum.lineCount) * lineH + (datum.bullet - 1) * bulletGap", "as": "lineY" },
+    { "calculate": "datum.lineY + 9", "as": "dotY" }
+  ],
+  "encoding": {
+    "tooltip": [{ "field": "line1", "title": "Read-out" }]
+  },
+  "layer": [
+    {
+      "mark": { "type": "circle", "x": 5, "size": 18, "color": { "expr": "ink" } },
+      "encoding": { "y": { "field": "dotY", "type": "quantitative", "scale": null } }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "x": { "expr": "indent" },
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 13.5,
+        "lineHeight": { "expr": "lineH" },
+        "dy": 2,
+        "color": { "expr": "ink" },
+        "limit": { "expr": "max(40, width - indent)" }
+      },
+      "encoding": {
+        "y": { "field": "lineY", "type": "quantitative", "scale": null },
+        "text": { "field": "lines" }
+      }
+    }
+  ]
+}

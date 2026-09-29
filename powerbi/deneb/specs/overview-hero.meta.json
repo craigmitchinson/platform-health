@@ -1,0 +1,7 @@
+{
+  "sample": "hero.json",
+  "container": "bare",
+  "sampleFilter": { "scope": "Estate" },
+  "width": 1824,
+  "height": 180
+}

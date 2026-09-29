@@ -1,0 +1,372 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "actions_table",
+  "position": {
+    "x": 48,
+    "y": 348,
+    "z": 3000,
+    "width": 1284,
+    "height": 628,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "ActionKey"
+                }
+              },
+              "queryRef": "Action.ActionKey",
+              "nativeQueryRef": "ActionKey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "DomainName"
+                }
+              },
+              "queryRef": "Action.DomainName",
+              "nativeQueryRef": "DomainName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "TeamName"
+                }
+              },
+              "queryRef": "Action.TeamName",
+              "nativeQueryRef": "TeamName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "LabName"
+                }
+              },
+              "queryRef": "Action.LabName",
+              "nativeQueryRef": "LabName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "LabCode"
+                }
+              },
+              "queryRef": "Action.LabCode",
+              "nativeQueryRef": "LabCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "LabColour"
+                }
+              },
+              "queryRef": "Action.LabColour",
+              "nativeQueryRef": "LabColour"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "Description"
+                }
+              },
+              "queryRef": "Action.Description",
+              "nativeQueryRef": "Description"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "DueDate"
+                }
+              },
+              "queryRef": "Action.DueDate",
+              "nativeQueryRef": "DueDate"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Action"
+                    }
+                  },
+                  "Property": "Severity"
+                }
+              },
+              "queryRef": "Action.Severity",
+              "nativeQueryRef": "Severity"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Days From Refresh"
+                }
+              },
+              "queryRef": "_Measures.Days From Refresh",
+              "nativeQueryRef": "Days From Refresh"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"The Actions page table: open actions by severity then due date with domain, team, lab chip (chip only; the page''s lab legend names the chips), description, due date and a status pill, as many rows as fit at 28px, with dividers only.\",\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"width\": \"container\",\n  \"height\": \"container\",\n  \"background\": \"transparent\",\n  \"params\": [\n    {\n      \"name\": \"evergreen\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"emerald\",\n      \"expr\": \"pbiColor(1)\"\n    },\n    {\n      \"name\": \"sage\",\n      \"value\": \"#DCE8E0\"\n    },\n    {\n      \"name\": \"amber\",\n      \"expr\": \"pbiColor(3)\"\n    },\n    {\n      \"name\": \"red\",\n      \"expr\": \"pbiColor(4)\"\n    },\n    {\n      \"name\": \"ink\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"muted\",\n      \"expr\": \"pbiColor(6)\"\n    },\n    {\n      \"name\": \"line\",\n      \"expr\": \"pbiColor(8)\"\n    },\n    {\n      \"name\": \"surface\",\n      \"value\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"cream\",\n      \"value\": \"#F7F6F2\"\n    },\n    {\n      \"name\": \"goodFill\",\n      \"value\": \"#DDF0E8\"\n    },\n    {\n      \"name\": \"warnFill\",\n      \"value\": \"#F5EAD6\"\n    },\n    {\n      \"name\": \"badFill\",\n      \"value\": \"#F3E0DA\"\n    },\n    {\n      \"name\": \"rowH\",\n      \"value\": 28\n    },\n    {\n      \"name\": \"headY\",\n      \"value\": 28\n    },\n    {\n      \"name\": \"bodyY\",\n      \"value\": 40\n    },\n    {\n      \"name\": \"teamX\",\n      \"value\": 140\n    },\n    {\n      \"name\": \"labX\",\n      \"value\": 350\n    },\n    {\n      \"name\": \"actionX\",\n      \"value\": 410\n    },\n    {\n      \"name\": \"dueW\",\n      \"value\": 150\n    },\n    {\n      \"name\": \"statusW\",\n      \"value\": 100\n    },\n    {\n      \"name\": \"fit\",\n      \"expr\": \"max(1, floor((height - bodyY) / rowH))\"\n    },\n    {\n      \"name\": \"title\",\n      \"value\": \"OPEN ACTIONS\"\n    }\n  ],\n  \"title\": {\n    \"text\": {\n      \"expr\": \"title\"\n    },\n    \"font\": \"JetBrains Mono, Consolas, monospace\",\n    \"fontSize\": 12.5,\n    \"fontWeight\": 600,\n    \"color\": {\n      \"expr\": \"muted\"\n    },\n    \"anchor\": \"start\",\n    \"offset\": 6\n  },\n  \"transform\": [\n    {\n      \"calculate\": \"time(toDate(datum[''DueDate'']))\",\n      \"as\": \"dueTime\"\n    },\n    {\n      \"calculate\": \"datum[''Severity''] === ''act'' ? 0 : 1\",\n      \"as\": \"sevRank\"\n    },\n    {\n      \"window\": [\n        {\n          \"op\": \"row_number\",\n          \"as\": \"rank\"\n        }\n      ],\n      \"sort\": [\n        {\n          \"field\": \"sevRank\",\n          \"order\": \"ascending\"\n        },\n        {\n          \"field\": \"dueTime\",\n          \"order\": \"ascending\"\n        },\n        {\n          \"field\": \"ActionKey\",\n          \"order\": \"ascending\"\n        }\n      ]\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"count\",\n          \"as\": \"total\"\n        }\n      ]\n    },\n    {\n      \"calculate\": \"min(datum.total, fit)\",\n      \"as\": \"shown\"\n    }\n  ],\n  \"layer\": [\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.rank === 1\"\n        },\n        {\n          \"calculate\": \"datum.shown < datum.total ? ''Open actions by severity then due date, showing first '' + datum.shown + '' of '' + datum.total : ''Open actions by severity then due date''\",\n          \"as\": \"caption\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"x\": 0,\n        \"y\": 8,\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 12,\n        \"color\": {\n          \"expr\": \"muted\"\n        }\n      },\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"caption\"\n        }\n      }\n    },\n    {\n      \"data\": {\n        \"values\": [\n          {\n            \"head\": \"DOMAIN\",\n            \"fromRight\": 0,\n            \"at\": 0\n          },\n          {\n            \"head\": \"TEAM\",\n            \"fromRight\": 0,\n            \"at\": 140\n          },\n          {\n            \"head\": \"LAB\",\n            \"fromRight\": 0,\n            \"at\": 350\n          },\n          {\n            \"head\": \"ACTION\",\n            \"fromRight\": 0,\n            \"at\": 410\n          },\n          {\n            \"head\": \"DUE\",\n            \"fromRight\": 1,\n            \"at\": 250\n          },\n          {\n            \"head\": \"STATUS\",\n            \"fromRight\": 1,\n            \"at\": 100\n          }\n        ]\n      },\n      \"transform\": [\n        {\n          \"calculate\": \"datum.fromRight === 1 ? width - datum.at : datum.at\",\n          \"as\": \"headX\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"y\": {\n          \"expr\": \"headY\"\n        },\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 11,\n        \"fontWeight\": 700,\n        \"color\": {\n          \"expr\": \"muted\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"headX\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"head\"\n        }\n      }\n    },\n    {\n      \"data\": {\n        \"values\": [\n          {\n            \"rule\": 1\n          }\n        ]\n      },\n      \"mark\": {\n        \"type\": \"rule\",\n        \"x\": 0,\n        \"x2\": {\n          \"expr\": \"width\"\n        },\n        \"color\": {\n          \"expr\": \"line\"\n        },\n        \"strokeWidth\": 1\n      },\n      \"transform\": [\n        {\n          \"calculate\": \"bodyY - 0.5\",\n          \"as\": \"ruleY\"\n        }\n      ],\n      \"encoding\": {\n        \"y\": {\n          \"field\": \"ruleY\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.rank <= datum.shown\"\n        },\n        {\n          \"calculate\": \"bodyY + (datum.rank - 1) * rowH\",\n          \"as\": \"y0\"\n        },\n        {\n          \"calculate\": \"datum.y0 + rowH\",\n          \"as\": \"y1\"\n        },\n        {\n          \"calculate\": \"datum.y0 + rowH / 2\",\n          \"as\": \"yMid\"\n        },\n        {\n          \"calculate\": \"timeFormat(datum.dueTime, ''%-d %b %Y'') + (isValid(datum[''Days From Refresh'']) && toNumber(datum[''Days From Refresh'']) < 0 ? '' · past due'' : '''')\",\n          \"as\": \"dueText\"\n        },\n        {\n          \"calculate\": \"datum[''Severity''] === ''act'' ? ''ACT'' : ''WATCH''\",\n          \"as\": \"sevWord\"\n        },\n        {\n          \"calculate\": \"datum[''Severity''] === ''act'' ? red : amber\",\n          \"as\": \"sevKey\"\n        },\n        {\n          \"calculate\": \"datum[''Severity''] === ''act'' ? badFill : warnFill\",\n          \"as\": \"sevFill\"\n        },\n        {\n          \"calculate\": \"isValid(datum[''LabCode'']) && datum[''LabCode''] !== '''' ? datum[''LabCode''] + '''' : upper(substring(datum[''LabName''] + '''', 0, 2))\",\n          \"as\": \"chipCode\"\n        },\n        {\n          \"calculate\": \"isValid(datum[''LabColour'']) && datum[''LabColour''] !== '''' ? datum[''LabColour''] + '''' : muted\",\n          \"as\": \"chipColour\"\n        },\n        {\n          \"calculate\": \"width - dueW - statusW\",\n          \"as\": \"dueX\"\n        },\n        {\n          \"calculate\": \"width - statusW\",\n          \"as\": \"statusX\"\n        }\n      ],\n      \"encoding\": {\n        \"y\": {\n          \"field\": \"yMid\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"opacity\": {\n          \"condition\": {\n            \"test\": \"datum.__selected__ === ''off''\",\n            \"value\": 0.35\n          },\n          \"value\": 1\n        }\n      },\n      \"layer\": [\n        {\n          \"params\": [\n            {\n              \"name\": \"__select__\",\n              \"select\": {\n                \"type\": \"point\",\n                \"fields\": [\n                  \"ActionKey\"\n                ],\n                \"on\": \"click\",\n                \"clear\": \"dblclick\"\n              }\n            }\n          ],\n          \"mark\": {\n            \"type\": \"rect\",\n            \"x\": 0,\n            \"x2\": {\n              \"expr\": \"width\"\n            },\n            \"fill\": \"transparent\"\n          },\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"y0\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"y1\"\n            },\n            \"tooltip\": [\n              {\n                \"field\": \"DomainName\",\n                \"title\": \"Domain\"\n              },\n              {\n                \"field\": \"TeamName\",\n                \"title\": \"Team\"\n              },\n              {\n                \"field\": \"LabName\",\n                \"title\": \"Lab\"\n              },\n              {\n                \"field\": \"Description\",\n                \"title\": \"Action\"\n              },\n              {\n                \"field\": \"dueText\",\n                \"title\": \"Due\"\n              },\n              {\n                \"field\": \"sevWord\",\n                \"title\": \"Status\"\n              }\n            ]\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"rule\",\n            \"x\": 0,\n            \"x2\": {\n              \"expr\": \"width\"\n            },\n            \"color\": {\n              \"expr\": \"line\"\n            },\n            \"strokeWidth\": 1\n          },\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"y1\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": 0,\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13.5,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": 130\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"DomainName\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"teamX\"\n            },\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13.5,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"labX - teamX - 10\"\n            }\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"TeamName\"\n            }\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"calculate\": \"datum.yMid - 9\",\n              \"as\": \"chipY\"\n            },\n            {\n              \"calculate\": \"datum.yMid + 9\",\n              \"as\": \"chipY2\"\n            }\n          ],\n          \"mark\": {\n            \"type\": \"rect\",\n            \"x\": {\n              \"expr\": \"labX\"\n            },\n            \"x2\": {\n              \"expr\": \"labX + 22\"\n            },\n            \"cornerRadius\": 4\n          },\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"chipY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"chipY2\"\n            },\n            \"color\": {\n              \"field\": \"chipColour\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"labX + 11\"\n            },\n            \"align\": \"center\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 10,\n            \"fontWeight\": 700,\n            \"color\": {\n              \"expr\": \"surface\"\n            }\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"chipCode\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": {\n              \"expr\": \"actionX\"\n            },\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13.5,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"max(40, width - actionX - dueW - statusW - 10)\"\n            }\n          },\n          \"encoding\": {\n            \"text\": {\n              \"field\": \"Description\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13.5,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": 140\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"dueX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"dueText\"\n            }\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"calculate\": \"30 + length(datum.sevWord) * 7\",\n              \"as\": \"pillW\"\n            },\n            {\n              \"calculate\": \"datum.statusX + datum.pillW\",\n              \"as\": \"pillX2\"\n            },\n            {\n              \"calculate\": \"datum.yMid - 10\",\n              \"as\": \"pillY\"\n            },\n            {\n              \"calculate\": \"datum.yMid + 10\",\n              \"as\": \"pillY2\"\n            },\n            {\n              \"calculate\": \"datum.statusX + 12\",\n              \"as\": \"pillDotX\"\n            },\n            {\n              \"calculate\": \"datum.statusX + 21\",\n              \"as\": \"pillTextX\"\n            }\n          ],\n          \"layer\": [\n            {\n              \"mark\": {\n                \"type\": \"rect\",\n                \"cornerRadius\": 10,\n                \"strokeWidth\": 1,\n                \"strokeOpacity\": 0.35\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"statusX\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"x2\": {\n                  \"field\": \"pillX2\"\n                },\n                \"y\": {\n                  \"field\": \"pillY\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"y2\": {\n                  \"field\": \"pillY2\"\n                },\n                \"fill\": {\n                  \"field\": \"sevFill\",\n                  \"type\": \"nominal\",\n                  \"scale\": null\n                },\n                \"stroke\": {\n                  \"field\": \"sevKey\",\n                  \"type\": \"nominal\",\n                  \"scale\": null\n                }\n              }\n            },\n            {\n              \"mark\": {\n                \"type\": \"circle\",\n                \"size\": 50\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"pillDotX\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"color\": {\n                  \"field\": \"sevKey\",\n                  \"type\": \"nominal\",\n                  \"scale\": null\n                }\n              }\n            },\n            {\n              \"mark\": {\n                \"type\": \"text\",\n                \"align\": \"left\",\n                \"baseline\": \"middle\",\n                \"font\": \"JetBrains Mono, Consolas, monospace\",\n                \"fontSize\": 11.5,\n                \"fontWeight\": 600,\n                \"color\": {\n                  \"expr\": \"ink\"\n                }\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"pillTextX\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"text\": {\n                  \"field\": \"sevWord\"\n                }\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'canvas'"
+                }
+              }
+            },
+            "isNewDialogOpen": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D6D9D2'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

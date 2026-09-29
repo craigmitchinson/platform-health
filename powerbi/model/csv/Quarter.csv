@@ -1,0 +1,7 @@
+QuarterKey,QuarterLabel,QuarterStart,IsCurrent
+1,Q2 2025,2025-04-01,false
+2,Q3 2025,2025-07-01,false
+3,Q4 2025,2025-10-01,false
+4,Q1 2026,2026-01-01,false
+5,Q2 2026,2026-04-01,false
+6,Q3 2026,2026-07-01,true

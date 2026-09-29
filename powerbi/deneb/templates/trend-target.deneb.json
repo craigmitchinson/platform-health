@@ -1,0 +1,546 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health trend-target",
+      "description": "Domain score over six quarters against the healthy band (80 to 100) and the watch line (60), with every quarter labelled and the latest score and band at the end of the line.",
+      "author": "Platform Health contributors",
+      "uuid": "3b4b5121-d6ba-58e6-85a8-cd3aa1f9d0fb",
+      "generated": "2026-09-29T20:51:16.896Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "domain",
+        "description": "Domain name; the first row's value becomes the chart title",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "quarter",
+        "description": "1 to 6, oldest first; sorts the x axis",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "quarterLabel",
+        "description": "For example \"Q3 2026\"; shown on the x axis",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "score",
+        "description": "Domain score out of 100 for that quarter",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__4__",
+        "name": "scope",
+        "description": "\"Estate\" or a lab name; filter the visual to one scope. The first row's value becomes the subtitle",
+        "type": "text",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Domain score over six quarters against the healthy band (80 to 100) and the watch line (60), with every quarter labelled and the latest score and band at the end of the line.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "SCORE TREND"
+    },
+    {
+      "name": "endLabelWidth",
+      "expr": "14 + 12 * 26 * 0.52 + 8"
+    },
+    {
+      "name": "plotWidth",
+      "expr": "max(60, width - endLabelWidth)"
+    },
+    {
+      "name": "short",
+      "expr": "height < 140"
+    },
+    {
+      "name": "yFloor",
+      "expr": "length(data('dataset')) ? min(40, floor(extent(pluck(data('dataset'), '__3__'))[0] / 10) * 10) : 40"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "short ? '' : title"
+    },
+    "subtitle": {
+      "expr": "length(data('dataset')) && !short ? data('dataset')[0]['__0__'] + ' · ' + data('dataset')[0]['__4__'] : ''"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": {
+      "expr": "muted"
+    },
+    "subtitlePadding": 4
+  },
+  "encoding": {
+    "x": {
+      "field": "__2__",
+      "type": "ordinal",
+      "sort": {
+        "field": "__1__",
+        "op": "min"
+      },
+      "scale": {
+        "range": [
+          0,
+          {
+            "expr": "plotWidth"
+          }
+        ],
+        "padding": 0.15
+      },
+      "axis": {
+        "title": null,
+        "labelAngle": 0,
+        "labelExpr": "length(datum.label) > 5 ? substring(datum.label, 0, 3) + substring(datum.label, length(datum.label) - 2) : datum.label"
+      }
+    },
+    "y": {
+      "type": "quantitative",
+      "scale": {
+        "domain": [
+          {
+            "expr": "yFloor"
+          },
+          100
+        ],
+        "nice": false,
+        "zero": false,
+        "clamp": true
+      },
+      "axis": {
+        "title": {
+          "expr": "'Domain score, ' + yFloor + ' to 100'"
+        },
+        "titlePadding": 10,
+        "values": {
+          "expr": "yFloor < 40 ? [yFloor, 60, 80, 100] : [40, 60, 80, 100]"
+        }
+      }
+    }
+  },
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {
+            "from": 80,
+            "to": 100
+          }
+        ]
+      },
+      "mark": {
+        "type": "rect",
+        "color": {
+          "expr": "sage"
+        },
+        "opacity": 0.6,
+        "x": 0,
+        "x2": {
+          "expr": "width"
+        }
+      },
+      "encoding": {
+        "x": null,
+        "y": {
+          "field": "from",
+          "type": "quantitative"
+        },
+        "y2": {
+          "field": "to"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "at": 100,
+            "label": "HEALTHY"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "filter": "!short"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "x": 8,
+        "dy": 6,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "emerald"
+        }
+      },
+      "encoding": {
+        "x": null,
+        "y": {
+          "field": "at",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "at": 60
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": {
+          "expr": "amber"
+        },
+        "strokeDash": [
+          6,
+          4
+        ],
+        "strokeWidth": 1.5,
+        "x": 0,
+        "x2": {
+          "expr": "width"
+        }
+      },
+      "encoding": {
+        "x": null,
+        "y": {
+          "field": "at",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "at": 60,
+            "label": "WATCH"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "filter": "!short"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "x": 8,
+        "dy": -4,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "amber"
+        }
+      },
+      "encoding": {
+        "x": null,
+        "y": {
+          "field": "at",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "area",
+        "fill": {
+          "expr": "{gradient: 'linear', x1: 0, y1: 0, x2: 0, y2: 1, stops: [{offset: 0, color: 'rgba(' + rgb(emerald).r + ',' + rgb(emerald).g + ',' + rgb(emerald).b + ',0.25)'}, {offset: 1, color: 'rgba(' + rgb(emerald).r + ',' + rgb(emerald).g + ',' + rgb(emerald).b + ',0)'}]}"
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "__3__"
+        },
+        "y2": {
+          "datum": {
+            "expr": "yFloor"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "line",
+        "color": {
+          "expr": "evergreen"
+        },
+        "strokeWidth": 2.5
+      },
+      "encoding": {
+        "y": {
+          "field": "__3__"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 70,
+        "opacity": 1,
+        "color": {
+          "expr": "emerald"
+        },
+        "stroke": {
+          "expr": "surface"
+        },
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "y": {
+          "field": "__3__"
+        },
+        "tooltip": [
+          {
+            "field": "__2__",
+            "title": "Quarter"
+          },
+          {
+            "field": "__3__",
+            "title": "Score"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -9,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "__3__"
+        },
+        "text": {
+          "field": "__3__"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "__1__",
+              "as": "lastQuarter"
+            }
+          ]
+        },
+        {
+          "filter": "datum['__1__'] === datum.lastQuarter"
+        },
+        {
+          "calculate": "datum['__3__'] + ' · ' + (datum['__3__'] >= 80 ? 'Healthy' : datum['__3__'] >= 60 ? 'Watch' : 'Act')",
+          "as": "lastLabel"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "dx": 14,
+            "font": "Fraunces, Cambria, Georgia, serif",
+            "fontSize": 26,
+            "fontWeight": 600,
+            "color": {
+              "expr": "surface"
+            },
+            "stroke": {
+              "expr": "surface"
+            },
+            "strokeWidth": 6,
+            "strokeJoin": "round"
+          },
+          "encoding": {
+            "y": {
+              "field": "__3__"
+            },
+            "text": {
+              "field": "lastLabel"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "dx": 14,
+            "font": "Fraunces, Cambria, Georgia, serif",
+            "fontSize": 26,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "y": {
+              "field": "__3__"
+            },
+            "text": {
+              "field": "lastLabel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "legend": "Healthy 80 and above · Watch 60 to 79"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "(short && length(data('dataset')) ? data('dataset')[0].domain + ', ' + data('dataset')[0].scope + ' · ' : '') + datum.legend",
+          "as": "legendLine"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "x": {
+          "expr": "width"
+        },
+        "y": {
+          "expr": "height + 30"
+        },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11.5,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": null,
+        "y": null,
+        "text": {
+          "field": "legendLine"
+        }
+      }
+    }
+  ]
+}

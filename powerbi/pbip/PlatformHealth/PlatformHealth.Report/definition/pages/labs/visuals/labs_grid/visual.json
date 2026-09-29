@@ -1,0 +1,451 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "labs_grid",
+  "position": {
+    "x": 48,
+    "y": 398,
+    "z": 3000,
+    "width": 1824,
+    "height": 220,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Lab"
+                    }
+                  },
+                  "Property": "LabName"
+                }
+              },
+              "queryRef": "Lab.LabName",
+              "nativeQueryRef": "LabName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Lab"
+                    }
+                  },
+                  "Property": "LabCode"
+                }
+              },
+              "queryRef": "Lab.LabCode",
+              "nativeQueryRef": "LabCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Lab"
+                    }
+                  },
+                  "Property": "LabColour"
+                }
+              },
+              "queryRef": "Lab.LabColour",
+              "nativeQueryRef": "LabColour"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Domain"
+                    }
+                  },
+                  "Property": "DomainKey"
+                }
+              },
+              "queryRef": "Domain.DomainKey",
+              "nativeQueryRef": "DomainKey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Domain"
+                    }
+                  },
+                  "Property": "DomainName"
+                }
+              },
+              "queryRef": "Domain.DomainName",
+              "nativeQueryRef": "DomainName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Quarter"
+                    }
+                  },
+                  "Property": "QuarterKey"
+                }
+              },
+              "queryRef": "Quarter.QuarterKey",
+              "nativeQueryRef": "QuarterKey"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score"
+                }
+              },
+              "queryRef": "_Measures.Score",
+              "nativeQueryRef": "Score"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Band Key"
+                }
+              },
+              "queryRef": "_Measures.Band Key",
+              "nativeQueryRef": "Band Key"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Six-quarter trend by lab and domain: a grid of small sparklines, one row per lab and one column per core domain, each cell tinted by this quarter''s band with the current score and band word.\",\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"width\": \"container\",\n  \"height\": \"container\",\n  \"background\": \"transparent\",\n  \"params\": [\n    {\n      \"name\": \"evergreen\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"emerald\",\n      \"expr\": \"pbiColor(1)\"\n    },\n    {\n      \"name\": \"sage\",\n      \"value\": \"#DCE8E0\"\n    },\n    {\n      \"name\": \"amber\",\n      \"expr\": \"pbiColor(3)\"\n    },\n    {\n      \"name\": \"red\",\n      \"expr\": \"pbiColor(4)\"\n    },\n    {\n      \"name\": \"ink\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"muted\",\n      \"expr\": \"pbiColor(6)\"\n    },\n    {\n      \"name\": \"line\",\n      \"expr\": \"pbiColor(8)\"\n    },\n    {\n      \"name\": \"surface\",\n      \"value\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"cream\",\n      \"value\": \"#F7F6F2\"\n    },\n    {\n      \"name\": \"goodFill\",\n      \"value\": \"#DDF0E8\"\n    },\n    {\n      \"name\": \"warnFill\",\n      \"value\": \"#F5EAD6\"\n    },\n    {\n      \"name\": \"badFill\",\n      \"value\": \"#F3E0DA\"\n    },\n    {\n      \"name\": \"title\",\n      \"value\": \"SIX-QUARTER TREND BY LAB AND DOMAIN\"\n    },\n    {\n      \"name\": \"domainOrder\",\n      \"value\": [\n        \"stability\",\n        \"incidents\",\n        \"problems\",\n        \"maturity\",\n        \"architecture\",\n        \"risk\",\n        \"security\",\n        \"resilience\",\n        \"change\",\n        \"estate\",\n        \"governance\",\n        \"delivery\",\n        \"people\"\n      ]\n    },\n    {\n      \"name\": \"labOrder\",\n      \"value\": [\n        \"24*7 Services\",\n        \"Colleague Tooling\",\n        \"Agentic Operations\",\n        \"Data & Insights\"\n      ]\n    },\n    {\n      \"name\": \"labelWidth\",\n      \"value\": 170\n    },\n    {\n      \"name\": \"headerHeight\",\n      \"value\": 40\n    },\n    {\n      \"name\": \"cellGap\",\n      \"value\": 6\n    }\n  ],\n  \"title\": {\n    \"text\": {\n      \"expr\": \"title\"\n    },\n    \"subtitle\": \"Cells shaded by this quarter''s band: Healthy 80 and above · Watch 60 to 79 · Act below 60\",\n    \"font\": \"JetBrains Mono, Consolas, monospace\",\n    \"fontSize\": 12.5,\n    \"fontWeight\": 600,\n    \"color\": {\n      \"expr\": \"muted\"\n    },\n    \"anchor\": \"start\",\n    \"offset\": 6,\n    \"subtitleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"subtitleFontSize\": 12,\n    \"subtitleColor\": {\n      \"expr\": \"muted\"\n    },\n    \"subtitlePadding\": 4\n  },\n  \"transform\": [\n    {\n      \"calculate\": \"indexof(domainOrder, datum[''DomainKey''])\",\n      \"as\": \"col\"\n    },\n    {\n      \"filter\": \"datum.col >= 0\"\n    },\n    {\n      \"calculate\": \"indexof(labOrder, datum[''LabName'']) < 0 ? length(labOrder) : indexof(labOrder, datum[''LabName''])\",\n      \"as\": \"labIndex\"\n    },\n    {\n      \"window\": [\n        {\n          \"op\": \"dense_rank\",\n          \"as\": \"labRank\"\n        }\n      ],\n      \"sort\": [\n        {\n          \"field\": \"labIndex\",\n          \"order\": \"ascending\"\n        },\n        {\n          \"field\": \"LabName\",\n          \"order\": \"ascending\"\n        }\n      ]\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"max\",\n          \"field\": \"labRank\",\n          \"as\": \"labCount\"\n        },\n        {\n          \"op\": \"min\",\n          \"field\": \"Score\",\n          \"as\": \"allMin\"\n        },\n        {\n          \"op\": \"max\",\n          \"field\": \"Score\",\n          \"as\": \"allMax\"\n        }\n      ]\n    },\n    {\n      \"window\": [\n        {\n          \"op\": \"first_value\",\n          \"field\": \"Score\",\n          \"as\": \"firstScore\"\n        },\n        {\n          \"op\": \"last_value\",\n          \"field\": \"Score\",\n          \"as\": \"lastScore\"\n        },\n        {\n          \"op\": \"max\",\n          \"field\": \"QuarterKey\",\n          \"as\": \"lastQuarter\"\n        },\n        {\n          \"op\": \"min\",\n          \"field\": \"QuarterKey\",\n          \"as\": \"firstQuarter\"\n        }\n      ],\n      \"sort\": [\n        {\n          \"field\": \"QuarterKey\",\n          \"order\": \"ascending\"\n        }\n      ],\n      \"groupby\": [\n        \"LabName\",\n        \"DomainKey\"\n      ],\n      \"frame\": [\n        null,\n        null\n      ]\n    },\n    {\n      \"calculate\": \"max(1, (width - labelWidth) / length(domainOrder))\",\n      \"as\": \"cellW\"\n    },\n    {\n      \"calculate\": \"max(1, (height - headerHeight) / datum.labCount)\",\n      \"as\": \"cellH\"\n    },\n    {\n      \"calculate\": \"labelWidth + datum.col * datum.cellW + cellGap / 2\",\n      \"as\": \"x0\"\n    },\n    {\n      \"calculate\": \"datum.x0 + datum.cellW - cellGap\",\n      \"as\": \"x1\"\n    },\n    {\n      \"calculate\": \"headerHeight + (datum.labRank - 1) * datum.cellH + cellGap / 2\",\n      \"as\": \"y0\"\n    },\n    {\n      \"calculate\": \"datum.y0 + datum.cellH - cellGap\",\n      \"as\": \"y1\"\n    },\n    {\n      \"calculate\": \"min(datum.allMin, 60) - 4\",\n      \"as\": \"sparkLow\"\n    },\n    {\n      \"calculate\": \"min(100, max(datum.allMax, 88) + 2)\",\n      \"as\": \"sparkHigh\"\n    },\n    {\n      \"calculate\": \"datum.y0 + 28\",\n      \"as\": \"sparkTop\"\n    },\n    {\n      \"calculate\": \"datum.y1 - 7\",\n      \"as\": \"sparkBase\"\n    },\n    {\n      \"calculate\": \"datum.x0 + 10 + (datum.x1 - datum.x0 - 22) * (datum[''QuarterKey''] - datum.firstQuarter) / max(1, datum.lastQuarter - datum.firstQuarter)\",\n      \"as\": \"sx\"\n    },\n    {\n      \"calculate\": \"datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (clamp(datum[''Score''], datum.sparkLow, datum.sparkHigh) - datum.sparkLow) / (datum.sparkHigh - datum.sparkLow)\",\n      \"as\": \"sy\"\n    },\n    {\n      \"calculate\": \"datum[''Band Key''] === ''healthy'' ? emerald : datum[''Band Key''] === ''watch'' ? amber : datum[''Band Key''] === ''act'' ? red : muted\",\n      \"as\": \"bandKey\"\n    },\n    {\n      \"calculate\": \"datum[''Band Key''] === ''healthy'' ? goodFill : datum[''Band Key''] === ''watch'' ? warnFill : datum[''Band Key''] === ''act'' ? badFill : sage\",\n      \"as\": \"bandFill\"\n    },\n    {\n      \"calculate\": \"{''healthy'': ''HEALTHY'', ''watch'': ''WATCH'', ''act'': ''ACT''}[datum[''Band Key'']] || upper(datum[''Band Key''])\",\n      \"as\": \"bandWord\"\n    },\n    {\n      \"calculate\": \"datum.x0 + 10\",\n      \"as\": \"scoreX\"\n    },\n    {\n      \"calculate\": \"datum.y0 + 8\",\n      \"as\": \"scoreY\"\n    },\n    {\n      \"calculate\": \"datum.x1 - 8\",\n      \"as\": \"wordX\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabCode'']) && datum[''LabCode''] !== '''' ? datum[''LabCode''] + '''' : upper(substring(datum[''LabName''] + '''', 0, 2))\",\n      \"as\": \"chipCode\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabColour'']) && datum[''LabColour''] !== '''' ? datum[''LabColour''] + '''' : muted\",\n      \"as\": \"chipColour\"\n    }\n  ],\n  \"encoding\": {\n    \"opacity\": {\n      \"condition\": {\n        \"test\": \"datum.__selected__ === ''off''\",\n        \"value\": 0.35\n      },\n      \"value\": 1\n    }\n  },\n  \"layer\": [\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum[''QuarterKey''] === datum.lastQuarter\"\n        }\n      ],\n      \"params\": [\n        {\n          \"name\": \"__select__\",\n          \"select\": {\n            \"type\": \"point\",\n            \"fields\": [\n              \"LabName\",\n              \"DomainKey\"\n            ],\n            \"on\": \"click\",\n            \"clear\": \"dblclick\"\n          }\n        }\n      ],\n      \"mark\": {\n        \"type\": \"rect\",\n        \"cornerRadius\": 6\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"x0\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"x2\": {\n          \"field\": \"x1\"\n        },\n        \"y\": {\n          \"field\": \"y0\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y2\": {\n          \"field\": \"y1\"\n        },\n        \"fill\": {\n          \"field\": \"bandFill\",\n          \"type\": \"nominal\",\n          \"scale\": null\n        },\n        \"tooltip\": [\n          {\n            \"field\": \"LabName\",\n            \"title\": \"Lab\"\n          },\n          {\n            \"field\": \"DomainName\",\n            \"title\": \"Domain\"\n          },\n          {\n            \"field\": \"lastScore\",\n            \"title\": \"Score this quarter\"\n          },\n          {\n            \"field\": \"firstScore\",\n            \"title\": \"Score six quarters ago\"\n          },\n          {\n            \"field\": \"bandWord\",\n            \"title\": \"Band\"\n          }\n        ]\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"area\",\n        \"color\": {\n          \"expr\": \"emerald\"\n        },\n        \"fillOpacity\": 0.3\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"sx\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"sy\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y2\": {\n          \"field\": \"sparkBase\"\n        },\n        \"detail\": [\n          {\n            \"field\": \"LabName\"\n          },\n          {\n            \"field\": \"DomainKey\"\n          }\n        ]\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"line\",\n        \"strokeWidth\": 1.5,\n        \"color\": {\n          \"expr\": \"evergreen\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"sx\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"sy\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"detail\": [\n          {\n            \"field\": \"LabName\"\n          },\n          {\n            \"field\": \"DomainKey\"\n          }\n        ],\n        \"order\": {\n          \"field\": \"QuarterKey\",\n          \"type\": \"quantitative\"\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum[''QuarterKey''] === datum.lastQuarter\"\n        }\n      ],\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"circle\",\n            \"size\": 40,\n            \"stroke\": {\n              \"expr\": \"surface\"\n            },\n            \"strokeWidth\": 1.5\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"sx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"sy\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"color\": {\n              \"field\": \"bandKey\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"top\",\n            \"font\": \"Fraunces, Cambria, Georgia, serif\",\n            \"fontSize\": 16,\n            \"fontWeight\": 600,\n            \"color\": {\n              \"expr\": \"ink\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"scoreX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"scoreY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"lastScore\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"right\",\n            \"baseline\": \"top\",\n            \"dy\": 3,\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 10,\n            \"fontWeight\": 600,\n            \"color\": {\n              \"expr\": \"ink\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"wordX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"scoreY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"bandWord\"\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum[''QuarterKey''] === datum.lastQuarter && datum.labRank === 1\"\n        },\n        {\n          \"calculate\": \"(datum.x0 + datum.x1) / 2\",\n          \"as\": \"headX\"\n        },\n        {\n          \"calculate\": \"headerHeight - 20\",\n          \"as\": \"headY\"\n        },\n        {\n          \"calculate\": \"indexof(datum[''DomainName''], '' '') > 0 ? [slice(datum[''DomainName''], 0, indexof(datum[''DomainName''], '' '')), slice(datum[''DomainName''], indexof(datum[''DomainName''], '' '') + 1)] : ['''', datum[''DomainName'']]\",\n          \"as\": \"headText\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"center\",\n        \"baseline\": \"bottom\",\n        \"lineHeight\": 14,\n        \"font\": \"Fraunces, Cambria, Georgia, serif\",\n        \"fontSize\": 12,\n        \"fontWeight\": 600,\n        \"color\": {\n          \"expr\": \"ink\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"headX\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"headY\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"headText\"\n        },\n        \"opacity\": null\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum[''QuarterKey''] === datum.lastQuarter && datum.col === 0\"\n        },\n        {\n          \"calculate\": \"(datum.y0 + datum.y1) / 2\",\n          \"as\": \"labY\"\n        }\n      ],\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"rect\",\n            \"cornerRadius\": 4,\n            \"x\": 0,\n            \"x2\": 22,\n            \"y\": {\n              \"expr\": \"(datum.y0 + datum.y1) / 2 - 9\"\n            },\n            \"y2\": {\n              \"expr\": \"(datum.y0 + datum.y1) / 2 + 9\"\n            }\n          },\n          \"encoding\": {\n            \"x\": null,\n            \"y\": null,\n            \"color\": {\n              \"field\": \"chipColour\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            },\n            \"opacity\": null\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": 11,\n            \"y\": {\n              \"expr\": \"(datum.y0 + datum.y1) / 2\"\n            },\n            \"align\": \"center\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 10,\n            \"fontWeight\": 700,\n            \"color\": {\n              \"expr\": \"surface\"\n            }\n          },\n          \"encoding\": {\n            \"x\": null,\n            \"y\": null,\n            \"text\": {\n              \"field\": \"chipCode\"\n            },\n            \"opacity\": null\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"x\": 30,\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"labelWidth - 36\"\n            }\n          },\n          \"encoding\": {\n            \"y\": {\n              \"field\": \"labY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"LabName\"\n            },\n            \"opacity\": null\n          }\n        }\n      ]\n    }\n  ]\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'canvas'"
+                }
+              }
+            },
+            "isNewDialogOpen": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D6D9D2'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9a0c97b1d375cb3e90c8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Domain"
+              }
+            },
+            "Property": "IsCore"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "Domain",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "t"
+                          }
+                        },
+                        "Property": "IsCore"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "true"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "630d85def40b5c4150b0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "In Selected Period"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "_Measures",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "t"
+                        }
+                      },
+                      "Property": "In Selected Period"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

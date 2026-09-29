@@ -1,0 +1,128 @@
+table Person
+	lineageTag: 64afcb0b-c8cc-58c1-8230-4f783a772fad
+
+	column PersonKey
+		dataType: string
+		lineageTag: a8eb0cc1-79ec-531d-9d17-235d187d1137
+		summarizeBy: none
+		sourceColumn: PersonKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Role
+		dataType: string
+		lineageTag: c693e673-b7f1-5646-8ca3-7522589d127a
+		summarizeBy: none
+		sourceColumn: Role
+
+		annotation SummarizationSetBy = Automatic
+
+	column RoleGroup
+		dataType: string
+		lineageTag: 57952b6b-3739-5e5b-9042-236f79aad06f
+		summarizeBy: none
+		sourceColumn: RoleGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grade
+		dataType: int64
+		formatString: 0
+		lineageTag: 17044937-74b7-5548-ad00-748d699f57dd
+		summarizeBy: none
+		sourceColumn: Grade
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabKey
+		dataType: string
+		lineageTag: a67a4c56-0996-59a5-997e-5f524d63e5dd
+		summarizeBy: none
+		sourceColumn: LabKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamKey
+		dataType: string
+		lineageTag: 33af13ad-645b-592a-a6c7-b443287c99e5
+		summarizeBy: none
+		sourceColumn: TeamKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Employment
+		dataType: string
+		lineageTag: 375e49bc-bed4-50ff-acf2-4461f5e23168
+		summarizeBy: none
+		sourceColumn: Employment
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsLead
+		dataType: boolean
+		lineageTag: 4cfb0978-c9a4-5936-89b1-96131ddb7a4c
+		summarizeBy: none
+		sourceColumn: IsLead
+
+		annotation SummarizationSetBy = Automatic
+
+	column LeadLevel
+		dataType: int64
+		formatString: 0
+		lineageTag: 010efa3d-871e-58f4-a3b1-5b9b3e7f2137
+		summarizeBy: none
+		sourceColumn: LeadLevel
+
+		annotation SummarizationSetBy = Automatic
+
+	column ParentKey
+		dataType: string
+		lineageTag: 05320350-59cb-57b7-9e95-5a49fc1b5b39
+		summarizeBy: none
+		sourceColumn: ParentKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabName
+		dataType: string
+		lineageTag: 3cba5c09-9feb-558b-abf0-13344ebd5ea3
+		summarizeBy: none
+		sourceColumn: LabName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabCode
+		dataType: string
+		lineageTag: 410674d7-7dd7-5291-91af-2c47a3e172c1
+		summarizeBy: none
+		sourceColumn: LabCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabColour
+		dataType: string
+		lineageTag: c068d0e2-024d-5c3c-8565-7e84f01e1e40
+		summarizeBy: none
+		sourceColumn: LabColour
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitName
+		dataType: string
+		lineageTag: 20e976c7-6f35-58aa-a9c1-b8bfded1d13d
+		summarizeBy: none
+		sourceColumn: UnitName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Person = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Person.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"PersonKey", type text}, {"Role", type text}, {"RoleGroup", type text}, {"Grade", Int64.Type}, {"LabKey", type text}, {"TeamKey", type text}, {"Employment", type text}, {"IsLead", type logical}, {"LeadLevel", Int64.Type}, {"ParentKey", type text}, {"LabName", type text}, {"LabCode", type text}, {"LabColour", type text}, {"UnitName", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

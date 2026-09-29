@@ -1,0 +1,23 @@
+[
+  {"pageId":"overview","left":"Platform Health · Executive summary · Overview","sources":"Sources: Dynatrace today 09:45 · Jira today 07:00 · ServiceNow today 06:00 · Intune / SCCM today 05:30 · GCP assets today 04:30 · +8 more"},
+  {"pageId":"labs","left":"Platform Health · Executive summary · Labs and teams","sources":"Sources: Dynatrace today 09:45 · Jira today 07:00 · ServiceNow today 06:00 · Intune / SCCM today 05:30 · GCP assets today 04:30 · +8 more"},
+  {"pageId":"actions","left":"Platform Health · Executive summary · Actions","sources":"Sources: Dynatrace today 09:45 · Jira today 07:00 · ServiceNow today 06:00 · Intune / SCCM today 05:30 · GCP assets today 04:30 · +8 more"},
+  {"pageId":"movement","left":"Platform Health · Executive summary · Movement","sources":"Sources: Dynatrace today 09:45 · Jira today 07:00 · ServiceNow today 06:00 · Intune / SCCM today 05:30 · GCP assets today 04:30 · +8 more"},
+  {"pageId":"stability","left":"Platform Health · Operations · Stability","sources":"Sources: ServiceNow today 06:00"},
+  {"pageId":"incidents","left":"Platform Health · Operations · Incidents","sources":"Sources: Dynatrace today 09:45 · ServiceNow today 06:00"},
+  {"pageId":"problems","left":"Platform Health · Operations · Problems","sources":"Sources: ServiceNow today 06:00"},
+  {"pageId":"change","left":"Platform Health · Operations · Change","sources":"Sources: Jira today 07:00 · ServiceNow today 06:00"},
+  {"pageId":"maturity","left":"Platform Health · Operations · Maturity","sources":"Sources: Dynatrace today 09:45 · ServiceNow today 06:00 · Maturity assessment 30 Jun"},
+  {"pageId":"operability","left":"Platform Health · Operations · Operability","sources":"Sources: Dynatrace today 09:45"},
+  {"pageId":"risk","left":"Platform Health · Risk and control · Risk","sources":"Sources: Risk register yesterday 18:00"},
+  {"pageId":"security","left":"Platform Health · Risk and control · Security","sources":"Sources: Intune / SCCM today 05:30 · Qualys / Tenable yesterday 22:00"},
+  {"pageId":"resilience","left":"Platform Health · Risk and control · Resilience","sources":"Sources: DR register yesterday 18:00 · Risk register yesterday 18:00"},
+  {"pageId":"governance","left":"Platform Health · Risk and control · Governance","sources":"Sources: Audit tracker 25 Sep"},
+  {"pageId":"architecture","left":"Platform Health · Architecture and estate · Architecture","sources":"Sources: Jira today 07:00 · Architecture register yesterday 18:00"},
+  {"pageId":"estate","left":"Platform Health · Architecture and estate · Estate","sources":"Sources: ServiceNow today 06:00 · GCP assets today 04:30"},
+  {"pageId":"cost","left":"Platform Health · Architecture and estate · Cost","sources":"Sources: Azure cost 26 Sep · GCP billing 26 Sep"},
+  {"pageId":"delivery","left":"Platform Health · Delivery and people · Delivery","sources":"Sources: Jira today 07:00"},
+  {"pageId":"people","left":"Platform Health · Delivery and people · People","sources":"Sources: Workday 21 Sep · Skills register 30 Jun"},
+  {"pageId":"people-structure","left":"Platform Health · Delivery and people · Structure and skills","sources":"Sources: Workday 21 Sep · Skills register 30 Jun"},
+  {"pageId":"lineage","left":"Platform Health · Data and sources · Lineage","sources":"Sources: Dynatrace today 09:45 · Jira today 07:00 · ServiceNow today 06:00 · Intune / SCCM today 05:30 · GCP assets today 04:30 · +8 more"}
+]

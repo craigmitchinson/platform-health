@@ -1,0 +1,7 @@
+{
+  "sample": "kpi.json",
+  "container": "bare",
+  "sampleFilter": { "domainId": "security" },
+  "width": 1600,
+  "height": 180
+}

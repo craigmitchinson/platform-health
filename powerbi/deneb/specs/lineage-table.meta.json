@@ -1,0 +1,7 @@
+{
+  "sample": "lineage.json",
+  "container": "card",
+  "optional": ["metricOrder"],
+  "width": 1824,
+  "height": 600
+}

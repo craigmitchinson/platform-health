@@ -1,0 +1,435 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health composite-waterfall",
+      "description": "Why the composite moved: a waterfall from the composite at the start of the period to now, one step per core domain, each its score change over the period divided by the core domain count.",
+      "author": "Platform Health contributors",
+      "uuid": "8f47049d-2689-5327-a9c0-95926b67d9b4",
+      "generated": "2026-09-29T18:14:26.384Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "scope",
+        "description": "`Estate` or a lab name; filter the visual to one scope. The first row's value opens the subtitle",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__1__",
+        "name": "step",
+        "description": "0 for the start, 1 to n for the domains, n + 1 for the end; sorts the bars",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "label",
+        "description": "\"Six quarters ago\", each core domain name, then \"Now\"",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "short",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "kind",
+        "description": "`start`, `delta` or `end`",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "value",
+        "description": "On `start` and `end` rows the composite; on `delta` rows the contribution, the domain's change divided by the core domain count",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__6__",
+        "name": "running",
+        "description": "The composite after this step; equals `value` on `start` and `end` rows",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__7__",
+        "name": "quarters",
+        "description": "Quarters in the period, the same on every row; the first row's value names the change in the subtitle, for example \"six-quarter\"",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Why the composite moved: a waterfall from the composite at the start of the period to now, one step per core domain, each its score change over the period divided by the core domain count.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "WHY THE COMPOSITE MOVED"
+    },
+    {
+      "name": "quarterWords",
+      "value": [
+        "no",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+        "ten",
+        "eleven",
+        "twelve"
+      ]
+    },
+    {
+      "name": "quarterCount",
+      "expr": "length(data('dataset')) ? data('dataset')[0]['__7__'] : 0"
+    },
+    {
+      "name": "runningExtent",
+      "expr": "length(data('dataset')) ? extent(pluck(data('dataset'), '__6__')) : [0, 100]"
+    },
+    {
+      "name": "yPad",
+      "expr": "max(1, (runningExtent[1] - runningExtent[0]) * 0.3)"
+    },
+    {
+      "name": "yLow",
+      "expr": "max(0, floor(runningExtent[0] - yPad))"
+    },
+    {
+      "name": "yHigh",
+      "expr": "min(100, ceil(runningExtent[1] + yPad))"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "subtitle": {
+      "expr": "[length(data('dataset')) ? data('dataset')[0]['__0__'] + ' · each step is a domain’s ' + (quarterCount < length(quarterWords) ? quarterWords[quarterCount] : quarterCount) + '-quarter change divided by the ' + (length(data('dataset')) - 2) + ' core domains' : '', 'Change in health score, 0 to 100. Up is better.']"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": {
+      "expr": "muted"
+    },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    {
+      "calculate": "datum['__4__'] === 'delta' ? datum['__6__'] - datum['__5__'] : yLow",
+      "as": "barFrom"
+    },
+    {
+      "calculate": "datum['__4__'] !== 'delta' ? evergreen : datum['__5__'] > 0 ? emerald : datum['__5__'] < 0 ? amber : muted",
+      "as": "barColour"
+    },
+    {
+      "calculate": "datum['__4__'] !== 'delta' ? format(datum['__5__'], '.1f') : (datum['__5__'] > 0 ? '+' : datum['__5__'] < 0 ? '−' : '±') + format(abs(datum['__5__']), '.1f')",
+      "as": "valueLabel"
+    },
+    {
+      "calculate": "datum['__4__'] !== 'delta' ? datum.valueLabel : datum.valueLabel + ' ' + (datum['__5__'] > 0 ? 'better' : datum['__5__'] < 0 ? 'worse' : 'held')",
+      "as": "valueWord"
+    },
+    {
+      "calculate": "max(datum.barFrom, datum['__6__'])",
+      "as": "barTop"
+    },
+    {
+      "calculate": "min(datum.barFrom, datum['__6__'])",
+      "as": "barBottom"
+    },
+    {
+      "calculate": "isValid(datum['__3__']) && datum['__3__'] !== '' ? datum['__3__'] + '' : datum['__2__'] + ''",
+      "as": "xName"
+    },
+    {
+      "window": [
+        {
+          "op": "lead",
+          "field": "xName",
+          "as": "nextLabel"
+        }
+      ],
+      "sort": [
+        {
+          "field": "__1__",
+          "order": "ascending"
+        }
+      ]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "xName",
+      "type": "nominal",
+      "sort": {
+        "field": "__1__",
+        "op": "min"
+      },
+      "scale": {
+        "paddingInner": 0.3,
+        "paddingOuter": 0.15
+      },
+      "axis": {
+        "title": null,
+        "labelAngle": 0,
+        "labelFontSize": 11,
+        "labelLineHeight": 13,
+        "labelExpr": "indexof(datum.label, ' ') > 0 ? [slice(datum.label, 0, indexof(datum.label, ' ')), slice(datum.label, indexof(datum.label, ' ') + 1)] : datum.label"
+      }
+    },
+    "y": {
+      "type": "quantitative",
+      "scale": {
+        "domain": [
+          {
+            "expr": "yLow"
+          },
+          {
+            "expr": "yHigh"
+          }
+        ],
+        "nice": false,
+        "zero": false,
+        "clamp": true
+      },
+      "axis": {
+        "title": "Composite",
+        "titlePadding": 10,
+        "tickCount": 5,
+        "format": "d"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "__2__",
+        "title": "Step"
+      },
+      {
+        "field": "valueWord",
+        "title": "Contribution"
+      },
+      {
+        "field": "__6__",
+        "title": "Composite after this step",
+        "format": ".1f"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "isValid(datum.nextLabel)"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": {
+          "expr": "muted"
+        },
+        "strokeWidth": 1,
+        "strokeDash": [
+          3,
+          2
+        ],
+        "x2Offset": {
+          "expr": "bandwidth('x') * 0.3 / 0.7"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "xName",
+          "type": "nominal",
+          "sort": {
+            "field": "__1__",
+            "op": "min"
+          },
+          "bandPosition": 0
+        },
+        "x2": {
+          "field": "xName",
+          "bandPosition": 1
+        },
+        "y": {
+          "field": "__6__"
+        },
+        "tooltip": null
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadius": 2
+      },
+      "encoding": {
+        "y": {
+          "field": "barBottom"
+        },
+        "y2": {
+          "field": "barTop"
+        },
+        "color": {
+          "field": "barColour",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum['__4__'] !== 'delta' || datum['__5__'] >= 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -5,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "barTop"
+        },
+        "text": {
+          "field": "valueLabel"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum['__4__'] === 'delta' && datum['__5__'] < 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "top",
+        "dy": 5,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "barBottom"
+        },
+        "text": {
+          "field": "valueLabel"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Where the data comes from and how ready it is: metrics per domain and ingestion mode as circles sized by count, coloured and labelled by the least ready source among them, with row totals. The domains split into two side-by-side halves so fifteen rows fit a short block; the subtitle shows from 260px high.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "DATA READINESS BY DOMAIN AND SOURCE" },
+    {
+      "name": "domainOrder",
+      "value": ["stability", "incidents", "problems", "maturity", "architecture", "risk", "security", "resilience", "change", "estate", "governance", "delivery", "people", "cost", "operability"]
+    },
+    { "name": "modeOrder", "value": ["sql", "semantic", "spreadsheet", "csv", "api"] },
+    {
+      "name": "modeNames",
+      "value": { "sql": "SQL direct query", "semantic": "Semantic model", "spreadsheet": "Spreadsheet", "csv": "CSV drop", "api": "API" }
+    },
+    { "name": "readinessOrder", "value": ["live", "partial", "aspirational"] },
+    { "name": "compact", "expr": "height < 250" },
+    { "name": "labelWidth", "value": 130 },
+    { "name": "totalWidth", "value": 130 },
+    { "name": "sideGap", "value": 32 },
+    { "name": "headY", "value": 8 },
+    { "name": "bodyY", "value": 20 },
+    { "name": "sideW", "expr": "max(1, (width - sideGap) / 2)" },
+    { "name": "colW", "expr": "max(1, (sideW - labelWidth - totalWidth) / length(modeOrder))" }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "subtitle": { "expr": "!compact ? 'Circle size is the number of metrics; colour and word show the least ready source among them' : ''" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": { "expr": "muted" },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    { "calculate": "indexof(domainOrder, datum.domainId) < 0 ? length(domainOrder) : indexof(domainOrder, datum.domainId)", "as": "domainRank" },
+    { "calculate": "indexof(readinessOrder, datum.worstReadiness)", "as": "readinessRank" },
+    { "calculate": "[emerald, amber, muted][max(0, datum.readinessRank)]", "as": "readinessColour" },
+    { "calculate": "upper(datum.worstReadiness)", "as": "readinessWord" },
+    {
+      "joinaggregate": [
+        { "op": "sum", "field": "count", "as": "domainTotal" },
+        { "op": "sum", "field": "live", "as": "domainLive" }
+      ],
+      "groupby": ["domainId"]
+    },
+    {
+      "calculate": "datum.domainTotal + (datum.domainTotal === 1 ? ' metric · ' : ' metrics · ') + datum.domainLive + ' live'",
+      "as": "totalLabel"
+    },
+    { "window": [{ "op": "row_number", "as": "domainRow" }], "groupby": ["domainId"], "sort": [{ "field": "mode", "order": "ascending" }] },
+    { "window": [{ "op": "dense_rank", "as": "domainIdx" }], "sort": [{ "field": "domainRank", "order": "ascending" }, { "field": "domainId", "order": "ascending" }] },
+    { "joinaggregate": [{ "op": "max", "field": "domainIdx", "as": "domainCount" }] },
+    { "calculate": "ceil(datum.domainCount / 2)", "as": "halfRows" },
+    { "calculate": "datum.domainIdx > datum.halfRows ? 1 : 0", "as": "side" },
+    { "calculate": "datum.domainIdx - 1 - datum.side * datum.halfRows", "as": "sideRow" },
+    { "calculate": "max(1, (height - bodyY) / datum.halfRows)", "as": "rowH" },
+    { "calculate": "bodyY + (datum.sideRow + 0.5) * datum.rowH", "as": "yMid" },
+    { "calculate": "datum.side * (sideW + sideGap)", "as": "sx" },
+    { "calculate": "datum.sx + sideW", "as": "sx2" },
+    { "calculate": "datum.sx + labelWidth + colW * (indexof(modeOrder, datum.mode) + 0.5)", "as": "cx" },
+    { "calculate": "datum.cx - 44", "as": "circleX" },
+    { "calculate": "datum.cx - 32", "as": "countX" },
+    { "calculate": "datum.cx - 18", "as": "wordX" }
+  ],
+  "encoding": {
+    "y": { "field": "yMid", "type": "quantitative", "scale": null, "axis": null },
+    "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+  },
+  "layer": [
+    {
+      "data": { "values": [{ "headSide": 0 }, { "headSide": 1 }] },
+      "transform": [
+        { "filter": "!compact" },
+        { "calculate": "modeOrder", "as": "headMode" },
+        { "flatten": ["headMode"] },
+        { "calculate": "datum.headSide * (sideW + sideGap) + labelWidth + colW * (indexof(modeOrder, datum.headMode) + 0.5)", "as": "headX" },
+        { "calculate": "modeNames[datum.headMode] || datum.headMode", "as": "headText" }
+      ],
+      "mark": {
+        "type": "text",
+        "y": { "expr": "headY" },
+        "align": "center",
+        "baseline": "middle",
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": { "expr": "ink" }
+      },
+      "encoding": {
+        "x": { "field": "headX", "type": "quantitative", "scale": null },
+        "y": null,
+        "opacity": null,
+        "text": { "field": "headText" }
+      }
+    },
+    {
+      "transform": [{ "filter": "!compact" }],
+      "params": [
+        { "name": "__select__", "select": { "type": "point", "fields": ["domainId", "mode"], "on": "click", "clear": "dblclick" } }
+      ],
+      "mark": { "type": "circle", "stroke": { "expr": "surface" }, "strokeWidth": 1 },
+      "encoding": {
+        "x": { "field": "circleX", "type": "quantitative", "scale": null },
+        "size": {
+          "field": "count",
+          "type": "quantitative",
+          "scale": { "domain": [0, 6], "range": [0, { "expr": "clamp(pow((height - bodyY) / 8, 2) * 0.75, 60, 300)" }], "zero": true }
+        },
+        "color": { "field": "readinessColour", "type": "nominal", "scale": null },
+        "tooltip": [
+          { "field": "domain", "title": "Domain" },
+          { "field": "modeLabel", "title": "Mode" },
+          { "field": "count", "title": "Metrics" },
+          { "field": "live", "title": "Live" },
+          { "field": "partial", "title": "Partial" },
+          { "field": "aspirational", "title": "Aspirational" },
+          { "field": "readinessWord", "title": "Least ready" }
+        ]
+      }
+    },
+    {
+      "transform": [{ "filter": "!compact" }],
+      "mark": { "type": "text", "align": "left", "baseline": "middle", "fontSize": 13, "fontWeight": 700, "color": { "expr": "ink" } },
+      "encoding": { "x": { "field": "countX", "type": "quantitative", "scale": null }, "text": { "field": "count" } }
+    },
+    {
+      "transform": [{ "filter": "!compact" }],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 10,
+        "fontWeight": 600,
+        "color": { "expr": "muted" }
+      },
+      "encoding": { "x": { "field": "wordX", "type": "quantitative", "scale": null }, "text": { "field": "readinessWord" } }
+    },
+    {
+      "transform": [{ "filter": "!compact" }, { "filter": "datum.domainRow === 1" }],
+      "mark": { "type": "text", "align": "left", "baseline": "middle", "fontSize": 13, "color": { "expr": "ink" } },
+      "encoding": { "x": { "field": "sx", "type": "quantitative", "scale": null }, "text": { "field": "domain" } }
+    },
+    {
+      "transform": [{ "filter": "!compact" }, { "filter": "datum.domainRow === 1" }],
+      "mark": { "type": "text", "align": "right", "baseline": "middle", "fontSize": 12.5, "color": { "expr": "muted" } },
+      "encoding": {
+        "x": { "field": "sx2", "type": "quantitative", "scale": null },
+        "text": { "field": "totalLabel" },
+        "tooltip": [
+          { "field": "domain", "title": "Domain" },
+          { "field": "domainTotal", "title": "Metrics" },
+          { "field": "domainLive", "title": "Live" }
+        ]
+      }
+    },
+    {
+      "transform": [
+        { "filter": "compact" },
+        {
+          "aggregate": [
+            { "op": "sum", "field": "count", "as": "cCount" },
+            { "op": "sum", "field": "live", "as": "cLive" },
+            { "op": "sum", "field": "partial", "as": "cPartial" },
+            { "op": "sum", "field": "aspirational", "as": "cAsp" }
+          ],
+          "groupby": ["domainId", "domain", "yMid", "sx", "sx2"]
+        },
+        {
+          "calculate": "datum.cCount + (datum.cCount === 1 ? ' metric · ' : ' metrics · ') + datum.cLive + ' live · ' + datum.cPartial + ' partial · ' + datum.cAsp + ' aspirational'",
+          "as": "countText"
+        },
+        { "calculate": "datum.sx + labelWidth", "as": "countX" },
+        { "calculate": "min(datum.sx2 - 60, datum.sx + labelWidth + 400)", "as": "barX0" },
+        { "calculate": "datum.sx2 - 8", "as": "barX1" },
+        { "calculate": "datum.barX0 + (datum.barX1 - datum.barX0) * datum.cLive / max(1, datum.cCount)", "as": "liveEnd" },
+        { "calculate": "datum.liveEnd + (datum.barX1 - datum.barX0) * datum.cPartial / max(1, datum.cCount)", "as": "partialEnd" },
+        { "calculate": "datum.yMid - 4", "as": "barY0" },
+        { "calculate": "datum.yMid + 4", "as": "barY1" }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "text", "align": "left", "baseline": "middle", "fontSize": 13, "color": { "expr": "ink" }, "limit": { "expr": "labelWidth - 8" } },
+          "encoding": { "x": { "field": "sx", "type": "quantitative", "scale": null }, "text": { "field": "domain" } }
+        },
+        {
+          "mark": { "type": "text", "align": "left", "baseline": "middle", "font": "JetBrains Mono, Consolas, monospace", "fontSize": 12, "color": { "expr": "muted" } },
+          "encoding": { "x": { "field": "countX", "type": "quantitative", "scale": null }, "text": { "field": "countText" } }
+        },
+        {
+          "mark": { "type": "rect", "cornerRadius": 2, "color": { "expr": "sage" } },
+          "encoding": {
+            "x": { "field": "barX0", "type": "quantitative", "scale": null },
+            "x2": { "field": "barX1" },
+            "y": { "field": "barY0", "type": "quantitative", "scale": null },
+            "y2": { "field": "barY1" }
+          }
+        },
+        {
+          "mark": { "type": "rect", "color": { "expr": "amber" } },
+          "encoding": {
+            "x": { "field": "liveEnd", "type": "quantitative", "scale": null },
+            "x2": { "field": "partialEnd" },
+            "y": { "field": "barY0", "type": "quantitative", "scale": null },
+            "y2": { "field": "barY1" }
+          }
+        },
+        {
+          "mark": { "type": "rect", "color": { "expr": "emerald" } },
+          "encoding": {
+            "x": { "field": "barX0", "type": "quantitative", "scale": null },
+            "x2": { "field": "liveEnd" },
+            "y": { "field": "barY0", "type": "quantitative", "scale": null },
+            "y2": { "field": "barY1" }
+          }
+        }
+      ]
+    }
+  ]
+}

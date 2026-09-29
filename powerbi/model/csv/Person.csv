@@ -1,0 +1,341 @@
+PersonKey,Role,RoleGroup,Grade,LabKey,TeamKey,Employment,IsLead,LeadLevel,ParentKey,LabName,LabCode,LabColour,UnitName
+P001,Platform lead,Leadership,5,,,permanent,true,1,,,,,Platform
+P002,Lab lead,Leadership,5,core,,permanent,true,2,P001,24*7 Services,24,#1E5B4F,24*7 Services
+P003,Team lead,Leadership,4,core,portal,permanent,true,3,P002,24*7 Services,24,#1E5B4F,Customer Portal
+P004,Product manager,Product and delivery,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P005,Delivery manager,Product and delivery,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P006,Architect,Engineering,4,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P007,SRE,SRE and operations,2,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P008,QA engineer,QA,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P009,SRE,SRE and operations,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P010,Senior engineer,Engineering,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P011,Engineer,Engineering,1,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P012,Engineer,Engineering,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P013,QA engineer,QA,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P014,QA engineer,QA,3,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P015,Data engineer,Data,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P016,SRE,SRE and operations,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P017,SRE,SRE and operations,2,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P018,Engineer,Engineering,1,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P019,Data engineer,Data,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P020,SRE,SRE and operations,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P021,Engineer,Engineering,3,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P022,Engineer,Engineering,1,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P023,QA engineer,QA,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P024,Engineer,Engineering,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P025,Data engineer,Data,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P026,SRE,SRE and operations,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P027,SRE,SRE and operations,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P028,Engineer,Engineering,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P029,Engineer,Engineering,1,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P030,Engineer,Engineering,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P031,SRE,SRE and operations,2,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P032,Engineer,Engineering,3,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P033,Senior engineer,Engineering,3,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P034,Engineer,Engineering,2,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P035,SRE,SRE and operations,1,core,portal,permanent,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P036,SRE,SRE and operations,3,core,portal,contractor,false,0,P003,24*7 Services,24,#1E5B4F,Customer Portal
+P037,Team lead,Leadership,4,core,claims,permanent,true,3,P002,24*7 Services,24,#1E5B4F,Claims Intake
+P038,Product manager,Product and delivery,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P039,Delivery manager,Product and delivery,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P040,Architect,Engineering,4,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P041,SRE,SRE and operations,2,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P042,Engineer,Engineering,2,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P043,SRE,SRE and operations,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P044,SRE,SRE and operations,2,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P045,Engineer,Engineering,1,core,claims,contractor,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P046,Engineer,Engineering,2,core,claims,contractor,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P047,SRE,SRE and operations,2,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P048,Senior engineer,Engineering,3,core,claims,contractor,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P049,SRE,SRE and operations,2,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P050,SRE,SRE and operations,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P051,QA engineer,QA,2,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P052,QA engineer,QA,2,core,claims,contractor,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P053,Data engineer,Data,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P054,Engineer,Engineering,1,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P055,Engineer,Engineering,2,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P056,Engineer,Engineering,1,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P057,SRE,SRE and operations,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P058,Senior engineer,Engineering,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P059,Data engineer,Data,3,core,claims,contractor,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P060,Senior engineer,Engineering,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P061,SRE,SRE and operations,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P062,Engineer,Engineering,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P063,SRE,SRE and operations,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P064,Engineer,Engineering,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P065,Data engineer,Data,1,core,claims,contractor,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P066,Engineer,Engineering,3,core,claims,permanent,false,0,P037,24*7 Services,24,#1E5B4F,Claims Intake
+P067,Team lead,Leadership,4,core,policy,permanent,true,3,P002,24*7 Services,24,#1E5B4F,Policy Servicing
+P068,Product manager,Product and delivery,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P069,Delivery manager,Product and delivery,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P070,Architect,Engineering,4,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P071,Engineer,Engineering,2,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P072,Engineer,Engineering,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P073,Engineer,Engineering,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P074,SRE,SRE and operations,3,core,policy,contractor,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P075,Senior engineer,Engineering,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P076,Engineer,Engineering,2,core,policy,contractor,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P077,SRE,SRE and operations,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P078,Engineer,Engineering,2,core,policy,contractor,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P079,SRE,SRE and operations,1,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P080,Analyst,Data,1,core,policy,contractor,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P081,Engineer,Engineering,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P082,Engineer,Engineering,1,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P083,Senior engineer,Engineering,3,core,policy,contractor,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P084,Engineer,Engineering,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P085,QA engineer,QA,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P086,SRE,SRE and operations,2,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P087,Engineer,Engineering,2,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P088,SRE,SRE and operations,3,core,policy,permanent,false,0,P067,24*7 Services,24,#1E5B4F,Policy Servicing
+P089,Lab lead,Leadership,5,customer,,permanent,true,2,P001,Colleague Tooling,CT,#8E5E48,Colleague Tooling
+P090,Team lead,Leadership,4,customer,digital,permanent,true,3,P089,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P091,Product manager,Product and delivery,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P092,Delivery manager,Product and delivery,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P093,Architect,Engineering,4,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P094,Senior engineer,Engineering,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P095,Engineer,Engineering,2,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P096,Analyst,Data,1,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P097,Senior engineer,Engineering,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P098,Analyst,Data,1,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P099,SRE,SRE and operations,2,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P100,Analyst,Data,2,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P101,Analyst,Data,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P102,Analyst,Data,2,customer,digital,contractor,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P103,QA engineer,QA,1,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P104,Engineer,Engineering,1,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P105,QA engineer,QA,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P106,Engineer,Engineering,2,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P107,Engineer,Engineering,2,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P108,Engineer,Engineering,1,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P109,Engineer,Engineering,1,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P110,Engineer,Engineering,1,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P111,Engineer,Engineering,1,customer,digital,contractor,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P112,Analyst,Data,2,customer,digital,contractor,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P113,QA engineer,QA,2,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P114,Engineer,Engineering,2,customer,digital,contractor,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P115,QA engineer,QA,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P116,Senior engineer,Engineering,3,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P117,Engineer,Engineering,2,customer,digital,permanent,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P118,Engineer,Engineering,1,customer,digital,contractor,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P119,Data engineer,Data,2,customer,digital,contractor,false,0,P090,Colleague Tooling,CT,#8E5E48,Adviser Workbench
+P120,Team lead,Leadership,4,customer,onboarding,permanent,true,3,P089,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P121,Product manager,Product and delivery,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P122,Delivery manager,Product and delivery,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P123,Architect,Engineering,4,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P124,QA engineer,QA,2,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P125,Senior engineer,Engineering,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P126,QA engineer,QA,2,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P127,Engineer,Engineering,1,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P128,Senior engineer,Engineering,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P129,Engineer,Engineering,2,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P130,Engineer,Engineering,1,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P131,Data engineer,Data,3,customer,onboarding,contractor,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P132,Senior engineer,Engineering,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P133,Data engineer,Data,1,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P134,QA engineer,QA,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P135,Analyst,Data,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P136,Engineer,Engineering,1,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P137,Analyst,Data,3,customer,onboarding,contractor,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P138,Engineer,Engineering,2,customer,onboarding,contractor,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P139,Engineer,Engineering,1,customer,onboarding,contractor,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P140,Analyst,Data,2,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P141,Senior engineer,Engineering,3,customer,onboarding,permanent,false,0,P120,Colleague Tooling,CT,#8E5E48,Underwriting Desk
+P142,Team lead,Leadership,4,customer,contact,permanent,true,3,P089,Colleague Tooling,CT,#8E5E48,Contact Centre
+P143,Product manager,Product and delivery,3,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P144,Delivery manager,Product and delivery,3,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P145,Architect,Engineering,4,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P146,Engineer,Engineering,1,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P147,Engineer,Engineering,1,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P148,Analyst,Data,3,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P149,Analyst,Data,2,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P150,QA engineer,QA,3,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P151,Engineer,Engineering,1,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P152,QA engineer,QA,2,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P153,Engineer,Engineering,2,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P154,Engineer,Engineering,1,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P155,Analyst,Data,3,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P156,SRE,SRE and operations,3,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P157,QA engineer,QA,2,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P158,Engineer,Engineering,1,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P159,Engineer,Engineering,2,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P160,Engineer,Engineering,3,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P161,QA engineer,QA,3,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P162,Engineer,Engineering,2,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P163,Engineer,Engineering,1,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P164,Engineer,Engineering,1,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P165,Analyst,Data,3,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P166,Senior engineer,Engineering,3,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P167,QA engineer,QA,3,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P168,Engineer,Engineering,2,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P169,QA engineer,QA,1,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P170,Analyst,Data,2,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P171,Engineer,Engineering,2,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P172,Data engineer,Data,3,customer,contact,contractor,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P173,Analyst,Data,1,customer,contact,permanent,false,0,P142,Colleague Tooling,CT,#8E5E48,Contact Centre
+P174,Lab lead,Leadership,5,payments,,permanent,true,2,P001,Agentic Operations,AO,#44618A,Agentic Operations
+P175,Team lead,Leadership,4,payments,automation,permanent,true,3,P174,Agentic Operations,AO,#44618A,Automation Platform
+P176,Product manager,Product and delivery,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P177,Delivery manager,Product and delivery,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P178,Architect,Engineering,4,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P179,Engineer,Engineering,2,payments,automation,contractor,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P180,SRE,SRE and operations,1,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P181,Senior engineer,Engineering,3,payments,automation,contractor,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P182,QA engineer,QA,2,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P183,QA engineer,QA,1,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P184,SRE,SRE and operations,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P185,Senior engineer,Engineering,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P186,Senior engineer,Engineering,3,payments,automation,contractor,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P187,Senior engineer,Engineering,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P188,Senior engineer,Engineering,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P189,Engineer,Engineering,2,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P190,Engineer,Engineering,2,payments,automation,contractor,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P191,Engineer,Engineering,2,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P192,Analyst,Data,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P193,Engineer,Engineering,2,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P194,Senior engineer,Engineering,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P195,QA engineer,QA,1,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P196,SRE,SRE and operations,1,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P197,Analyst,Data,2,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P198,Engineer,Engineering,1,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P199,Data engineer,Data,3,payments,automation,contractor,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P200,SRE,SRE and operations,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P201,Senior engineer,Engineering,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P202,Engineer,Engineering,3,payments,automation,permanent,false,0,P175,Agentic Operations,AO,#44618A,Automation Platform
+P203,Team lead,Leadership,4,payments,agents,permanent,true,3,P174,Agentic Operations,AO,#44618A,Agent Runtime
+P204,Product manager,Product and delivery,3,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P205,Delivery manager,Product and delivery,3,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P206,Architect,Engineering,4,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P207,SRE,SRE and operations,2,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P208,SRE,SRE and operations,1,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P209,Engineer,Engineering,1,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P210,Engineer,Engineering,3,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P211,Engineer,Engineering,1,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P212,Engineer,Engineering,2,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P213,SRE,SRE and operations,2,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P214,Engineer,Engineering,1,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P215,Engineer,Engineering,3,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P216,Engineer,Engineering,3,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P217,SRE,SRE and operations,1,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P218,Engineer,Engineering,2,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P219,SRE,SRE and operations,2,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P220,Senior engineer,Engineering,3,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P221,Engineer,Engineering,1,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P222,Engineer,Engineering,1,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P223,Senior engineer,Engineering,3,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P224,Senior engineer,Engineering,3,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P225,Data engineer,Data,1,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P226,Senior engineer,Engineering,3,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P227,Senior engineer,Engineering,3,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P228,SRE,SRE and operations,3,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P229,SRE,SRE and operations,3,payments,agents,contractor,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P230,Engineer,Engineering,2,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P231,SRE,SRE and operations,1,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P232,Engineer,Engineering,1,payments,agents,permanent,false,0,P203,Agentic Operations,AO,#44618A,Agent Runtime
+P233,Team lead,Leadership,4,payments,observability,permanent,true,3,P174,Agentic Operations,AO,#44618A,Observability
+P234,Product manager,Product and delivery,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P235,Delivery manager,Product and delivery,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P236,Architect,Engineering,4,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P237,Engineer,Engineering,2,payments,observability,contractor,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P238,Engineer,Engineering,1,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P239,Engineer,Engineering,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P240,Senior engineer,Engineering,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P241,Engineer,Engineering,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P242,Engineer,Engineering,1,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P243,SRE,SRE and operations,2,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P244,QA engineer,QA,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P245,Engineer,Engineering,1,payments,observability,contractor,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P246,Engineer,Engineering,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P247,Engineer,Engineering,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P248,Engineer,Engineering,2,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P249,Data engineer,Data,2,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P250,QA engineer,QA,1,payments,observability,contractor,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P251,Data engineer,Data,3,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P252,Engineer,Engineering,1,payments,observability,contractor,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P253,Engineer,Engineering,1,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P254,SRE,SRE and operations,1,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P255,Data engineer,Data,1,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P256,QA engineer,QA,1,payments,observability,permanent,false,0,P233,Agentic Operations,AO,#44618A,Observability
+P257,Lab lead,Leadership,5,data,,permanent,true,2,P001,Data & Insights,DI,#1A6F7C,Data & Insights
+P258,Team lead,Leadership,4,data,warehouse,permanent,true,3,P257,Data & Insights,DI,#1A6F7C,Data Platform
+P259,Product manager,Product and delivery,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P260,Delivery manager,Product and delivery,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P261,Architect,Engineering,4,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P262,Data engineer,Data,2,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P263,Analyst,Data,3,data,warehouse,contractor,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P264,Senior engineer,Engineering,3,data,warehouse,contractor,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P265,Data engineer,Data,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P266,Engineer,Engineering,1,data,warehouse,contractor,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P267,Analyst,Data,2,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P268,Data engineer,Data,2,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P269,Senior engineer,Engineering,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P270,Engineer,Engineering,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P271,Senior engineer,Engineering,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P272,Senior engineer,Engineering,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P273,Data engineer,Data,2,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P274,Analyst,Data,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P275,Analyst,Data,2,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P276,Data engineer,Data,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P277,Analyst,Data,3,data,warehouse,contractor,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P278,Data engineer,Data,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P279,Data engineer,Data,2,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P280,Data engineer,Data,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P281,Data engineer,Data,3,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P282,Data engineer,Data,3,data,warehouse,contractor,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P283,Data engineer,Data,2,data,warehouse,permanent,false,0,P258,Data & Insights,DI,#1A6F7C,Data Platform
+P284,Team lead,Leadership,4,data,analytics,permanent,true,3,P257,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P285,Product manager,Product and delivery,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P286,Delivery manager,Product and delivery,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P287,Architect,Engineering,4,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P288,Senior engineer,Engineering,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P289,QA engineer,QA,1,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P290,Analyst,Data,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P291,Data engineer,Data,2,data,analytics,contractor,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P292,Analyst,Data,2,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P293,Data engineer,Data,2,data,analytics,contractor,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P294,Data engineer,Data,3,data,analytics,contractor,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P295,QA engineer,QA,1,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P296,Data engineer,Data,2,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P297,Analyst,Data,3,data,analytics,contractor,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P298,Data engineer,Data,1,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P299,Analyst,Data,2,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P300,Data engineer,Data,2,data,analytics,contractor,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P301,Senior engineer,Engineering,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P302,Analyst,Data,2,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P303,Data engineer,Data,1,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P304,QA engineer,QA,1,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P305,Analyst,Data,2,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P306,Senior engineer,Engineering,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P307,Senior engineer,Engineering,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P308,Analyst,Data,3,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P309,Data engineer,Data,2,data,analytics,contractor,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P310,Data engineer,Data,1,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P311,Data engineer,Data,2,data,analytics,permanent,false,0,P284,Data & Insights,DI,#1A6F7C,Actuarial Analytics
+P312,Team lead,Leadership,4,data,reporting,permanent,true,3,P257,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P313,Product manager,Product and delivery,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P314,Delivery manager,Product and delivery,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P315,Architect,Engineering,4,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P316,QA engineer,QA,2,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P317,Data engineer,Data,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P318,Data engineer,Data,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P319,Senior engineer,Engineering,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P320,Senior engineer,Engineering,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P321,Analyst,Data,1,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P322,QA engineer,QA,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P323,Engineer,Engineering,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P324,Engineer,Engineering,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P325,Engineer,Engineering,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P326,Engineer,Engineering,1,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P327,Senior engineer,Engineering,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P328,Senior engineer,Engineering,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P329,Data engineer,Data,2,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P330,Data engineer,Data,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P331,Senior engineer,Engineering,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P332,Analyst,Data,2,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P333,Engineer,Engineering,1,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P334,Data engineer,Data,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P335,Senior engineer,Engineering,3,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P336,Engineer,Engineering,1,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P337,QA engineer,QA,3,data,reporting,contractor,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P338,Data engineer,Data,2,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P339,Analyst,Data,2,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting
+P340,SRE,SRE and operations,1,data,reporting,permanent,false,0,P312,Data & Insights,DI,#1A6F7C,Regulatory Reporting

@@ -1,0 +1,94 @@
+table Page
+	lineageTag: 9ef85be0-e4bf-5607-9335-ba391291d4e0
+
+	column PageKey
+		dataType: string
+		lineageTag: 44ab218f-27f5-5f97-b57c-a564566222b8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [PageKey]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Kicker
+		dataType: string
+		lineageTag: 250f6540-16e0-53aa-8200-d4fac13b0f3b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Kicker]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Title
+		dataType: string
+		lineageTag: 2f138aa6-d79e-56e4-8c65-78a1ea7d675c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Title]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportName
+		dataType: string
+		lineageTag: c6ba8e4e-a14e-5b9e-8595-1fc42f2130ea
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ReportName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column PageName
+		dataType: string
+		lineageTag: a9760a85-64dd-5f21-8d62-0ffc48aabced
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [PageName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 448e474a-bfa2-53f1-8a77-50eed68284d3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Page = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "PageKey", STRING,
+				    "Kicker", STRING,
+				    "Title", STRING,
+				    "ReportName", STRING,
+				    "PageName", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        { "overview", "Executive summary · Overview", "Where the platform stands today", "Executive summary", "Overview", 1 },
+				        { "labs", "Executive summary · Labs and teams", "How each lab and team is holding up", "Executive summary", "Labs and teams", 2 },
+				        { "actions", "Executive summary · Actions", "What needs doing", "Executive summary", "Actions", 3 },
+				        { "movement", "Executive summary · Movement", "What moved and why", "Executive summary", "Movement", 4 },
+				        { "stability", "Operations · Stability", "Stability", "Operations", "Stability", 5 },
+				        { "incidents", "Operations · Incidents", "Incidents", "Operations", "Incidents", 6 },
+				        { "problems", "Operations · Problems", "Problems", "Operations", "Problems", 7 },
+				        { "change", "Operations · Change", "Change", "Operations", "Change", 8 },
+				        { "maturity", "Operations · Maturity", "Maturity", "Operations", "Maturity", 9 },
+				        { "operability", "Operations · Operability", "Operability", "Operations", "Operability", 10 },
+				        { "risk", "Risk and control · Risk", "Risk", "Risk and control", "Risk", 11 },
+				        { "security", "Risk and control · Security", "Security", "Risk and control", "Security", 12 },
+				        { "resilience", "Risk and control · Resilience", "Resilience", "Risk and control", "Resilience", 13 },
+				        { "governance", "Risk and control · Governance", "Governance", "Risk and control", "Governance", 14 },
+				        { "architecture", "Architecture and estate · Architecture", "Architecture", "Architecture and estate", "Architecture", 15 },
+				        { "estate", "Architecture and estate · Estate", "Estate", "Architecture and estate", "Estate", 16 },
+				        { "cost", "Architecture and estate · Cost", "Cost", "Architecture and estate", "Cost", 17 },
+				        { "delivery", "Delivery and people · Delivery", "Delivery", "Delivery and people", "Delivery", 18 },
+				        { "people", "Delivery and people · People", "People", "Delivery and people", "People", 19 },
+				        { "people-structure", "Delivery and people · Structure and skills", "Who we have and what they can do", "Delivery and people", "Structure and skills", 20 },
+				        { "lineage", "Data and sources · Lineage", "Where every number comes from", "Data and sources", "Lineage", 21 }
+				    }
+				)
+
+	annotation PBI_ResultType = Table

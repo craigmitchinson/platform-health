@@ -1,0 +1,127 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A page header: the mono kicker, the serif title and the one-sentence headline, wrapped to two lines within a text column of up to 1284px; the logo placeholder sits at the far right of the block.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "showLogo", "value": true },
+    { "name": "logoRoom", "expr": "showLogo ? 140 : 0" },
+    { "name": "textWidth", "expr": "min(1284, width - logoRoom)" },
+    { "name": "headlineChars", "expr": "max(20, floor(textWidth / 10.4))" }
+  ],
+  "transform": [
+    { "window": [{ "op": "row_number", "as": "rowNo" }], "sort": [{ "field": "title", "order": "ascending" }] },
+    { "filter": "datum.rowNo === 1" },
+    { "calculate": "upper(datum.kicker + '')", "as": "kickerText" },
+    { "calculate": "datum.headline + ''", "as": "headlineText" },
+    {
+      "calculate": "length(datum.headlineText) <= headlineChars ? -1 : lastindexof(substring(datum.headlineText, 0, headlineChars + 1), ' ')",
+      "as": "breakAt"
+    },
+    {
+      "calculate": "datum.breakAt <= 0 ? [datum.headlineText] : [substring(datum.headlineText, 0, datum.breakAt), substring(datum.headlineText, datum.breakAt + 1)]",
+      "as": "headlineLines"
+    }
+  ],
+  "encoding": {
+    "tooltip": [
+      { "field": "title", "title": "Page" },
+      { "field": "headlineText", "title": "Headline" }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "text",
+        "x": 0,
+        "y": 0,
+        "align": "left",
+        "baseline": "top",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "color": { "expr": "muted" },
+        "limit": { "expr": "textWidth" }
+      },
+      "encoding": { "text": { "field": "kickerText" } }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "x": 0,
+        "y": 24,
+        "align": "left",
+        "baseline": "top",
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 46,
+        "fontWeight": 700,
+        "color": { "expr": "ink" },
+        "limit": { "expr": "textWidth" }
+      },
+      "encoding": { "text": { "field": "title" } }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "x": 0,
+        "y": 78,
+        "align": "left",
+        "baseline": "top",
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 20,
+        "lineHeight": 26,
+        "color": { "expr": "ink" },
+        "limit": { "expr": "textWidth" }
+      },
+      "encoding": { "text": { "field": "headlineLines" } }
+    },
+    {
+      "data": { "values": [{ "logo": "LOGO" }] },
+      "transform": [{ "filter": "showLogo" }],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "x": { "expr": "width - 120" },
+            "x2": { "expr": "width" },
+            "y": 0,
+            "y2": 40,
+            "cornerRadius": 8,
+            "fill": { "expr": "surface" },
+            "stroke": { "expr": "line" },
+            "strokeWidth": 1
+          },
+          "encoding": { "tooltip": null }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": { "expr": "width - 60" },
+            "y": 20,
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": { "expr": "muted" }
+          },
+          "encoding": { "text": { "field": "logo" }, "tooltip": null }
+        }
+      ]
+    }
+  ]
+}

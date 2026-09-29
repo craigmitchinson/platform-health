@@ -1,0 +1,7 @@
+{
+  "sample": "readouts.json",
+  "container": "card",
+  "sampleFilter": { "domainId": "stability" },
+  "width": 600,
+  "height": 150
+}

@@ -1,0 +1,6 @@
+{
+  "sample": "readiness.json",
+  "container": "card",
+  "width": 1000,
+  "height": 220
+}

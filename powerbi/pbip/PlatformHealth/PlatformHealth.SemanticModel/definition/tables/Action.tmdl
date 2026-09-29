@@ -1,0 +1,107 @@
+table Action
+	lineageTag: 0a21a2d6-bbd1-5304-bfcf-731a8d0e0e22
+
+	column ActionKey
+		dataType: string
+		lineageTag: 263e9f26-80bd-597b-a809-45333fd7735c
+		summarizeBy: none
+		sourceColumn: ActionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainKey
+		dataType: string
+		lineageTag: e59a1936-82fe-5c94-b846-88486660644b
+		summarizeBy: none
+		sourceColumn: DomainKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamKey
+		dataType: string
+		lineageTag: b1280056-8342-56f8-aa8a-a81d3c436406
+		summarizeBy: none
+		sourceColumn: TeamKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: bb2da06b-81bc-5643-80e4-568b2c47032a
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDate
+		dataType: dateTime
+		formatString: d mmm yyyy
+		lineageTag: f0e6ae3a-2560-550b-b3b7-a9fb92175750
+		summarizeBy: none
+		sourceColumn: DueDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Severity
+		dataType: string
+		lineageTag: 4694acca-bb8a-581a-9ef9-34fe24e4afce
+		summarizeBy: none
+		sourceColumn: Severity
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainName = RELATED ( 'Domain'[DomainName] )
+		dataType: string
+		lineageTag: 951ffbf1-74e3-55af-921c-c405f5d16d94
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamName = RELATED ( 'Team'[TeamName] )
+		dataType: string
+		lineageTag: f888d037-eee8-55b2-b840-fc9666276b95
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabName = RELATED ( 'Lab'[LabName] )
+		dataType: string
+		lineageTag: dbf3046a-3d7d-52bb-8cc0-43d3c0619f90
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status = SWITCH ( 'Action'[Severity], "act", "Act", "watch", "Watch", 'Action'[Severity] )
+		dataType: string
+		lineageTag: 8c7fc6ce-4d2d-5edf-87ff-39b1c4363c06
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabCode = RELATED ( 'Lab'[LabCode] )
+		dataType: string
+		lineageTag: e1682d2e-e5e7-56cf-b06e-298d1c8e1efe
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabColour = RELATED ( 'Lab'[LabColour] )
+		dataType: string
+		lineageTag: ca6b4a30-318e-5e5c-8e04-afb06ed7bf32
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Action = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Action.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"ActionKey", type text}, {"DomainKey", type text}, {"TeamKey", type text}, {"Description", type text}, {"DueDate", type date}, {"Severity", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

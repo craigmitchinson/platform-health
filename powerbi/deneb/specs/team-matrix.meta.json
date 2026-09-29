@@ -1,0 +1,7 @@
+{
+  "sample": "teammatrix.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "width": 1284,
+  "height": 420
+}

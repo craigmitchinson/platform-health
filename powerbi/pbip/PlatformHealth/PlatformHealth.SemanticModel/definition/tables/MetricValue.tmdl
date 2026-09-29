@@ -1,0 +1,47 @@
+table MetricValue
+	lineageTag: 80e67804-13c3-5a4e-a0c1-4a7ebb3b62c7
+
+	column TeamKey
+		dataType: string
+		lineageTag: 7e29909d-b9ed-5076-8ecb-88f656ebb361
+		summarizeBy: none
+		sourceColumn: TeamKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricKey
+		dataType: string
+		lineageTag: e348c029-ca9c-5a10-8b47-4942174f572e
+		summarizeBy: none
+		sourceColumn: MetricKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c67b49f8-4aab-5ae4-aae9-f90f3d06c48e
+		summarizeBy: none
+		sourceColumn: QuarterKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 12b74b96-ec54-5158-8f25-77260e414ea2
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MetricValue = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\MetricValue.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"TeamKey", type text}, {"MetricKey", type text}, {"QuarterKey", Int64.Type}, {"Value", type number}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

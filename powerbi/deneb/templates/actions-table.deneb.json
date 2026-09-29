@@ -1,0 +1,781 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health actions-table",
+      "description": "The Actions page table: open actions by severity then due date with domain, team, lab chip (chip only; the page's lab legend names the chips), description, due date and a status pill, as many rows as fit at 28px, with dividers only.",
+      "author": "Platform Health contributors",
+      "uuid": "a81c3b93-c08c-5389-8e49-e545b07346cf",
+      "generated": "2026-09-29T16:31:25.268Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "actionId",
+        "description": "Selection key and final sort key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "domain",
+        "description": "Domain name",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "team",
+        "description": "Team name",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "lab",
+        "description": "Lab name, in the tooltip and the chip fallback",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__6__",
+        "name": "description",
+        "description": "The action",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__7__",
+        "name": "due",
+        "description": "Due date",
+        "type": "dateTime",
+        "kind": "column"
+      },
+      {
+        "key": "__8__",
+        "name": "severity",
+        "description": "`act` or `watch`",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__9__",
+        "name": "daysFromRefresh",
+        "description": "Optional; the spec falls back when it is not bound. Optional; below zero marks the date past due",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "The Actions page table: open actions by severity then due date with domain, team, lab chip (chip only; the page's lab legend names the chips), description, due date and a status pill, as many rows as fit at 28px, with dividers only.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "rowH",
+      "value": 28
+    },
+    {
+      "name": "headY",
+      "value": 28
+    },
+    {
+      "name": "bodyY",
+      "value": 40
+    },
+    {
+      "name": "teamX",
+      "value": 140
+    },
+    {
+      "name": "labX",
+      "value": 350
+    },
+    {
+      "name": "actionX",
+      "value": 410
+    },
+    {
+      "name": "dueW",
+      "value": 150
+    },
+    {
+      "name": "statusW",
+      "value": 100
+    },
+    {
+      "name": "fit",
+      "expr": "max(1, floor((height - bodyY) / rowH))"
+    },
+    {
+      "name": "title",
+      "value": "OPEN ACTIONS"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "calculate": "time(toDate(datum['__7__']))",
+      "as": "dueTime"
+    },
+    {
+      "calculate": "datum['__8__'] === 'act' ? 0 : 1",
+      "as": "sevRank"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "sevRank",
+          "order": "ascending"
+        },
+        {
+          "field": "dueTime",
+          "order": "ascending"
+        },
+        {
+          "field": "__0__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "count",
+          "as": "total"
+        }
+      ]
+    },
+    {
+      "calculate": "min(datum.total, fit)",
+      "as": "shown"
+    }
+  ],
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.rank === 1"
+        },
+        {
+          "calculate": "datum.shown < datum.total ? 'Open actions by severity then due date, showing first ' + datum.shown + ' of ' + datum.total : 'Open actions by severity then due date'",
+          "as": "caption"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "x": 0,
+        "y": 8,
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "caption"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "head": "DOMAIN",
+            "fromRight": 0,
+            "at": 0
+          },
+          {
+            "head": "TEAM",
+            "fromRight": 0,
+            "at": 140
+          },
+          {
+            "head": "LAB",
+            "fromRight": 0,
+            "at": 350
+          },
+          {
+            "head": "ACTION",
+            "fromRight": 0,
+            "at": 410
+          },
+          {
+            "head": "DUE",
+            "fromRight": 1,
+            "at": 250
+          },
+          {
+            "head": "STATUS",
+            "fromRight": 1,
+            "at": 100
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "datum.fromRight === 1 ? width - datum.at : datum.at",
+          "as": "headX"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "y": {
+          "expr": "headY"
+        },
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "headX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "head"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "rule": 1
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "x": 0,
+        "x2": {
+          "expr": "width"
+        },
+        "color": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "transform": [
+        {
+          "calculate": "bodyY - 0.5",
+          "as": "ruleY"
+        }
+      ],
+      "encoding": {
+        "y": {
+          "field": "ruleY",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.rank <= datum.shown"
+        },
+        {
+          "calculate": "bodyY + (datum.rank - 1) * rowH",
+          "as": "y0"
+        },
+        {
+          "calculate": "datum.y0 + rowH",
+          "as": "y1"
+        },
+        {
+          "calculate": "datum.y0 + rowH / 2",
+          "as": "yMid"
+        },
+        {
+          "calculate": "timeFormat(datum.dueTime, '%-d %b %Y') + (isValid(datum['__9__']) && toNumber(datum['__9__']) < 0 ? ' · past due' : '')",
+          "as": "dueText"
+        },
+        {
+          "calculate": "datum['__8__'] === 'act' ? 'ACT' : 'WATCH'",
+          "as": "sevWord"
+        },
+        {
+          "calculate": "datum['__8__'] === 'act' ? red : amber",
+          "as": "sevKey"
+        },
+        {
+          "calculate": "datum['__8__'] === 'act' ? badFill : warnFill",
+          "as": "sevFill"
+        },
+        {
+          "calculate": "isValid(datum['__4__']) && datum['__4__'] !== '' ? datum['__4__'] + '' : upper(substring(datum['__3__'] + '', 0, 2))",
+          "as": "chipCode"
+        },
+        {
+          "calculate": "isValid(datum['__5__']) && datum['__5__'] !== '' ? datum['__5__'] + '' : muted",
+          "as": "chipColour"
+        },
+        {
+          "calculate": "width - dueW - statusW",
+          "as": "dueX"
+        },
+        {
+          "calculate": "width - statusW",
+          "as": "statusX"
+        }
+      ],
+      "encoding": {
+        "y": {
+          "field": "yMid",
+          "type": "quantitative",
+          "scale": null
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      },
+      "layer": [
+        {
+          "params": [
+            {
+              "name": "__select__",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "__0__"
+                ],
+                "on": "click",
+                "clear": "dblclick"
+              }
+            }
+          ],
+          "mark": {
+            "type": "rect",
+            "x": 0,
+            "x2": {
+              "expr": "width"
+            },
+            "fill": "transparent"
+          },
+          "encoding": {
+            "y": {
+              "field": "y0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "y1"
+            },
+            "tooltip": [
+              {
+                "field": "__1__",
+                "title": "Domain"
+              },
+              {
+                "field": "__2__",
+                "title": "Team"
+              },
+              {
+                "field": "__3__",
+                "title": "Lab"
+              },
+              {
+                "field": "__6__",
+                "title": "Action"
+              },
+              {
+                "field": "dueText",
+                "title": "Due"
+              },
+              {
+                "field": "sevWord",
+                "title": "Status"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "rule",
+            "x": 0,
+            "x2": {
+              "expr": "width"
+            },
+            "color": {
+              "expr": "line"
+            },
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "y": {
+              "field": "y1",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": 0,
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 13.5,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": 130
+          },
+          "encoding": {
+            "text": {
+              "field": "__1__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "teamX"
+            },
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 13.5,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "labX - teamX - 10"
+            }
+          },
+          "encoding": {
+            "text": {
+              "field": "__2__"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "calculate": "datum.yMid - 9",
+              "as": "chipY"
+            },
+            {
+              "calculate": "datum.yMid + 9",
+              "as": "chipY2"
+            }
+          ],
+          "mark": {
+            "type": "rect",
+            "x": {
+              "expr": "labX"
+            },
+            "x2": {
+              "expr": "labX + 22"
+            },
+            "cornerRadius": 4
+          },
+          "encoding": {
+            "y": {
+              "field": "chipY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "chipY2"
+            },
+            "color": {
+              "field": "chipColour",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "labX + 11"
+            },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": {
+              "expr": "surface"
+            }
+          },
+          "encoding": {
+            "text": {
+              "field": "chipCode"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "actionX"
+            },
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 13.5,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "max(40, width - actionX - dueW - statusW - 10)"
+            }
+          },
+          "encoding": {
+            "text": {
+              "field": "__6__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 13.5,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": 140
+          },
+          "encoding": {
+            "x": {
+              "field": "dueX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "dueText"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "calculate": "30 + length(datum.sevWord) * 7",
+              "as": "pillW"
+            },
+            {
+              "calculate": "datum.statusX + datum.pillW",
+              "as": "pillX2"
+            },
+            {
+              "calculate": "datum.yMid - 10",
+              "as": "pillY"
+            },
+            {
+              "calculate": "datum.yMid + 10",
+              "as": "pillY2"
+            },
+            {
+              "calculate": "datum.statusX + 12",
+              "as": "pillDotX"
+            },
+            {
+              "calculate": "datum.statusX + 21",
+              "as": "pillTextX"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "rect",
+                "cornerRadius": 10,
+                "strokeWidth": 1,
+                "strokeOpacity": 0.35
+              },
+              "encoding": {
+                "x": {
+                  "field": "statusX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "x2": {
+                  "field": "pillX2"
+                },
+                "y": {
+                  "field": "pillY",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "y2": {
+                  "field": "pillY2"
+                },
+                "fill": {
+                  "field": "sevFill",
+                  "type": "nominal",
+                  "scale": null
+                },
+                "stroke": {
+                  "field": "sevKey",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "circle",
+                "size": 50
+              },
+              "encoding": {
+                "x": {
+                  "field": "pillDotX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "color": {
+                  "field": "sevKey",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "font": "JetBrains Mono, Consolas, monospace",
+                "fontSize": 11.5,
+                "fontWeight": 600,
+                "color": {
+                  "expr": "ink"
+                }
+              },
+              "encoding": {
+                "x": {
+                  "field": "pillTextX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "text": {
+                  "field": "sevWord"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

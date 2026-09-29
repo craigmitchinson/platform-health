@@ -1,0 +1,7 @@
+{
+  "sample": "grid.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "width": 1824,
+  "height": 250
+}

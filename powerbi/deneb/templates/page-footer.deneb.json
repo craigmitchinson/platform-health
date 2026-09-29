@@ -1,0 +1,150 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health page-footer",
+      "description": "Page footer: a line-coloured rule along the top, the report and page on the left and the page's source systems with their last refresh on the right, both in muted mono.",
+      "author": "Platform Health contributors",
+      "uuid": "afa7b0bd-b46d-5469-a65d-8d75ef123499",
+      "generated": "2026-09-29T15:39:18.905Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "left",
+        "description": "",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__1__",
+        "name": "sources",
+        "description": "",
+        "type": "text",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Page footer: a line-coloured rule along the top, the report and page on the left and the page's source systems with their last refresh on the right, both in muted mono.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "padding": 0,
+  "params": [
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    }
+  ],
+  "transform": [
+    {
+      "filter": "isValid(datum['__0__']) || isValid(datum['__1__'])"
+    },
+    {
+      "calculate": "isValid(datum['__0__']) ? datum['__0__'] + '' : ''",
+      "as": "leftText"
+    },
+    {
+      "calculate": "isValid(datum['__1__']) ? datum['__1__'] + '' : ''",
+      "as": "sourcesText"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "x": 0,
+        "x2": {
+          "expr": "width"
+        },
+        "y": 0.5,
+        "strokeWidth": 1,
+        "color": {
+          "expr": "line"
+        }
+      },
+      "encoding": {
+        "tooltip": null
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "x": 0,
+        "y": {
+          "expr": "height / 2 + 2"
+        },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "color": {
+          "expr": "muted"
+        },
+        "limit": {
+          "expr": "width * 0.3"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "leftText"
+        },
+        "tooltip": null
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "x": {
+          "expr": "width"
+        },
+        "y": {
+          "expr": "height / 2 + 2"
+        },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "color": {
+          "expr": "muted"
+        },
+        "limit": {
+          "expr": "width * 0.68"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "sourcesText"
+        },
+        "tooltip": [
+          {
+            "field": "sourcesText",
+            "title": "Sources"
+          }
+        ]
+      }
+    }
+  ]
+}

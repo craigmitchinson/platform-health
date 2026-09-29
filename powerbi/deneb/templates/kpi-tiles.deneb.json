@@ -1,0 +1,1085 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health kpi-tiles",
+      "description": "A row of KPI tiles for one domain: label, value, band pill, progress against target, six-quarter sparkline, direction-aware change and target.",
+      "author": "Platform Health contributors",
+      "uuid": "e99f0cab-d11a-56b8-b672-29dc9fe356b8",
+      "generated": "2026-09-29T18:14:26.410Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "metricId",
+        "description": "Unique per tile",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "label",
+        "description": "Shown in capitals as the tile kicker",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "value",
+        "description": "The unformatted value; drives the progress bar",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__3__",
+        "name": "formatted",
+        "description": "The value exactly as it should read, for example \"86.8%\"",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__4__",
+        "name": "unit",
+        "description": "`count`, `pct`, `days`, `level`, `perMonth` or `gbp`; sets the suffix on delta and target",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "target",
+        "description": "Target in the metric's own unit",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__6__",
+        "name": "delta",
+        "description": "Change over the period (last quarter minus the first quarter of the six shown); the spec adds the sign",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__7__",
+        "name": "band",
+        "description": "`healthy`, `watch`, `act` or `context`; sets the pill, the progress fill and the sparkline end dot",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__8__",
+        "name": "direction",
+        "description": "`lower` or `higher`: which way is better. Colours the change and sets the progress rule",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__9__",
+        "name": "targetFormatted",
+        "description": "The target exactly as it should read, formatted as `formatted` is, for example \"95%\"",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__10__",
+        "name": "q1",
+        "description": "Metric value for each of the last six quarters, oldest first; `q6` equals `value`",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__11__",
+        "name": "q2",
+        "description": "Metric value for each of the last six quarters, oldest first; `q6` equals `value`",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__12__",
+        "name": "q3",
+        "description": "Metric value for each of the last six quarters, oldest first; `q6` equals `value`",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__13__",
+        "name": "q4",
+        "description": "Metric value for each of the last six quarters, oldest first; `q6` equals `value`",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__14__",
+        "name": "q5",
+        "description": "Metric value for each of the last six quarters, oldest first; `q6` equals `value`",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__15__",
+        "name": "q6",
+        "description": "Metric value for each of the last six quarters, oldest first; `q6` equals `value`",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "A row of KPI tiles for one domain: label, value, band pill, progress against target, six-quarter sparkline, direction-aware change and target.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "METRICS"
+    },
+    {
+      "name": "maxTiles",
+      "value": 5
+    },
+    {
+      "name": "moreCount",
+      "expr": "max(0, length(data('dataset')) - maxTiles)"
+    },
+    {
+      "name": "tileH",
+      "expr": "moreCount > 0 ? height - 22 : height"
+    },
+    {
+      "name": "tileW",
+      "expr": "width / max(1, min(maxTiles, length(data('dataset'))))"
+    },
+    {
+      "name": "compact",
+      "expr": "tileW < 420"
+    },
+    {
+      "name": "pad",
+      "expr": "compact ? 18 : 30"
+    },
+    {
+      "name": "kickerFit",
+      "expr": "floor((tileW - 12 - 2 * pad) / 6.8)"
+    },
+    {
+      "name": "valueY",
+      "expr": "compact ? tileH - 63 : max(90, tileH - 70)"
+    },
+    {
+      "name": "valueSize",
+      "expr": "compact ? min(32, tileW / 9) : 44"
+    },
+    {
+      "name": "pillMid",
+      "expr": "compact ? tileH - 21 : 30"
+    },
+    {
+      "name": "metricOrder",
+      "value": [
+        "openSncs",
+        "sncAge",
+        "repeatSncs",
+        "mttr",
+        "serviceMaturity",
+        "triageMaturity",
+        "incidentMaturity",
+        "recoveryMaturity",
+        "resolutionMaturity",
+        "runbookCoverage",
+        "mtta",
+        "techDebt",
+        "archExceptions",
+        "strategicAlignment",
+        "brams",
+        "techRisks",
+        "riskTrend",
+        "vulns",
+        "patchCompliance",
+        "criticalFindings",
+        "drCompliance",
+        "resilienceActions",
+        "controlHealth",
+        "failedChanges",
+        "changeSuccess",
+        "releases",
+        "applications",
+        "infraFootprint",
+        "currency",
+        "cloudMigration",
+        "auditActions",
+        "regActions",
+        "overdueActions",
+        "milestones",
+        "roadmapHealth",
+        "commitmentsAtRisk",
+        "vacancies",
+        "skillsRisks",
+        "contractorDependency",
+        "runCostVsBudget",
+        "cloudSpendTrend",
+        "orphanedSpend",
+        "sloAttainment",
+        "monitoringCoverage",
+        "alertNoise"
+      ]
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "calculate": "indexof(metricOrder, datum['__0__']) < 0 ? length(metricOrder) : indexof(metricOrder, datum['__0__'])",
+      "as": "metricRank"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "tile"
+        }
+      ],
+      "sort": [
+        {
+          "field": "metricRank",
+          "order": "ascending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.tile <= maxTiles"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "count",
+          "as": "tiles"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.tile - 1",
+      "as": "c0"
+    },
+    {
+      "calculate": "datum.tile",
+      "as": "c1"
+    },
+    {
+      "calculate": "width * datum.c0 / datum.tiles",
+      "as": "tileX"
+    },
+    {
+      "calculate": "width * datum.c1 / datum.tiles",
+      "as": "tileX2"
+    },
+    {
+      "calculate": "{'pct': '%', 'days': ' days', 'perMonth': ' / month', 'level': ' of 5'}[datum['__4__']] || ''",
+      "as": "suffix"
+    },
+    {
+      "calculate": "datum['__4__'] === 'gbp' ? pbiFormat(abs(datum['__6__']), '£#,0') : format(abs(datum['__6__']), datum['__4__'] === 'level' ? '.1f' : ',') + datum.suffix",
+      "as": "deltaAbs"
+    },
+    {
+      "calculate": "(datum['__6__'] > 0 ? '▲ +' : datum['__6__'] < 0 ? '▼ −' : '±') + datum.deltaAbs + (datum['__6__'] === 0 ? ' held' : (datum['__8__'] === 'lower') === (datum['__6__'] < 0) ? ' better' : ' worse') + ' over the period'",
+      "as": "deltaText"
+    },
+    {
+      "calculate": "datum['__6__'] === 0 ? muted : (datum['__8__'] === 'lower') === (datum['__6__'] < 0) ? emerald : amber",
+      "as": "deltaColour"
+    },
+    {
+      "calculate": "datum.suffix !== '' && datum['__4__'] !== 'pct' ? replace(datum['__3__'] + '', datum.suffix, '') : datum['__3__'] + ''",
+      "as": "valueNum"
+    },
+    {
+      "calculate": "{'days': 'days', 'perMonth': 'per month', 'level': 'of 5'}[datum['__4__']] || ''",
+      "as": "unitWord"
+    },
+    {
+      "calculate": "datum.tileX + pad + length(datum.valueNum) * valueSize * 0.56 + 6",
+      "as": "unitX"
+    },
+    {
+      "calculate": "datum.unitX + length(datum.unitWord) * 7.6",
+      "as": "unitEnd"
+    },
+    {
+      "calculate": "'Target ' + datum['__9__']",
+      "as": "targetText"
+    },
+    {
+      "calculate": "compact ? datum.tileX + pad : datum.tileX2 - pad",
+      "as": "targetX"
+    },
+    {
+      "calculate": "upper(datum['__1__'])",
+      "as": "kicker"
+    },
+    {
+      "calculate": "lastindexof(substring(datum.kicker, 0, kickerFit + 1), ' ')",
+      "as": "kickerBreak"
+    },
+    {
+      "calculate": "compact && length(datum.kicker) > kickerFit && datum.kickerBreak > 0 ? [substring(datum.kicker, 0, datum.kickerBreak), substring(datum.kicker, datum.kickerBreak + 1)] : datum.kicker",
+      "as": "kickerLines"
+    },
+    {
+      "calculate": "compact ? replace(datum.deltaText, ' over the period', '') : datum.deltaText",
+      "as": "deltaLine"
+    },
+    {
+      "calculate": "{'healthy': 'HEALTHY', 'watch': 'WATCH', 'act': 'ACT', 'context': 'CONTEXT'}[datum['__7__']] || upper(datum['__7__'])",
+      "as": "bandWord"
+    },
+    {
+      "calculate": "datum['__7__'] === 'healthy' ? emerald : datum['__7__'] === 'watch' ? amber : datum['__7__'] === 'act' ? red : muted",
+      "as": "bandKey"
+    },
+    {
+      "calculate": "datum['__8__'] === 'lower' ? (datum['__2__'] <= datum['__5__'] ? 1 : datum['__5__'] / datum['__2__']) : (datum['__5__'] <= 0 || datum['__2__'] >= datum['__5__'] ? 1 : datum['__2__'] / datum['__5__'])",
+      "as": "progressRaw"
+    },
+    {
+      "calculate": "clamp(datum.progressRaw, 0, 1)",
+      "as": "progress"
+    },
+    {
+      "calculate": "pbiFormat(datum.progress, '0%') + ' of target'",
+      "as": "progressText"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "c0",
+      "type": "quantitative",
+      "scale": {
+        "nice": false,
+        "zero": true
+      },
+      "axis": null
+    },
+    "tooltip": [
+      {
+        "field": "__1__",
+        "title": "Metric"
+      },
+      {
+        "field": "__3__",
+        "title": "Value"
+      },
+      {
+        "field": "targetText",
+        "title": "Target"
+      },
+      {
+        "field": "progressText",
+        "title": "Progress"
+      },
+      {
+        "field": "deltaText",
+        "title": "Change"
+      },
+      {
+        "field": "bandWord",
+        "title": "Band"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "y": 0,
+        "y2": {
+          "expr": "tileH"
+        },
+        "xOffset": 6,
+        "x2Offset": -6,
+        "cornerRadius": 18,
+        "fill": {
+          "expr": "surface"
+        },
+        "stroke": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x2": {
+          "field": "c1"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": {
+          "expr": "compact ? 'top' : 'middle'"
+        },
+        "y": {
+          "expr": "compact ? 12 : 30"
+        },
+        "dx": {
+          "expr": "pad"
+        },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": {
+          "expr": "compact ? 11 : 12.5"
+        },
+        "lineHeight": 14,
+        "limit": {
+          "expr": "tileW - 2 * pad - 12"
+        },
+        "fontWeight": 600,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "kickerLines"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "34 + length(datum.bandWord) * 7.4",
+          "as": "pillW"
+        },
+        {
+          "calculate": "datum.tileX2 - pad",
+          "as": "pillX2"
+        },
+        {
+          "calculate": "datum.pillX2 - datum.pillW",
+          "as": "pillX"
+        },
+        {
+          "calculate": "datum.pillX + 15",
+          "as": "pillDotX"
+        },
+        {
+          "calculate": "datum.pillX + 25",
+          "as": "pillTextX"
+        },
+        {
+          "calculate": "datum['__7__'] === 'healthy' ? goodFill : datum['__7__'] === 'watch' ? warnFill : datum['__7__'] === 'act' ? badFill : sage",
+          "as": "pillFill"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "y": {
+              "expr": "pillMid - 12"
+            },
+            "y2": {
+              "expr": "pillMid + 12"
+            },
+            "cornerRadius": 12,
+            "strokeWidth": 1,
+            "strokeOpacity": 0.35
+          },
+          "encoding": {
+            "x": {
+              "field": "pillX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "pillX2"
+            },
+            "fill": {
+              "field": "pillFill",
+              "type": "nominal",
+              "scale": null
+            },
+            "stroke": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "y": {
+              "expr": "pillMid"
+            },
+            "size": 64,
+            "opacity": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "pillDotX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "y": {
+              "expr": "pillMid"
+            },
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "pillTextX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "bandWord"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": {
+          "expr": "valueY"
+        },
+        "dx": {
+          "expr": "pad"
+        },
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": {
+          "expr": "valueSize"
+        },
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "valueNum"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.unitWord !== ''"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": {
+          "expr": "valueY"
+        },
+        "fontSize": 14,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "unitX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "unitWord"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.tileX + pad",
+          "as": "barX"
+        },
+        {
+          "calculate": "datum.tileX + (datum.tileX2 - datum.tileX) * (compact ? 0.42 : 0.46)",
+          "as": "barEnd"
+        },
+        {
+          "calculate": "datum.barX + (datum.barEnd - datum.barX) * datum.progress",
+          "as": "barFillEnd"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "y": {
+              "expr": "valueY + 12"
+            },
+            "y2": {
+              "expr": "valueY + 18"
+            },
+            "cornerRadius": 3,
+            "color": {
+              "expr": "sage"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "barX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "barEnd"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.progress > 0"
+            }
+          ],
+          "mark": {
+            "type": "rect",
+            "y": {
+              "expr": "valueY + 12"
+            },
+            "y2": {
+              "expr": "valueY + 18"
+            },
+            "cornerRadius": 3
+          },
+          "encoding": {
+            "x": {
+              "field": "barX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "barFillEnd"
+            },
+            "color": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "calculate": "datum.barEnd + 8",
+              "as": "progressX"
+            },
+            {
+              "calculate": "pbiFormat(datum.progress, '0%')",
+              "as": "progressShort"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "y": {
+              "expr": "valueY + 15"
+            },
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "progressX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "progressShort"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "calculate": "[datum['__10__'], datum['__11__'], datum['__12__'], datum['__13__'], datum['__14__'], datum['__15__']]",
+          "as": "quarterValues"
+        },
+        {
+          "calculate": "sequence(0, 6)",
+          "as": "quarterIndex"
+        },
+        {
+          "flatten": [
+            "quarterValues",
+            "quarterIndex"
+          ],
+          "as": [
+            "quarterValue",
+            "qi"
+          ]
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "min",
+              "field": "quarterValue",
+              "as": "qMin"
+            },
+            {
+              "op": "max",
+              "field": "quarterValue",
+              "as": "qMax"
+            }
+          ],
+          "groupby": [
+            "__0__"
+          ]
+        },
+        {
+          "calculate": "datum.qMax > datum.qMin ? datum.qMax - datum.qMin : 1",
+          "as": "qRange"
+        },
+        {
+          "calculate": "min(datum.tileX2 - pad - 40, max(datum.tileX + (datum.tileX2 - datum.tileX) * (compact ? 0.6 : 0.56), datum.unitEnd + 12))",
+          "as": "sparkX0"
+        },
+        {
+          "calculate": "datum.tileX2 - pad",
+          "as": "sparkX1"
+        },
+        {
+          "calculate": "compact ? 46 : 56",
+          "as": "sparkTop"
+        },
+        {
+          "calculate": "valueY + 18",
+          "as": "sparkBase"
+        },
+        {
+          "calculate": "datum.sparkX0 + (datum.sparkX1 - datum.sparkX0) * datum.qi / 5",
+          "as": "sx"
+        },
+        {
+          "calculate": "datum.sparkBase - 4 - (datum.sparkBase - datum.sparkTop - 8) * (datum.qMax > datum.qMin ? (datum.quarterValue - datum.qMin) / datum.qRange : 0.5)",
+          "as": "sy"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "area",
+            "color": {
+              "expr": "emerald"
+            }
+          },
+          "encoding": {
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.05
+              },
+              "value": 0.15
+            },
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "sparkBase"
+            },
+            "detail": {
+              "field": "__0__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 1.5,
+            "color": {
+              "expr": "evergreen"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "detail": {
+              "field": "__0__"
+            },
+            "order": {
+              "field": "qi",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.qi === 5"
+            }
+          ],
+          "mark": {
+            "type": "circle",
+            "size": 44,
+            "opacity": 1,
+            "stroke": {
+              "expr": "surface"
+            },
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": {
+          "expr": "compact ? tileH - 31 : max(130, tileH - 24)"
+        },
+        "dx": {
+          "expr": "pad"
+        },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": {
+          "expr": "compact ? 11.5 : 12.5"
+        },
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "deltaLine"
+        },
+        "color": {
+          "field": "deltaColour",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": {
+          "expr": "compact ? 'left' : 'right'"
+        },
+        "baseline": "alphabetic",
+        "y": {
+          "expr": "compact ? tileH - 11 : max(130, tileH - 24)"
+        },
+        "fontSize": 13,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "targetX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "targetText"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "more": 1
+          }
+        ]
+      },
+      "transform": [
+        {
+          "filter": "moreCount > 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "alphabetic",
+        "x": {
+          "expr": "width - 6"
+        },
+        "y": {
+          "expr": "height - 4"
+        },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "muted"
+        },
+        "text": {
+          "expr": "'+' + moreCount + ' more in the heat below'"
+        }
+      },
+      "encoding": {
+        "x": null,
+        "tooltip": null,
+        "opacity": null
+      }
+    }
+  ]
+}

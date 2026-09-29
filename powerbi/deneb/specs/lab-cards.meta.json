@@ -1,0 +1,7 @@
+{
+  "sample": "labcards.json",
+  "container": "bare",
+  "optional": ["labCode", "labColour", "labOrder"],
+  "width": 1824,
+  "height": 170
+}

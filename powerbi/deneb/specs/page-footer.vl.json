@@ -1,0 +1,52 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Page footer: a line-coloured rule along the top, the report and page on the left and the page's source systems with their last refresh on the right, both in muted mono.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "padding": 0,
+  "params": [
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" }
+  ],
+  "transform": [
+    { "filter": "isValid(datum.left) || isValid(datum.sources)" },
+    { "calculate": "isValid(datum.left) ? datum.left + '' : ''", "as": "leftText" },
+    { "calculate": "isValid(datum.sources) ? datum.sources + '' : ''", "as": "sourcesText" }
+  ],
+  "layer": [
+    {
+      "mark": { "type": "rule", "x": 0, "x2": { "expr": "width" }, "y": 0.5, "strokeWidth": 1, "color": { "expr": "line" } },
+      "encoding": { "tooltip": null }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "x": 0,
+        "y": { "expr": "height / 2 + 2" },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "color": { "expr": "muted" },
+        "limit": { "expr": "width * 0.3" }
+      },
+      "encoding": { "text": { "field": "leftText" }, "tooltip": null }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "x": { "expr": "width" },
+        "y": { "expr": "height / 2 + 2" },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "color": { "expr": "muted" },
+        "limit": { "expr": "width * 0.68" }
+      },
+      "encoding": { "text": { "field": "sourcesText" }, "tooltip": [{ "field": "sourcesText", "title": "Sources" }] }
+    }
+  ]
+}

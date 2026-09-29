@@ -1,0 +1,405 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "lineage_lineage",
+  "position": {
+    "x": 48,
+    "y": 431,
+    "z": 3000,
+    "width": 1824,
+    "height": 545,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "DomainKey"
+                }
+              },
+              "queryRef": "Metric.DomainKey",
+              "nativeQueryRef": "DomainKey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "DomainName"
+                }
+              },
+              "queryRef": "Metric.DomainName",
+              "nativeQueryRef": "DomainName"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Domain"
+                        }
+                      },
+                      "Property": "SortOrder"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Min(Domain.SortOrder)",
+              "nativeQueryRef": "First SortOrder"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "MetricKey"
+                }
+              },
+              "queryRef": "Metric.MetricKey",
+              "nativeQueryRef": "MetricKey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "SortOrder"
+                }
+              },
+              "queryRef": "Metric.SortOrder",
+              "nativeQueryRef": "SortOrder"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "MetricName"
+                }
+              },
+              "queryRef": "Metric.MetricName",
+              "nativeQueryRef": "MetricName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "SourceSystem"
+                }
+              },
+              "queryRef": "Metric.SourceSystem",
+              "nativeQueryRef": "SourceSystem"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "IngestionMode"
+                }
+              },
+              "queryRef": "Metric.IngestionMode",
+              "nativeQueryRef": "IngestionMode"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Mode Label"
+                }
+              },
+              "queryRef": "_Measures.Mode Label",
+              "nativeQueryRef": "Mode Label"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "Refresh"
+                }
+              },
+              "queryRef": "Metric.Refresh",
+              "nativeQueryRef": "Refresh"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "Owner"
+                }
+              },
+              "queryRef": "Metric.Owner",
+              "nativeQueryRef": "Owner"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Metric"
+                    }
+                  },
+                  "Property": "Readiness"
+                }
+              },
+              "queryRef": "Metric.Readiness",
+              "nativeQueryRef": "Readiness"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Metric lineage in two side-by-side tables, split where the running row count first reaches half: domain (once per group), metric, source system, mode, refresh, owner and a readiness pill.\",\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"width\": \"container\",\n  \"height\": \"container\",\n  \"background\": \"transparent\",\n  \"params\": [\n    {\n      \"name\": \"evergreen\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"emerald\",\n      \"expr\": \"pbiColor(1)\"\n    },\n    {\n      \"name\": \"sage\",\n      \"value\": \"#DCE8E0\"\n    },\n    {\n      \"name\": \"amber\",\n      \"expr\": \"pbiColor(3)\"\n    },\n    {\n      \"name\": \"red\",\n      \"expr\": \"pbiColor(4)\"\n    },\n    {\n      \"name\": \"ink\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"muted\",\n      \"expr\": \"pbiColor(6)\"\n    },\n    {\n      \"name\": \"line\",\n      \"expr\": \"pbiColor(8)\"\n    },\n    {\n      \"name\": \"surface\",\n      \"value\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"cream\",\n      \"value\": \"#F7F6F2\"\n    },\n    {\n      \"name\": \"goodFill\",\n      \"value\": \"#DDF0E8\"\n    },\n    {\n      \"name\": \"warnFill\",\n      \"value\": \"#F5EAD6\"\n    },\n    {\n      \"name\": \"badFill\",\n      \"value\": \"#F3E0DA\"\n    },\n    {\n      \"name\": \"rowH\",\n      \"value\": 17\n    },\n    {\n      \"name\": \"headY\",\n      \"value\": 32\n    },\n    {\n      \"name\": \"bodyY\",\n      \"value\": 44\n    },\n    {\n      \"name\": \"tableGap\",\n      \"value\": 24\n    },\n    {\n      \"name\": \"tableW\",\n      \"expr\": \"max(1, (width - tableGap) / 2)\"\n    },\n    {\n      \"name\": \"title\",\n      \"value\": \"LINEAGE\"\n    },\n    {\n      \"name\": \"perCol\",\n      \"expr\": \"max(2, floor((height - bodyY) / rowH))\"\n    }\n  ],\n  \"title\": {\n    \"text\": {\n      \"expr\": \"title\"\n    },\n    \"font\": \"JetBrains Mono, Consolas, monospace\",\n    \"fontSize\": 12.5,\n    \"fontWeight\": 600,\n    \"color\": {\n      \"expr\": \"muted\"\n    },\n    \"anchor\": \"start\",\n    \"offset\": 6\n  },\n  \"transform\": [\n    {\n      \"calculate\": \"isValid(datum[''SortOrder'']) ? toNumber(datum[''SortOrder'']) : 0\",\n      \"as\": \"metricSort\"\n    },\n    {\n      \"window\": [\n        {\n          \"op\": \"row_number\",\n          \"as\": \"idx\"\n        }\n      ],\n      \"sort\": [\n        {\n          \"field\": \"First SortOrder\",\n          \"order\": \"ascending\"\n        },\n        {\n          \"field\": \"metricSort\",\n          \"order\": \"ascending\"\n        },\n        {\n          \"field\": \"MetricName\",\n          \"order\": \"ascending\"\n        }\n      ]\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"count\",\n          \"as\": \"total\"\n        }\n      ]\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"min\",\n          \"field\": \"idx\",\n          \"as\": \"firstIdx\"\n        },\n        {\n          \"op\": \"max\",\n          \"field\": \"idx\",\n          \"as\": \"lastIdx\"\n        }\n      ],\n      \"groupby\": [\n        \"DomainKey\"\n      ]\n    },\n    {\n      \"calculate\": \"(datum.firstIdx - 1) * 2 < datum.total ? 1 : 0\",\n      \"as\": \"isLeft\"\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"sum\",\n          \"field\": \"isLeft\",\n          \"as\": \"leftCount\"\n        }\n      ]\n    },\n    {\n      \"calculate\": \"datum.isLeft === 1 ? 0 : 1\",\n      \"as\": \"side\"\n    },\n    {\n      \"calculate\": \"datum.isLeft === 1 ? datum.idx - 1 : datum.idx - 1 - datum.leftCount\",\n      \"as\": \"sideRow\"\n    },\n    {\n      \"window\": [\n        {\n          \"op\": \"first_value\",\n          \"field\": \"DomainName\",\n          \"as\": \"sideFirst\"\n        },\n        {\n          \"op\": \"last_value\",\n          \"field\": \"DomainName\",\n          \"as\": \"sideLast\"\n        }\n      ],\n      \"groupby\": [\n        \"side\"\n      ],\n      \"sort\": [\n        {\n          \"field\": \"idx\",\n          \"order\": \"ascending\"\n        }\n      ],\n      \"frame\": [\n        null,\n        null\n      ]\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"count\",\n          \"as\": \"sideCount\"\n        }\n      ],\n      \"groupby\": [\n        \"side\"\n      ]\n    },\n    {\n      \"calculate\": \"datum.sideCount > perCol\",\n      \"as\": \"sideOver\"\n    },\n    {\n      \"filter\": \"!datum.sideOver || datum.sideRow < perCol - 1\"\n    },\n    {\n      \"calculate\": \"datum.side * (tableW + tableGap)\",\n      \"as\": \"tx\"\n    },\n    {\n      \"calculate\": \"bodyY + datum.sideRow * rowH\",\n      \"as\": \"y0\"\n    },\n    {\n      \"calculate\": \"datum.y0 + rowH\",\n      \"as\": \"y1\"\n    },\n    {\n      \"calculate\": \"datum.y0 + rowH / 2\",\n      \"as\": \"yMid\"\n    },\n    {\n      \"calculate\": \"datum.idx === datum.firstIdx\",\n      \"as\": \"isFirst\"\n    },\n    {\n      \"calculate\": \"datum.tx + tableW * 0.125\",\n      \"as\": \"metricX\"\n    },\n    {\n      \"calculate\": \"datum.tx + tableW * 0.34\",\n      \"as\": \"systemX\"\n    },\n    {\n      \"calculate\": \"datum.tx + tableW * 0.56\",\n      \"as\": \"modeX\"\n    },\n    {\n      \"calculate\": \"datum.tx + tableW * 0.637\",\n      \"as\": \"refreshX\"\n    },\n    {\n      \"calculate\": \"datum.tx + tableW * 0.703\",\n      \"as\": \"ownerX\"\n    },\n    {\n      \"calculate\": \"datum.tx + tableW * 0.868\",\n      \"as\": \"readyX\"\n    },\n    {\n      \"calculate\": \"datum.tx + tableW\",\n      \"as\": \"tx2\"\n    },\n    {\n      \"calculate\": \"{''sql'': ''SQL'', ''semantic'': ''Semantic'', ''spreadsheet'': ''Spreadsheet'', ''csv'': ''CSV'', ''api'': ''API''}[datum[''IngestionMode'']] || datum[''Mode Label'']\",\n      \"as\": \"modeShort\"\n    },\n    {\n      \"calculate\": \"lower(datum[''Readiness''] + '''')\",\n      \"as\": \"readyId\"\n    },\n    {\n      \"calculate\": \"{''live'': ''LIVE'', ''partial'': ''PARTIAL'', ''aspirational'': ''ASPIRATIONAL''}[datum.readyId] || upper(datum.readyId)\",\n      \"as\": \"readyWord\"\n    },\n    {\n      \"calculate\": \"datum.readyId === ''live'' ? goodFill : datum.readyId === ''partial'' ? warnFill : sage\",\n      \"as\": \"readyFill\"\n    },\n    {\n      \"calculate\": \"datum.readyId === ''live'' ? emerald : datum.readyId === ''partial'' ? amber : muted\",\n      \"as\": \"readyKey\"\n    }\n  ],\n  \"layer\": [\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.sideRow === 0\"\n        },\n        {\n          \"calculate\": \"upper(''Metric sources, '' + datum.sideFirst + '' to '' + datum.sideLast)\",\n          \"as\": \"caption\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"y\": 8,\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 12.5,\n        \"fontWeight\": 600,\n        \"color\": {\n          \"expr\": \"muted\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"tx\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"caption\"\n        }\n      }\n    },\n    {\n      \"data\": {\n        \"values\": [\n          {\n            \"head\": \"DOMAIN\",\n            \"share\": 0\n          },\n          {\n            \"head\": \"METRIC\",\n            \"share\": 0.125\n          },\n          {\n            \"head\": \"SOURCE SYSTEM\",\n            \"share\": 0.34\n          },\n          {\n            \"head\": \"MODE\",\n            \"share\": 0.56\n          },\n          {\n            \"head\": \"REFRESH\",\n            \"share\": 0.637\n          },\n          {\n            \"head\": \"OWNER\",\n            \"share\": 0.703\n          },\n          {\n            \"head\": \"READINESS\",\n            \"share\": 0.868\n          }\n        ]\n      },\n      \"transform\": [\n        {\n          \"calculate\": \"[0, 1]\",\n          \"as\": \"sides\"\n        },\n        {\n          \"flatten\": [\n            \"sides\"\n          ],\n          \"as\": [\n            \"headSide\"\n          ]\n        },\n        {\n          \"calculate\": \"datum.headSide * (tableW + tableGap) + datum.share * tableW\",\n          \"as\": \"headX\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"y\": {\n          \"expr\": \"headY\"\n        },\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 11,\n        \"fontWeight\": 700,\n        \"color\": {\n          \"expr\": \"muted\"\n        },\n        \"limit\": {\n          \"expr\": \"tableW * 0.125 - 4\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"headX\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"head\"\n        }\n      }\n    },\n    {\n      \"data\": {\n        \"values\": [\n          {\n            \"headSide\": 0\n          },\n          {\n            \"headSide\": 1\n          }\n        ]\n      },\n      \"transform\": [\n        {\n          \"calculate\": \"datum.headSide * (tableW + tableGap)\",\n          \"as\": \"ruleX\"\n        },\n        {\n          \"calculate\": \"datum.ruleX + tableW\",\n          \"as\": \"ruleX2\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"rule\",\n        \"y\": {\n          \"expr\": \"bodyY - 0.5\"\n        },\n        \"color\": {\n          \"expr\": \"line\"\n        },\n        \"strokeWidth\": 1\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"ruleX\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"x2\": {\n          \"field\": \"ruleX2\"\n        }\n      }\n    },\n    {\n      \"encoding\": {\n        \"y\": {\n          \"field\": \"yMid\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"opacity\": {\n          \"condition\": {\n            \"test\": \"datum.__selected__ === ''off''\",\n            \"value\": 0.35\n          },\n          \"value\": 1\n        }\n      },\n      \"layer\": [\n        {\n          \"params\": [\n            {\n              \"name\": \"__select__\",\n              \"select\": {\n                \"type\": \"point\",\n                \"fields\": [\n                  \"MetricKey\"\n                ],\n                \"on\": \"click\",\n                \"clear\": \"dblclick\"\n              }\n            }\n          ],\n          \"mark\": {\n            \"type\": \"rect\",\n            \"fill\": \"transparent\"\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"tx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"x2\": {\n              \"field\": \"tx2\"\n            },\n            \"y\": {\n              \"field\": \"y0\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"y1\"\n            },\n            \"tooltip\": [\n              {\n                \"field\": \"DomainName\",\n                \"title\": \"Domain\"\n              },\n              {\n                \"field\": \"MetricName\",\n                \"title\": \"Metric\"\n              },\n              {\n                \"field\": \"SourceSystem\",\n                \"title\": \"Source system\"\n              },\n              {\n                \"field\": \"Mode Label\",\n                \"title\": \"Mode\"\n              },\n              {\n                \"field\": \"Refresh\",\n                \"title\": \"Refresh\"\n              },\n              {\n                \"field\": \"Owner\",\n                \"title\": \"Owner\"\n              },\n              {\n                \"field\": \"readyWord\",\n                \"title\": \"Readiness\"\n              }\n            ]\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"rule\",\n            \"color\": {\n              \"expr\": \"line\"\n            },\n            \"strokeWidth\": 1\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"tx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"x2\": {\n              \"field\": \"tx2\"\n            },\n            \"y\": {\n              \"field\": \"y1\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"strokeOpacity\": {\n              \"condition\": {\n                \"test\": \"datum.idx === datum.lastIdx\",\n                \"value\": 1\n              },\n              \"value\": 0.5\n            }\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"filter\": \"datum.isFirst\"\n            }\n          ],\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"font\": \"Fraunces, Cambria, Georgia, serif\",\n            \"fontSize\": 12.5,\n            \"fontWeight\": 600,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"tableW * 0.125 - 6\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"tx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"DomainName\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 11,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"tableW * 0.215 - 6\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"metricX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"MetricName\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 11,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"tableW * 0.22 - 6\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"systemX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"SourceSystem\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 11,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"tableW * 0.077 - 6\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"modeX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"modeShort\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 11,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"tableW * 0.066 - 6\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"refreshX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"Refresh\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 11,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"tableW * 0.165 - 6\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"ownerX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"Owner\"\n            }\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"calculate\": \"min(tableW * 0.132 - 4, 22 + length(datum.readyWord) * 6.3)\",\n              \"as\": \"pillW\"\n            },\n            {\n              \"calculate\": \"datum.readyX + datum.pillW\",\n              \"as\": \"pillX2\"\n            },\n            {\n              \"calculate\": \"datum.yMid - 7.5\",\n              \"as\": \"pillY\"\n            },\n            {\n              \"calculate\": \"datum.yMid + 7.5\",\n              \"as\": \"pillY2\"\n            },\n            {\n              \"calculate\": \"datum.readyX + 9\",\n              \"as\": \"pillDotX\"\n            },\n            {\n              \"calculate\": \"datum.readyX + 16\",\n              \"as\": \"pillTextX\"\n            }\n          ],\n          \"layer\": [\n            {\n              \"mark\": {\n                \"type\": \"rect\",\n                \"cornerRadius\": 7.5,\n                \"strokeWidth\": 1,\n                \"strokeOpacity\": 0.35\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"readyX\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"x2\": {\n                  \"field\": \"pillX2\"\n                },\n                \"y\": {\n                  \"field\": \"pillY\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"y2\": {\n                  \"field\": \"pillY2\"\n                },\n                \"fill\": {\n                  \"field\": \"readyFill\",\n                  \"type\": \"nominal\",\n                  \"scale\": null\n                },\n                \"stroke\": {\n                  \"field\": \"readyKey\",\n                  \"type\": \"nominal\",\n                  \"scale\": null\n                }\n              }\n            },\n            {\n              \"mark\": {\n                \"type\": \"circle\",\n                \"size\": 30\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"pillDotX\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"color\": {\n                  \"field\": \"readyKey\",\n                  \"type\": \"nominal\",\n                  \"scale\": null\n                }\n              }\n            },\n            {\n              \"mark\": {\n                \"type\": \"text\",\n                \"align\": \"left\",\n                \"baseline\": \"middle\",\n                \"font\": \"JetBrains Mono, Consolas, monospace\",\n                \"fontSize\": 10,\n                \"fontWeight\": 600,\n                \"color\": {\n                  \"expr\": \"ink\"\n                },\n                \"limit\": {\n                  \"expr\": \"tableW * 0.132 - 24\"\n                }\n              },\n              \"encoding\": {\n                \"x\": {\n                  \"field\": \"pillTextX\",\n                  \"type\": \"quantitative\",\n                  \"scale\": null\n                },\n                \"text\": {\n                  \"field\": \"readyWord\"\n                }\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.sideOver && datum.sideRow === perCol - 2\"\n        },\n        {\n          \"calculate\": \"datum.yMid + rowH\",\n          \"as\": \"moreY\"\n        },\n        {\n          \"calculate\": \"''+'' + (datum.sideCount - perCol + 1) + '' more''\",\n          \"as\": \"moreText\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"left\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 12,\n        \"fontWeight\": 600,\n        \"color\": {\n          \"expr\": \"muted\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"metricX\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"moreY\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"moreText\"\n        }\n      }\n    }\n  ]\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'canvas'"
+                }
+              }
+            },
+            "isNewDialogOpen": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D6D9D2'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

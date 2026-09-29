@@ -1,0 +1,794 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health actions-timeline",
+      "description": "When actions fall due: every open action on a date axis from the refresh date, Act above Watch, one line per action with its team and a short description, and the next 30 days shaded.",
+      "author": "Platform Health contributors",
+      "uuid": "aec3301c-721b-5f25-96e9-3f3b2f825620",
+      "generated": "2026-09-29T18:14:26.352Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "actionId",
+        "description": "Unique per action; the selection key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "domain",
+        "description": "Shown in the tooltip",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "team",
+        "description": "Opens the label",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "lab",
+        "description": "Shown in the tooltip",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__6__",
+        "name": "description",
+        "description": "Cut short in the label; in full in the tooltip",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__7__",
+        "name": "due",
+        "description": "A date, or ISO text such as \"2026-10-16\"; read with `toDate`",
+        "type": "dateTime",
+        "kind": "column"
+      },
+      {
+        "key": "__8__",
+        "name": "severity",
+        "description": "`act` or `watch`; sets the lane and the dot colour",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__9__",
+        "name": "daysFromRefresh",
+        "description": "Days from the refresh date to `due`. The spec derives the refresh date from the first row, so it must be exact on every row, whatever order rows arrive in",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "When actions fall due: every open action on a date axis from the refresh date, Act above Watch, one line per action with its team and a short description, and the next 30 days shaded.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "WHEN ACTIONS FALL DUE"
+    },
+    {
+      "name": "laneWidth",
+      "value": 110
+    },
+    {
+      "name": "topSpace",
+      "value": 30
+    },
+    {
+      "name": "laneGap",
+      "value": 14
+    },
+    {
+      "name": "labelChars",
+      "value": 42
+    },
+    {
+      "name": "dayMs",
+      "value": 86400000
+    },
+    {
+      "name": "refreshTime",
+      "expr": "length(data('dataset')) ? time(toDate(data('dataset')[0]['__7__'])) - toNumber(data('dataset')[0]['__9__']) * dayMs : 0"
+    },
+    {
+      "name": "endTime",
+      "expr": "max(refreshTime + 30 * dayMs, length(data('dataset')) ? time(toDate(extent(pluck(data('dataset'), '__7__'))[1])) : 0)"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "subtitle": {
+      "expr": "length(data('dataset')) + ' open actions by due date · Act above, Watch below · data refreshed ' + timeFormat(refreshTime, '%-d %B %Y')"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": {
+      "expr": "muted"
+    },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    {
+      "calculate": "time(toDate(datum['__7__']))",
+      "as": "dueTime"
+    },
+    {
+      "calculate": "toNumber(datum['__9__'])",
+      "as": "days"
+    },
+    {
+      "calculate": "datum['__8__'] === 'act' ? 0 : 1",
+      "as": "lane"
+    },
+    {
+      "calculate": "datum['__8__'] === 'act' ? 1 : 0",
+      "as": "isAct"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "laneRow"
+        }
+      ],
+      "groupby": [
+        "lane"
+      ],
+      "sort": [
+        {
+          "field": "days",
+          "order": "ascending"
+        },
+        {
+          "field": "__0__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "isAct",
+          "as": "actCount"
+        },
+        {
+          "op": "count",
+          "as": "total"
+        },
+        {
+          "op": "max",
+          "field": "days",
+          "as": "maxDays"
+        }
+      ]
+    },
+    {
+      "calculate": "max(1, (height - topSpace - laneGap) / max(1, datum.total))",
+      "as": "rowH"
+    },
+    {
+      "calculate": "topSpace + (datum.lane === 1 ? datum.actCount * datum.rowH + laneGap : 0) + (datum.laneRow - 0.5) * datum.rowH",
+      "as": "rowY"
+    },
+    {
+      "calculate": "datum['__8__'] === 'act' ? red : amber",
+      "as": "dotColour"
+    },
+    {
+      "calculate": "datum['__8__'] === 'act' ? 'Act' : 'Watch'",
+      "as": "severityWord"
+    },
+    {
+      "calculate": "datum['__2__'] + ' · ' + truncate(datum['__6__'], labelChars)",
+      "as": "shortLabel"
+    },
+    {
+      "calculate": "timeFormat(datum.dueTime, '%-d %b %Y')",
+      "as": "dueLabel"
+    },
+    {
+      "calculate": "datum.days > max(30, datum.maxDays) * 0.6",
+      "as": "labelLeft"
+    },
+    {
+      "calculate": "isValid(datum['__4__']) && datum['__4__'] !== '' ? datum['__4__'] + '' : upper(substring(datum['__3__'] + '', 0, 2))",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__5__']) && datum['__5__'] !== '' ? datum['__5__'] + '' : muted",
+      "as": "chipColour"
+    },
+    {
+      "calculate": "datum.labelLeft ? -32 : 10",
+      "as": "chipShift"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "dueTime",
+      "type": "temporal",
+      "scale": {
+        "type": "time",
+        "domain": [
+          {
+            "expr": "refreshTime - 2 * dayMs"
+          },
+          {
+            "expr": "endTime + 3 * dayMs"
+          }
+        ],
+        "range": [
+          {
+            "expr": "laneWidth"
+          },
+          {
+            "expr": "max(laneWidth + 60, width)"
+          }
+        ]
+      },
+      "axis": {
+        "title": null,
+        "format": "%-d %b",
+        "tickCount": {
+          "interval": "week",
+          "step": 2
+        },
+        "labelFlush": true
+      }
+    },
+    "y": {
+      "field": "rowY",
+      "type": "quantitative",
+      "scale": null
+    },
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "actCount",
+              "as": "actCount"
+            },
+            {
+              "op": "min",
+              "field": "rowH",
+              "as": "rowH"
+            }
+          ]
+        },
+        {
+          "calculate": "topSpace - 4",
+          "as": "bandTop"
+        },
+        {
+          "calculate": "topSpace + datum.actCount * datum.rowH + 4",
+          "as": "bandBottom"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "x": 0,
+        "x2": {
+          "expr": "width"
+        },
+        "color": {
+          "expr": "cream"
+        },
+        "cornerRadius": 6
+      },
+      "encoding": {
+        "x": null,
+        "y": {
+          "field": "bandTop",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y2": {
+          "field": "bandBottom"
+        },
+        "opacity": null
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "NEXT 30 DAYS"
+          }
+        ]
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "x": {
+              "expr": "scale('x', refreshTime)"
+            },
+            "x2": {
+              "expr": "scale('x', refreshTime + 30 * dayMs)"
+            },
+            "y": 0,
+            "y2": {
+              "expr": "height"
+            },
+            "color": {
+              "expr": "sage"
+            },
+            "opacity": 0.45
+          },
+          "encoding": {
+            "x": null,
+            "y": null
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "scale('x', refreshTime + 30 * dayMs) - 6"
+            },
+            "y": 4,
+            "align": "right",
+            "baseline": "top",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "text": {
+              "field": "label"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "word": "today"
+          }
+        ]
+      },
+      "layer": [
+        {
+          "transform": [
+            {
+              "calculate": "refreshTime",
+              "as": "todayTime"
+            }
+          ],
+          "mark": {
+            "type": "rule",
+            "y": 0,
+            "y2": {
+              "expr": "height"
+            },
+            "color": {
+              "expr": "ink"
+            },
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "x": {
+              "field": "todayTime",
+              "type": "temporal"
+            },
+            "y": null
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "scale('x', refreshTime) + 6"
+            },
+            "y": 4,
+            "align": "left",
+            "baseline": "top",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "text": {
+              "value": {
+                "expr": "'TODAY · ' + upper(timeFormat(refreshTime, '%-d %b %Y'))"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "actCount",
+              "as": "actCount"
+            },
+            {
+              "op": "min",
+              "field": "rowH",
+              "as": "rowH"
+            },
+            {
+              "op": "min",
+              "field": "total",
+              "as": "total"
+            }
+          ]
+        },
+        {
+          "calculate": "[topSpace + datum.actCount * datum.rowH / 2, topSpace + datum.actCount * datum.rowH + laneGap + (datum.total - datum.actCount) * datum.rowH / 2]",
+          "as": "laneMid"
+        },
+        {
+          "calculate": "['ACT', 'WATCH']",
+          "as": "laneWord"
+        },
+        {
+          "calculate": "[datum.actCount + ' due', (datum.total - datum.actCount) + ' due']",
+          "as": "laneCount"
+        },
+        {
+          "flatten": [
+            "laneMid",
+            "laneWord",
+            "laneCount"
+          ],
+          "as": [
+            "laneY",
+            "laneName",
+            "laneNote"
+          ]
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "x": 12,
+            "align": "left",
+            "baseline": "bottom",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": {
+              "field": "laneY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "laneName"
+            },
+            "opacity": null
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": 12,
+            "align": "left",
+            "baseline": "top",
+            "dy": 3,
+            "fontSize": 12,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": {
+              "field": "laneY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "laneNote"
+            },
+            "opacity": null
+          }
+        }
+      ]
+    },
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 70,
+        "stroke": {
+          "expr": "surface"
+        },
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "color": {
+          "field": "dotColour",
+          "type": "nominal",
+          "scale": null
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "title": "Action"
+          },
+          {
+            "field": "__2__",
+            "title": "Team"
+          },
+          {
+            "field": "__3__",
+            "title": "Lab"
+          },
+          {
+            "field": "__1__",
+            "title": "Domain"
+          },
+          {
+            "field": "__6__",
+            "title": "Description"
+          },
+          {
+            "field": "dueLabel",
+            "title": "Due"
+          },
+          {
+            "field": "__9__",
+            "title": "Days from refresh"
+          },
+          {
+            "field": "severityWord",
+            "title": "Severity"
+          }
+        ]
+      }
+    },
+    {
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 4,
+            "x": {
+              "expr": "scale('x', datum.dueTime) + datum.chipShift"
+            },
+            "x2": {
+              "expr": "scale('x', datum.dueTime) + datum.chipShift + 22"
+            },
+            "y": {
+              "expr": "datum.rowY - 9"
+            },
+            "y2": {
+              "expr": "datum.rowY + 9"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "color": {
+              "field": "chipColour",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "scale('x', datum.dueTime) + datum.chipShift + 11"
+            },
+            "y": {
+              "expr": "datum.rowY"
+            },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": {
+              "expr": "surface"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "text": {
+              "field": "chipCode"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "filter": "!datum.labelLeft"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 38,
+        "fontSize": 12,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "shortLabel"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.labelLeft"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -38,
+        "fontSize": 12,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "shortLabel"
+        }
+      }
+    }
+  ]
+}

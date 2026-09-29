@@ -1,0 +1,797 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health maturity-ladder",
+      "description": "Maturity ladder: each team's level per capability as five pips, with target 4 marked, and overall maturity set apart.",
+      "author": "Platform Health contributors",
+      "uuid": "bb5eb32d-4adf-5871-bc89-944e19f1b251",
+      "generated": "2026-09-29T18:14:26.442Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "team",
+        "description": "One row per team per capability",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "lab",
+        "description": "Rows sort by lab, then team",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "capability",
+        "description": "Must match one of the five column names exactly; other values are dropped",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "level",
+        "description": "0 to 5, one decimal place",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Maturity ladder: each team's level per capability as five pips, with target 4 marked, and overall maturity set apart.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "MATURITY BY CAPABILITY"
+    },
+    {
+      "name": "labelWidth",
+      "value": 200
+    },
+    {
+      "name": "target",
+      "value": 4
+    },
+    {
+      "name": "tall",
+      "expr": "height / (length(data('dataset')) / 5 + 1) >= 34"
+    },
+    {
+      "name": "capabilities",
+      "value": [
+        "Triage and on-call",
+        "Incident management",
+        "Technical recovery",
+        "Resolution and problem management",
+        "Overall maturity"
+      ]
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "calculate": "indexof(capabilities, datum['__4__'])",
+      "as": "col"
+    },
+    {
+      "filter": "datum.col >= 0"
+    },
+    {
+      "calculate": "max(20, (width - labelWidth) / 5.4)",
+      "as": "unit"
+    },
+    {
+      "calculate": "labelWidth + datum.unit * (datum.col + (datum.col === 4 ? 0.4 : 0))",
+      "as": "colStart"
+    },
+    {
+      "calculate": "'1|' + datum['__1__'] + '|' + datum['__0__']",
+      "as": "rowKey"
+    },
+    {
+      "calculate": "format(datum['__5__'], '.1f')",
+      "as": "levelLabel"
+    },
+    {
+      "calculate": "isValid(datum['__2__']) && datum['__2__'] !== '' ? datum['__2__'] + '' : upper(substring(datum['__1__'] + '', 0, 2))",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__3__']) && datum['__3__'] !== '' ? datum['__3__'] + '' : muted",
+      "as": "chipColour"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "rowKey",
+      "type": "nominal",
+      "sort": "ascending",
+      "scale": {
+        "paddingInner": 0.15,
+        "paddingOuter": 0.05
+      },
+      "axis": null
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.col === 0"
+        },
+        {
+          "window": [
+            {
+              "op": "dense_rank",
+              "as": "labIndex"
+            }
+          ],
+          "sort": [
+            {
+              "field": "__1__"
+            }
+          ]
+        },
+        {
+          "filter": "datum.labIndex % 2 === 0"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "x": 0,
+        "x2": {
+          "expr": "width"
+        },
+        "height": {
+          "expr": "bandwidth('y') / 0.85"
+        },
+        "color": {
+          "expr": "cream"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "rowKey": "0",
+            "col": 0,
+            "lines": [
+              "Triage and",
+              "on-call"
+            ],
+            "short": "Triage"
+          },
+          {
+            "rowKey": "0",
+            "col": 1,
+            "lines": [
+              "Incident",
+              "management"
+            ],
+            "short": "Incident"
+          },
+          {
+            "rowKey": "0",
+            "col": 2,
+            "lines": [
+              "Technical",
+              "recovery"
+            ],
+            "short": "Recovery"
+          },
+          {
+            "rowKey": "0",
+            "col": 3,
+            "lines": [
+              "Resolution and",
+              "problem management"
+            ],
+            "short": "Resolution"
+          },
+          {
+            "rowKey": "0",
+            "col": 4,
+            "lines": [
+              "Overall",
+              "maturity"
+            ],
+            "short": "Overall"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "max(20, (width - labelWidth) / 5.4)",
+          "as": "unit"
+        },
+        {
+          "calculate": "labelWidth + datum.unit * (datum.col + (datum.col === 4 ? 0.4 : 0) + 0.04)",
+          "as": "headX"
+        },
+        {
+          "calculate": "width < 700 ? datum.short : tall ? datum.lines : join(datum.lines, ' ')",
+          "as": "headText"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": {
+          "expr": "tall ? 12 : 11"
+        },
+        "fontWeight": 600,
+        "lineHeight": 15,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "headX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "headText"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "rowKey": "0"
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "labelWidth + max(20, (width - labelWidth) / 5.4) * 4.2",
+          "as": "divX"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "y": null,
+        "x": {
+          "field": "divX",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.col === 0"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "min",
+              "field": "rowKey",
+              "as": "labFirst"
+            }
+          ],
+          "groupby": [
+            "__1__"
+          ]
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "min",
+              "field": "rowKey",
+              "as": "allFirst"
+            }
+          ]
+        },
+        {
+          "filter": "datum.rowKey === datum.labFirst && datum.rowKey !== datum.allFirst"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "y": {
+          "field": "rowKey",
+          "type": "nominal",
+          "sort": "ascending",
+          "bandPosition": 0
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.col === 0"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 4,
+            "x": 0,
+            "x2": 22,
+            "y": {
+              "expr": "scale('y', datum.rowKey) + bandwidth('y') / 2 - 9"
+            },
+            "y2": {
+              "expr": "scale('y', datum.rowKey) + bandwidth('y') / 2 + 9"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "color": {
+              "field": "chipColour",
+              "type": "nominal",
+              "scale": null
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "value": 1
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": 11,
+            "y": {
+              "expr": "scale('y', datum.rowKey) + bandwidth('y') / 2"
+            },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": {
+              "expr": "surface"
+            }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "text": {
+              "field": "chipCode"
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "value": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.col === 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "x": 30,
+        "align": "left",
+        "baseline": {
+          "expr": "tall ? 'bottom' : 'middle'"
+        },
+        "dy": {
+          "expr": "tall ? -1 : 0"
+        },
+        "fontSize": 13,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "__0__"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "title": "Team"
+          },
+          {
+            "field": "__1__",
+            "title": "Lab"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.col === 0 && tall"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "x": 30,
+        "align": "left",
+        "baseline": "top",
+        "dy": 2,
+        "fontSize": 11,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "__1__"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "title": "Team"
+          },
+          {
+            "field": "__1__",
+            "title": "Lab"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "sequence(0, 5)",
+          "as": "pip"
+        },
+        {
+          "flatten": [
+            "pip"
+          ]
+        },
+        {
+          "calculate": "datum.colStart + datum.unit * (0.04 + datum.pip * 0.11 + (datum.pip >= target ? 0.03 : 0))",
+          "as": "pipX"
+        },
+        {
+          "calculate": "datum.pipX + datum.unit * 0.09",
+          "as": "pipX2"
+        },
+        {
+          "calculate": "clamp(datum['__5__'] - datum.pip, 0, 1) * (datum.__selected__ === 'off' ? 0.35 : 1)",
+          "as": "fill"
+        },
+        {
+          "calculate": "datum.col === 4 ? evergreen : emerald",
+          "as": "fillColour"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "height": 12,
+            "cornerRadius": 2,
+            "color": {
+              "expr": "sage"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "pipX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "pipX2"
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "value": 1
+            },
+            "tooltip": [
+              {
+                "field": "__0__",
+                "title": "Team"
+              },
+              {
+                "field": "__1__",
+                "title": "Lab"
+              },
+              {
+                "field": "__4__",
+                "title": "Capability"
+              },
+              {
+                "field": "levelLabel",
+                "title": "Level"
+              }
+            ]
+          }
+        },
+        {
+          "params": [
+            {
+              "name": "__select__",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "__0__"
+                ],
+                "on": "click",
+                "clear": "dblclick"
+              }
+            }
+          ],
+          "mark": {
+            "type": "bar",
+            "height": 12,
+            "cornerRadius": 2
+          },
+          "encoding": {
+            "x": {
+              "field": "pipX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "pipX2"
+            },
+            "color": {
+              "field": "fillColour",
+              "type": "nominal",
+              "scale": null
+            },
+            "opacity": {
+              "field": "fill",
+              "type": "quantitative",
+              "scale": null
+            },
+            "tooltip": [
+              {
+                "field": "__0__",
+                "title": "Team"
+              },
+              {
+                "field": "__1__",
+                "title": "Lab"
+              },
+              {
+                "field": "__4__",
+                "title": "Capability"
+              },
+              {
+                "field": "levelLabel",
+                "title": "Level"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.colStart + datum.unit * (0.04 + target * 0.11 + 0.005) - 0.75",
+          "as": "targetX"
+        },
+        {
+          "calculate": "datum.targetX + 1.5",
+          "as": "targetX2"
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "height": 18,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "targetX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "x2": {
+          "field": "targetX2"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.colStart + datum.unit * 0.66",
+          "as": "levelX"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 13,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "levelX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "levelLabel"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "title": "Team"
+          },
+          {
+            "field": "__1__",
+            "title": "Lab"
+          },
+          {
+            "field": "__4__",
+            "title": "Capability"
+          },
+          {
+            "field": "levelLabel",
+            "title": "Level"
+          }
+        ]
+      }
+    }
+  ]
+}

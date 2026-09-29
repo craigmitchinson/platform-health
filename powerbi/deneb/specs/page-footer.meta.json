@@ -1,0 +1,7 @@
+{
+  "sample": "pagefooter.json",
+  "container": "bare",
+  "sampleFilter": { "pageId": "overview" },
+  "width": 1824,
+  "height": 36
+}

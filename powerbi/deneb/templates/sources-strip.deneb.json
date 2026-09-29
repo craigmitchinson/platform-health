@@ -1,0 +1,406 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health sources-strip",
+      "description": "A domain page's sources: one line per source system and ingestion mode, with a readiness pill at the right.",
+      "author": "Platform Health contributors",
+      "uuid": "bf0844b2-1e4f-5bcf-ada1-af1cbc2b7df5",
+      "generated": "2026-09-29T18:14:26.495Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "sourceOrder",
+        "description": "Optional; the spec falls back when it is not bound. Optional; line order, else by system",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "system",
+        "description": "Source system",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "mode",
+        "description": "Ingestion mode key; with `system`, the selection key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "modeLabel",
+        "description": "Mode label, such as `SQL direct query`",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__4__",
+        "name": "readiness",
+        "description": "`live`, `partial` or `aspirational`",
+        "type": "text",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "A domain page's sources: one line per source system and ingestion mode, with a readiness pill at the right.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "SOURCES"
+    },
+    {
+      "name": "rowH",
+      "value": 30
+    },
+    {
+      "name": "charW",
+      "value": 7.3
+    },
+    {
+      "name": "pillRoom",
+      "value": 150
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 8
+  },
+  "transform": [
+    {
+      "calculate": "isValid(datum['__0__']) ? toNumber(datum['__0__']) : 0",
+      "as": "sortKey"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "sortKey",
+          "order": "ascending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
+        },
+        {
+          "field": "__3__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "(datum.rank - 1) * rowH + rowH / 2",
+      "as": "yMid"
+    },
+    {
+      "calculate": "datum['__1__'] + ''",
+      "as": "systemText"
+    },
+    {
+      "calculate": "' · ' + datum['__3__']",
+      "as": "modeText"
+    },
+    {
+      "calculate": "min(length(datum.systemText) * charW + 6, width - pillRoom - 60)",
+      "as": "modeX"
+    },
+    {
+      "calculate": "lower(datum['__4__'] + '')",
+      "as": "readyId"
+    },
+    {
+      "calculate": "{'live': 'LIVE', 'partial': 'PARTIAL', 'aspirational': 'ASPIRATIONAL'}[datum.readyId] || upper(datum.readyId)",
+      "as": "readyWord"
+    },
+    {
+      "calculate": "datum.readyId === 'live' ? goodFill : datum.readyId === 'partial' ? warnFill : sage",
+      "as": "readyFill"
+    },
+    {
+      "calculate": "datum.readyId === 'live' ? emerald : datum.readyId === 'partial' ? amber : muted",
+      "as": "readyKey"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "yMid",
+      "type": "quantitative",
+      "scale": null
+    },
+    "tooltip": [
+      {
+        "field": "systemText",
+        "title": "Source system"
+      },
+      {
+        "field": "__3__",
+        "title": "Mode"
+      },
+      {
+        "field": "readyWord",
+        "title": "Readiness"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "text",
+        "x": 0,
+        "align": "left",
+        "baseline": "middle",
+        "fontSize": 14,
+        "color": {
+          "expr": "ink"
+        },
+        "limit": {
+          "expr": "max(40, width - pillRoom - 60)"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "systemText"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "fontSize": 14,
+        "color": {
+          "expr": "muted"
+        },
+        "limit": {
+          "expr": "max(40, width - pillRoom)"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "modeX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "modeText"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "34 + length(datum.readyWord) * 7.4",
+          "as": "pillW"
+        },
+        {
+          "calculate": "width - datum.pillW",
+          "as": "pillX"
+        },
+        {
+          "calculate": "width",
+          "as": "pillX2"
+        },
+        {
+          "calculate": "datum.yMid - 11",
+          "as": "pillY"
+        },
+        {
+          "calculate": "datum.yMid + 11",
+          "as": "pillY2"
+        },
+        {
+          "calculate": "datum.pillX + 15",
+          "as": "pillDotX"
+        },
+        {
+          "calculate": "datum.pillX + 25",
+          "as": "pillTextX"
+        }
+      ],
+      "layer": [
+        {
+          "params": [
+            {
+              "name": "__select__",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "__1__",
+                  "__2__"
+                ],
+                "on": "click",
+                "clear": "dblclick"
+              }
+            }
+          ],
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 11,
+            "strokeWidth": 1,
+            "strokeOpacity": 0.35
+          },
+          "encoding": {
+            "x": {
+              "field": "pillX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "pillX2"
+            },
+            "y": {
+              "field": "pillY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "pillY2"
+            },
+            "fill": {
+              "field": "readyFill",
+              "type": "nominal",
+              "scale": null
+            },
+            "stroke": {
+              "field": "readyKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 64
+          },
+          "encoding": {
+            "x": {
+              "field": "pillDotX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "readyKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "pillTextX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "readyWord"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

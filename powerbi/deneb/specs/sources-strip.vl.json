@@ -1,0 +1,128 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A domain page's sources: one line per source system and ingestion mode, with a readiness pill at the right.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "SOURCES" },
+    { "name": "rowH", "value": 30 },
+    { "name": "charW", "value": 7.3 },
+    { "name": "pillRoom", "value": 150 }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 8
+  },
+  "transform": [
+    { "calculate": "isValid(datum.sourceOrder) ? toNumber(datum.sourceOrder) : 0", "as": "sortKey" },
+    {
+      "window": [{ "op": "row_number", "as": "rank" }],
+      "sort": [
+        { "field": "sortKey", "order": "ascending" },
+        { "field": "system", "order": "ascending" },
+        { "field": "modeLabel", "order": "ascending" }
+      ]
+    },
+    { "calculate": "(datum.rank - 1) * rowH + rowH / 2", "as": "yMid" },
+    { "calculate": "datum.system + ''", "as": "systemText" },
+    { "calculate": "' · ' + datum.modeLabel", "as": "modeText" },
+    { "calculate": "min(length(datum.systemText) * charW + 6, width - pillRoom - 60)", "as": "modeX" },
+    { "calculate": "lower(datum.readiness + '')", "as": "readyId" },
+    {
+      "calculate": "{'live': 'LIVE', 'partial': 'PARTIAL', 'aspirational': 'ASPIRATIONAL'}[datum.readyId] || upper(datum.readyId)",
+      "as": "readyWord"
+    },
+    { "calculate": "datum.readyId === 'live' ? goodFill : datum.readyId === 'partial' ? warnFill : sage", "as": "readyFill" },
+    { "calculate": "datum.readyId === 'live' ? emerald : datum.readyId === 'partial' ? amber : muted", "as": "readyKey" }
+  ],
+  "encoding": {
+    "y": { "field": "yMid", "type": "quantitative", "scale": null },
+    "tooltip": [
+      { "field": "systemText", "title": "Source system" },
+      { "field": "modeLabel", "title": "Mode" },
+      { "field": "readyWord", "title": "Readiness" }
+    ]
+  },
+  "layer": [
+    {
+      "mark": { "type": "text", "x": 0, "align": "left", "baseline": "middle", "fontSize": 14, "color": { "expr": "ink" }, "limit": { "expr": "max(40, width - pillRoom - 60)" } },
+      "encoding": { "text": { "field": "systemText" } }
+    },
+    {
+      "mark": { "type": "text", "align": "left", "baseline": "middle", "fontSize": 14, "color": { "expr": "muted" }, "limit": { "expr": "max(40, width - pillRoom)" } },
+      "encoding": {
+        "x": { "field": "modeX", "type": "quantitative", "scale": null },
+        "text": { "field": "modeText" }
+      }
+    },
+    {
+      "transform": [
+        { "calculate": "34 + length(datum.readyWord) * 7.4", "as": "pillW" },
+        { "calculate": "width - datum.pillW", "as": "pillX" },
+        { "calculate": "width", "as": "pillX2" },
+        { "calculate": "datum.yMid - 11", "as": "pillY" },
+        { "calculate": "datum.yMid + 11", "as": "pillY2" },
+        { "calculate": "datum.pillX + 15", "as": "pillDotX" },
+        { "calculate": "datum.pillX + 25", "as": "pillTextX" }
+      ],
+      "layer": [
+        {
+          "params": [
+            { "name": "__select__", "select": { "type": "point", "fields": ["system", "mode"], "on": "click", "clear": "dblclick" } }
+          ],
+          "mark": { "type": "rect", "cornerRadius": 11, "strokeWidth": 1, "strokeOpacity": 0.35 },
+          "encoding": {
+            "x": { "field": "pillX", "type": "quantitative", "scale": null },
+            "x2": { "field": "pillX2" },
+            "y": { "field": "pillY", "type": "quantitative", "scale": null },
+            "y2": { "field": "pillY2" },
+            "fill": { "field": "readyFill", "type": "nominal", "scale": null },
+            "stroke": { "field": "readyKey", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": { "type": "circle", "size": 64 },
+          "encoding": {
+            "x": { "field": "pillDotX", "type": "quantitative", "scale": null },
+            "color": { "field": "readyKey", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": { "expr": "ink" }
+          },
+          "encoding": {
+            "x": { "field": "pillTextX", "type": "quantitative", "scale": null },
+            "text": { "field": "readyWord" }
+          }
+        }
+      ]
+    }
+  ]
+}

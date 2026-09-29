@@ -1,0 +1,161 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Actions page summary strip: four tiles (open actions, due within 30 days, past due, Act severity), each a mono label over a serif number, then a due-date bar split into past due, this week, next 30 days and later, with each bucket named and counted beneath it.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "padding": 0,
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "gap", "value": 16 },
+    { "name": "tileW", "expr": "max(1, (width * 0.56 - 4 * gap) / 4)" },
+    { "name": "panelX", "expr": "4 * (tileW + gap)" },
+    { "name": "barX0", "expr": "panelX + 24" },
+    { "name": "barX1", "expr": "max(panelX + 64, width - 24)" }
+  ],
+  "transform": [
+    { "window": [{ "op": "row_number", "as": "rowNo" }] },
+    { "filter": "datum.rowNo === 1" },
+    { "calculate": "isValid(datum.open) ? toNumber(datum.open) : 0", "as": "nOpen" },
+    { "calculate": "isValid(datum.due30) ? toNumber(datum.due30) : 0", "as": "nDue30" },
+    { "calculate": "isValid(datum.pastDue) ? toNumber(datum.pastDue) : 0", "as": "nPast" },
+    { "calculate": "isValid(datum.act) ? toNumber(datum.act) : 0", "as": "nAct" },
+    { "calculate": "isValid(datum.thisWeek) ? toNumber(datum.thisWeek) : 0", "as": "nWeek" },
+    { "calculate": "isValid(datum.next30) ? toNumber(datum.next30) : 0", "as": "nNext" },
+    { "calculate": "isValid(datum.later) ? toNumber(datum.later) : 0", "as": "nLater" }
+  ],
+  "layer": [
+    {
+      "transform": [
+        { "calculate": "[0, 1, 2, 3]", "as": "ti" },
+        { "flatten": ["ti"] },
+        { "calculate": "['OPEN ACTIONS', 'DUE WITHIN 30 DAYS', 'PAST DUE', 'ACT SEVERITY'][datum.ti]", "as": "tileLabel" },
+        { "calculate": "[datum.nOpen, datum.nDue30, datum.nPast, datum.nAct][datum.ti]", "as": "tileValue" },
+        { "calculate": "datum.ti * (tileW + gap)", "as": "tx0" },
+        { "calculate": "datum.tx0 + tileW", "as": "tx1" },
+        { "calculate": "datum.tx0 + 22", "as": "textX" }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "rect", "y": 0, "y2": { "expr": "height" }, "cornerRadius": 14, "fill": { "expr": "surface" }, "stroke": { "expr": "line" }, "strokeWidth": 1 },
+          "encoding": {
+            "x": { "field": "tx0", "type": "quantitative", "scale": null },
+            "x2": { "field": "tx1" },
+            "tooltip": [
+              { "field": "tileLabel", "title": "Measure" },
+              { "field": "tileValue", "title": "Actions" }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "y": 26,
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": { "expr": "muted" },
+            "limit": { "expr": "tileW - 44" }
+          },
+          "encoding": { "x": { "field": "textX", "type": "quantitative", "scale": null }, "text": { "field": "tileLabel" } }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "alphabetic",
+            "y": { "expr": "height - 24" },
+            "font": "Fraunces, Cambria, Georgia, serif",
+            "fontSize": 40,
+            "fontWeight": 600,
+            "color": { "expr": "ink" }
+          },
+          "encoding": { "x": { "field": "textX", "type": "quantitative", "scale": null }, "text": { "field": "tileValue" } }
+        }
+      ]
+    },
+    {
+      "mark": { "type": "rect", "y": 0, "y2": { "expr": "height" }, "x": { "expr": "panelX" }, "x2": { "expr": "width" }, "cornerRadius": 14, "fill": { "expr": "surface" }, "stroke": { "expr": "line" }, "strokeWidth": 1 }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "x": { "expr": "barX0" },
+        "y": 26,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": { "expr": "muted" },
+        "text": "BY DUE DATE"
+      }
+    },
+    {
+      "transform": [
+        { "calculate": "[0, 1, 2, 3]", "as": "bi" },
+        { "flatten": ["bi"] },
+        { "calculate": "['PAST DUE', 'THIS WEEK', 'NEXT 30 DAYS', 'LATER'][datum.bi]", "as": "bucket" },
+        { "calculate": "[datum.nPast, datum.nWeek, datum.nNext, datum.nLater][datum.bi]", "as": "bucketCount" },
+        { "calculate": "[0, datum.nPast, datum.nPast + datum.nWeek, datum.nPast + datum.nWeek + datum.nNext][datum.bi]", "as": "before" },
+        { "calculate": "max(1, datum.nPast + datum.nWeek + datum.nNext + datum.nLater)", "as": "bucketTotal" },
+        { "calculate": "barX0 + (barX1 - barX0) * datum.before / datum.bucketTotal", "as": "segX0" },
+        { "calculate": "datum.segX0 + (barX1 - barX0) * datum.bucketCount / datum.bucketTotal", "as": "segX1" },
+        { "calculate": "[red, amber, emerald, sage][datum.bi]", "as": "bucketColour" },
+        { "calculate": "barX0 + (barX1 - barX0) * datum.bi / 4", "as": "keyX" },
+        { "calculate": "datum.keyX + 14", "as": "keyTextX" },
+        { "calculate": "datum.bucket + ' ' + datum.bucketCount", "as": "keyText" }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "rect", "y": 46, "y2": 58, "cornerRadius": 2 },
+          "encoding": {
+            "x": { "field": "segX0", "type": "quantitative", "scale": null },
+            "x2": { "field": "segX1" },
+            "color": { "field": "bucketColour", "type": "nominal", "scale": null },
+            "tooltip": [
+              { "field": "bucket", "title": "Due" },
+              { "field": "bucketCount", "title": "Actions" }
+            ]
+          }
+        },
+        {
+          "mark": { "type": "circle", "y": 90, "size": 56, "opacity": 1 },
+          "encoding": {
+            "x": { "field": "keyX", "type": "quantitative", "scale": null, "axis": null },
+            "color": { "field": "bucketColour", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "y": 90,
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12,
+            "fontWeight": 600,
+            "color": { "expr": "ink" },
+            "limit": { "expr": "(barX1 - barX0) / 4 - 18" }
+          },
+          "encoding": { "x": { "field": "keyTextX", "type": "quantitative", "scale": null }, "text": { "field": "keyText" } }
+        }
+      ]
+    }
+  ]
+}

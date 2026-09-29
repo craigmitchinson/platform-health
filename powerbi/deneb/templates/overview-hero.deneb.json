@@ -1,0 +1,997 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health overview-hero",
+      "description": "Overview hero band: composite health score, band and six-quarter sparkline, the Overview headline, and a stacked bar of core domains per band, from one row per scope.",
+      "author": "Platform Health contributors",
+      "uuid": "30e638d3-de16-574f-bd0e-2322185b27ab",
+      "generated": "2026-09-29T15:36:01.592Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "scope",
+        "description": "`Estate` or a lab name; filter the visual to one scope",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__1__",
+        "name": "composite",
+        "description": "Mean of the composite scores of the teams in scope, rounded",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__2__",
+        "name": "healthyDomains",
+        "description": "Core domains in the Healthy band for the scope",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__3__",
+        "name": "watchDomains",
+        "description": "Core domains in the Watch band",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__4__",
+        "name": "actDomains",
+        "description": "Core domains in the Act band",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__5__",
+        "name": "coreDomains",
+        "description": "Core domains in the model, 11 today; proposed domains are excluded",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__6__",
+        "name": "teamsNeedingAction",
+        "description": "Teams in scope whose composite is in the Act band",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__7__",
+        "name": "worstDomain",
+        "description": "Name of the lowest-scoring core domain for the scope",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__8__",
+        "name": "q1",
+        "description": "Composite for each of the last six quarters, oldest first; `q6` equals `composite`. Each is the mean of team composites at that quarter",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__9__",
+        "name": "q2",
+        "description": "Composite for each of the last six quarters, oldest first; `q6` equals `composite`. Each is the mean of team composites at that quarter",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__10__",
+        "name": "q3",
+        "description": "Composite for each of the last six quarters, oldest first; `q6` equals `composite`. Each is the mean of team composites at that quarter",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__11__",
+        "name": "q4",
+        "description": "Composite for each of the last six quarters, oldest first; `q6` equals `composite`. Each is the mean of team composites at that quarter",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__12__",
+        "name": "q5",
+        "description": "Composite for each of the last six quarters, oldest first; `q6` equals `composite`. Each is the mean of team composites at that quarter",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__13__",
+        "name": "q6",
+        "description": "Composite for each of the last six quarters, oldest first; `q6` equals `composite`. Each is the mean of team composites at that quarter",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Overview hero band: composite health score, band and six-quarter sparkline, the Overview headline, and a stacked bar of core domains per band, from one row per scope.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "scoreWidth",
+      "value": 440
+    },
+    {
+      "name": "segmentGap",
+      "value": 6
+    },
+    {
+      "name": "minSegment",
+      "value": 170
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "round(datum['__1__'])",
+      "as": "compositeScore"
+    },
+    {
+      "calculate": "datum.compositeScore >= 80 ? 'healthy' : datum.compositeScore >= 60 ? 'watch' : 'act'",
+      "as": "compositeBand"
+    },
+    {
+      "calculate": "datum.compositeBand === 'healthy' ? emerald : datum.compositeBand === 'watch' ? amber : red",
+      "as": "compositeKey"
+    },
+    {
+      "calculate": "datum['__0__'] === 'Estate' ? 'the estate' : datum['__0__']",
+      "as": "scopeName"
+    },
+    {
+      "calculate": "datum['__6__'] === 0 ? 'No team needs action; ' + datum['__7__'] + ' is the weakest domain.' : datum['__6__'] + (datum['__6__'] === 1 ? ' team needs' : ' teams need') + ' action, led by ' + datum['__7__'] + '.'",
+      "as": "teamsLine"
+    },
+    {
+      "calculate": "[datum['__2__'] + ' of ' + datum['__5__'] + ' domains healthy across ' + datum.scopeName + '.', datum.teamsLine]",
+      "as": "headline"
+    },
+    {
+      "calculate": "max(0, (height - 164) / 2)",
+      "as": "top"
+    },
+    {
+      "calculate": "datum.top + 144",
+      "as": "pillMid"
+    },
+    {
+      "calculate": "scoreWidth + 48",
+      "as": "rightStart"
+    },
+    {
+      "calculate": "24 + length(toString(datum.compositeScore)) * 58",
+      "as": "sparkX0"
+    },
+    {
+      "calculate": "scoreWidth - 8",
+      "as": "sparkX1"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "text",
+        "text": "COMPOSITE HEALTH",
+        "align": "left",
+        "baseline": "top",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "datum": 0,
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "top",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.top + 108",
+          "as": "valueY"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 96,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "x": {
+          "datum": -4,
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "valueY",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "compositeScore"
+        },
+        "tooltip": [
+          {
+            "field": "__0__",
+            "title": "Scope"
+          },
+          {
+            "field": "__1__",
+            "title": "Composite (mean of team composites)"
+          },
+          {
+            "field": "__5__",
+            "title": "Core domains"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.compositeBand === 'healthy' ? 'HEALTHY' : datum.compositeBand === 'watch' ? 'WATCH' : 'ACT'",
+          "as": "pillLabel"
+        },
+        {
+          "calculate": "datum.compositeBand === 'healthy' ? goodFill : datum.compositeBand === 'watch' ? warnFill : badFill",
+          "as": "pillFill"
+        },
+        {
+          "calculate": "0",
+          "as": "pillX"
+        },
+        {
+          "calculate": "datum.pillMid - 12",
+          "as": "pillY"
+        },
+        {
+          "calculate": "datum.pillMid + 12",
+          "as": "pillY2"
+        },
+        {
+          "calculate": "34 + length(datum.pillLabel) * 7.4",
+          "as": "pillW"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 12,
+            "strokeWidth": 1,
+            "strokeOpacity": 0.35
+          },
+          "encoding": {
+            "x": {
+              "field": "pillX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "pillW"
+            },
+            "y": {
+              "field": "pillY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "pillY2"
+            },
+            "fill": {
+              "field": "pillFill",
+              "type": "nominal",
+              "scale": null
+            },
+            "stroke": {
+              "field": "compositeKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 64,
+            "opacity": 1
+          },
+          "encoding": {
+            "x": {
+              "datum": 15,
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "pillMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "compositeKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": {
+              "datum": 25,
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "pillMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "pillLabel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "calculate": "[datum['__8__'], datum['__9__'], datum['__10__'], datum['__11__'], datum['__12__'], datum['__13__']]",
+          "as": "quarterScores"
+        },
+        {
+          "calculate": "sequence(0, 6)",
+          "as": "quarterIndex"
+        },
+        {
+          "flatten": [
+            "quarterScores",
+            "quarterIndex"
+          ],
+          "as": [
+            "quarterScore",
+            "qi"
+          ]
+        },
+        {
+          "calculate": "'q' + (datum.qi + 1)",
+          "as": "quarterKey"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "min",
+              "field": "quarterScore",
+              "as": "qMin"
+            },
+            {
+              "op": "max",
+              "field": "quarterScore",
+              "as": "qMax"
+            }
+          ]
+        },
+        {
+          "calculate": "max(datum.qMax - datum.qMin, 10)",
+          "as": "qRange"
+        },
+        {
+          "calculate": "(datum.qMax + datum.qMin - datum.qRange) / 2",
+          "as": "qLow"
+        },
+        {
+          "calculate": "datum.top + 36",
+          "as": "sparkTop"
+        },
+        {
+          "calculate": "datum.top + 108",
+          "as": "sparkBase"
+        },
+        {
+          "calculate": "datum.sparkX0 + (datum.sparkX1 - datum.sparkX0) * datum.qi / 5",
+          "as": "sx"
+        },
+        {
+          "calculate": "datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (datum.quarterScore - datum.qLow) / datum.qRange",
+          "as": "sy"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "area",
+            "color": {
+              "expr": "emerald"
+            },
+            "opacity": 0.18
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "sparkBase"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 2,
+            "color": {
+              "expr": "evergreen"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "order": {
+              "field": "qi",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 120,
+            "opacity": 0
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "tooltip": [
+              {
+                "field": "quarterKey",
+                "title": "Quarter"
+              },
+              {
+                "field": "quarterScore",
+                "title": "Composite"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.qi === 5"
+            }
+          ],
+          "mark": {
+            "type": "circle",
+            "size": 70,
+            "opacity": 1,
+            "stroke": {
+              "expr": "surface"
+            },
+            "strokeWidth": 2
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "compositeKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.qi === 5"
+            },
+            {
+              "calculate": "datum['__8__'] + ' to ' + datum['__13__'] + ' over six quarters'",
+              "as": "sparkCaption"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "middle",
+            "fontSize": 13,
+            "color": {
+              "expr": "muted"
+            },
+            "limit": {
+              "expr": "max(0, scoreWidth - 140)"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "sparkX1",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "pillMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "sparkCaption"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "calculate": "scoreWidth + 24",
+          "as": "dividerX"
+        },
+        {
+          "calculate": "0",
+          "as": "dividerY"
+        },
+        {
+          "calculate": "height",
+          "as": "dividerY2"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "dividerX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "dividerY",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y2": {
+          "field": "dividerY2"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 26,
+        "fontWeight": 600,
+        "lineHeight": 32,
+        "color": {
+          "expr": "ink"
+        },
+        "limit": {
+          "expr": "max(0, width - scoreWidth - 48)"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "rightStart",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "top",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "headline"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.top + 88",
+          "as": "mixY"
+        },
+        {
+          "calculate": "datum['__5__'] + ' core domains'",
+          "as": "mixNote"
+        },
+        {
+          "calculate": "width",
+          "as": "mixEnd"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "text": "DOMAIN MIX",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "rightStart",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "mixY",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "middle",
+            "fontSize": 13,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "mixEnd",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "mixY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "mixNote"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "calculate": "[datum['__2__'], datum['__3__'], datum['__4__']]",
+          "as": "segCounts"
+        },
+        {
+          "calculate": "sequence(0, 3)",
+          "as": "segIndexes"
+        },
+        {
+          "flatten": [
+            "segCounts",
+            "segIndexes"
+          ],
+          "as": [
+            "segCount",
+            "segIndex"
+          ]
+        },
+        {
+          "calculate": "datum['__2__'] + datum['__3__'] + datum['__4__']",
+          "as": "segTotal"
+        },
+        {
+          "filter": "datum.segCount > 0 && datum.segTotal > 0"
+        },
+        {
+          "calculate": "[0, datum['__2__'], datum['__2__'] + datum['__3__']][datum.segIndex]",
+          "as": "segStart"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "count",
+              "as": "segPresent"
+            }
+          ]
+        },
+        {
+          "calculate": "(datum.segIndex >= 1 && datum['__2__'] > 0 ? 1 : 0) + (datum.segIndex >= 2 && datum['__3__'] > 0 ? 1 : 0)",
+          "as": "segBefore"
+        },
+        {
+          "calculate": "max(0, width - datum.rightStart - datum.segPresent * minSegment)",
+          "as": "barRest"
+        },
+        {
+          "calculate": "datum.rightStart + datum.segBefore * minSegment + datum.barRest * datum.segStart / datum.segTotal",
+          "as": "segEdge"
+        },
+        {
+          "calculate": "datum.segEdge + minSegment + datum.barRest * datum.segCount / datum.segTotal",
+          "as": "segEdge2"
+        },
+        {
+          "calculate": "datum.segEdge + (datum.segBefore > 0 ? segmentGap / 2 : 0)",
+          "as": "segX"
+        },
+        {
+          "calculate": "datum.segEdge2 - (datum.segBefore + 1 < datum.segPresent ? segmentGap / 2 : 0)",
+          "as": "segX2"
+        },
+        {
+          "calculate": "datum.top + 108",
+          "as": "segY"
+        },
+        {
+          "calculate": "datum.top + 156",
+          "as": "segY2"
+        },
+        {
+          "calculate": "datum.top + 132",
+          "as": "segMid"
+        },
+        {
+          "calculate": "datum.segX + 18",
+          "as": "segDotX"
+        },
+        {
+          "calculate": "datum.segX + 30",
+          "as": "segTextX"
+        },
+        {
+          "calculate": "max(0, datum.segX2 - datum.segX - 40)",
+          "as": "segTextLimit"
+        },
+        {
+          "calculate": "[goodFill, warnFill, badFill][datum.segIndex]",
+          "as": "segFill"
+        },
+        {
+          "calculate": "[emerald, amber, red][datum.segIndex]",
+          "as": "segKey"
+        },
+        {
+          "calculate": "datum.segCount + [' healthy', ' to watch', ' to act'][datum.segIndex]",
+          "as": "segLabel"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 10,
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "x": {
+              "field": "segX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "segX2"
+            },
+            "y": {
+              "field": "segY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "segY2"
+            },
+            "fill": {
+              "field": "segFill",
+              "type": "nominal",
+              "scale": null
+            },
+            "stroke": {
+              "field": "segKey",
+              "type": "nominal",
+              "scale": null
+            },
+            "tooltip": [
+              {
+                "field": "segLabel",
+                "title": "Domains"
+              },
+              {
+                "field": "__5__",
+                "title": "Core domains"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 64,
+            "opacity": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "segDotX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "segMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "segKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 15,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "datum.segTextLimit"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "segTextX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "segMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "segLabel"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

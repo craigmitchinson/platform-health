@@ -1,0 +1,330 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "The Labs page team table: one row per team, weakest composite first, with its lab chip, composite on a band tint, and a heat cell per core domain that always shows the score. The footer line states the thresholds.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "healthyFrom", "value": 80 },
+    { "name": "watchFrom", "value": 60 },
+    { "name": "headH", "value": 40 },
+    { "name": "footH", "value": 18 },
+    { "name": "labX", "value": 222 },
+    { "name": "compX", "value": 262 },
+    { "name": "compW", "value": 112 },
+    { "name": "domainX", "value": 386 },
+    { "name": "title", "value": "TEAMS" }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    { "window": [{ "op": "dense_rank", "as": "domainIdx" }], "sort": [{ "field": "domainOrder", "order": "ascending" }] },
+    {
+      "window": [{ "op": "dense_rank", "as": "rowIdx" }],
+      "sort": [{ "field": "composite", "order": "ascending" }, { "field": "team", "order": "ascending" }]
+    },
+    {
+      "joinaggregate": [
+        { "op": "max", "field": "domainIdx", "as": "domainCount" },
+        { "op": "max", "field": "rowIdx", "as": "rowCount" }
+      ]
+    },
+    { "calculate": "max(1, (width - domainX) / datum.domainCount)", "as": "colW" },
+    { "calculate": "max(1, floor((height - headH - footH) / 22))", "as": "fitRows" },
+    { "calculate": "max(22, (height - headH - footH) / min(datum.rowCount, datum.fitRows))", "as": "rowH" },
+    { "filter": "datum.rowIdx <= datum.fitRows" },
+    { "calculate": "headH + (datum.rowIdx - 1) * datum.rowH", "as": "y0" },
+    { "calculate": "datum.y0 + datum.rowH", "as": "y1" },
+    { "calculate": "datum.y0 + datum.rowH / 2", "as": "yMid" },
+    { "calculate": "domainX + (datum.domainIdx - 1) * datum.colW", "as": "cellX" },
+    { "calculate": "datum.cellX + datum.colW / 2", "as": "cellMid" },
+    { "calculate": "{'healthy': 'Healthy', 'watch': 'Watch', 'act': 'Act'}[datum.band] || datum.band", "as": "bandWord" },
+    { "calculate": "datum.composite >= healthyFrom ? 'healthy' : datum.composite >= watchFrom ? 'watch' : 'act'", "as": "compBand" },
+    {
+      "calculate": "{'healthy': 'HEALTHY', 'watch': 'WATCH', 'act': 'ACT'}[datum.compBand]",
+      "as": "compositeWord"
+    },
+    {
+      "calculate": "isValid(datum.labCode) && datum.labCode !== '' ? datum.labCode + '' : upper(substring(datum.lab + '', 0, 2))",
+      "as": "chipCode"
+    },
+    { "calculate": "isValid(datum.labColour) && datum.labColour !== '' ? datum.labColour + '' : muted", "as": "chipColour" }
+  ],
+  "layer": [
+    {
+      "data": {
+        "values": [
+          { "head": "TEAM", "at": 0 },
+          { "head": "LAB", "at": 222 },
+          { "head": "COMPOSITE", "at": 262 }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "y": { "expr": "headH - 10" },
+        "align": "left",
+        "baseline": "alphabetic",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "color": { "expr": "muted" }
+      },
+      "encoding": {
+        "x": { "field": "at", "type": "quantitative", "scale": null },
+        "text": { "field": "head" }
+      }
+    },
+    {
+      "transform": [
+        { "filter": "datum.rowIdx === 1" },
+        { "calculate": "datum.domain + ''", "as": "domainName" },
+        {
+          "calculate": "indexof(datum.domainName, ' ') > 0 ? [substring(datum.domainName, 0, indexof(datum.domainName, ' ')), substring(datum.domainName, indexof(datum.domainName, ' ') + 1)] : ['', datum.domainName]",
+          "as": "domainLines"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "y": { "expr": "headH - 24" },
+        "align": "center",
+        "baseline": "alphabetic",
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "lineHeight": 14,
+        "color": { "expr": "ink" }
+      },
+      "encoding": {
+        "x": { "field": "cellMid", "type": "quantitative", "scale": null },
+        "text": { "field": "domainLines" },
+        "tooltip": [{ "field": "domainName", "title": "Domain" }]
+      }
+    },
+    {
+      "data": { "values": [{ "note": "Healthy 80 and above · Watch 60 to 79 · Act below 60" }] },
+      "mark": {
+        "type": "text",
+        "x": 0,
+        "y": { "expr": "height - 6" },
+        "align": "left",
+        "baseline": "alphabetic",
+        "fontSize": 13,
+        "color": { "expr": "muted" }
+      },
+      "encoding": { "text": { "field": "note" } }
+    },
+    {
+      "encoding": {
+        "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+      },
+      "layer": [
+        {
+          "transform": [{ "filter": "datum.domainIdx === 1" }],
+          "layer": [
+            {
+              "mark": { "type": "rule", "x": 0, "x2": { "expr": "width" }, "color": { "expr": "line" }, "strokeWidth": 1 },
+              "encoding": { "y": { "field": "y1", "type": "quantitative", "scale": null } }
+            },
+            {
+              "mark": { "type": "text", "x": 0, "align": "left", "baseline": "middle", "fontSize": 13.5, "color": { "expr": "ink" }, "limit": 212 },
+              "encoding": {
+                "y": { "field": "yMid", "type": "quantitative", "scale": null },
+                "text": { "field": "team" },
+                "tooltip": [
+                  { "field": "team", "title": "Team" },
+                  { "field": "lab", "title": "Lab" },
+                  { "field": "composite", "title": "Composite" },
+                  { "field": "compositeWord", "title": "Band" }
+                ]
+              }
+            },
+            {
+              "transform": [
+                { "calculate": "datum.yMid - 9", "as": "chipY" },
+                { "calculate": "datum.yMid + 9", "as": "chipY2" }
+              ],
+              "mark": { "type": "rect", "x": { "expr": "labX" }, "x2": { "expr": "labX + 22" }, "cornerRadius": 4 },
+              "encoding": {
+                "y": { "field": "chipY", "type": "quantitative", "scale": null },
+                "y2": { "field": "chipY2" },
+                "color": { "field": "chipColour", "type": "nominal", "scale": null },
+                "tooltip": [{ "field": "lab", "title": "Lab" }]
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "x": { "expr": "labX + 11" },
+                "align": "center",
+                "baseline": "middle",
+                "font": "JetBrains Mono, Consolas, monospace",
+                "fontSize": 10,
+                "fontWeight": 700,
+                "color": { "expr": "surface" }
+              },
+              "encoding": {
+                "y": { "field": "yMid", "type": "quantitative", "scale": null },
+                "text": { "field": "chipCode" },
+                "tooltip": [{ "field": "lab", "title": "Lab" }]
+              }
+            },
+            {
+              "transform": [
+                { "calculate": "datum.y0 + 3", "as": "cellY" },
+                { "calculate": "datum.y1 - 3", "as": "cellY2" }
+              ],
+              "mark": { "type": "rect", "x": { "expr": "compX" }, "x2": { "expr": "compX + compW" }, "cornerRadius": 6 },
+              "encoding": {
+                "y": { "field": "cellY", "type": "quantitative", "scale": null },
+                "y2": { "field": "cellY2" },
+                "color": {
+                  "condition": [
+                    { "test": "datum.compBand === 'healthy'", "value": { "expr": "goodFill" } },
+                    { "test": "datum.compBand === 'watch'", "value": { "expr": "warnFill" } },
+                    { "test": "datum.compBand === 'act'", "value": { "expr": "badFill" } }
+                  ],
+                  "value": { "expr": "sage" }
+                },
+                "tooltip": [
+                  { "field": "team", "title": "Team" },
+                  { "field": "composite", "title": "Composite" },
+                  { "field": "compositeWord", "title": "Band" }
+                ]
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "x": { "expr": "compX + 10" },
+                "align": "left",
+                "baseline": "middle",
+                "font": "Fraunces, Cambria, Georgia, serif",
+                "fontSize": 17,
+                "fontWeight": 700,
+                "color": { "expr": "ink" }
+              },
+              "encoding": { "y": { "field": "yMid", "type": "quantitative", "scale": null }, "text": { "field": "composite" } }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "x": { "expr": "compX + 42" },
+                "align": "left",
+                "baseline": "middle",
+                "font": "JetBrains Mono, Consolas, monospace",
+                "fontSize": 10.5,
+                "fontWeight": 600,
+                "color": { "expr": "ink" }
+              },
+              "encoding": { "y": { "field": "yMid", "type": "quantitative", "scale": null }, "text": { "field": "compositeWord" } }
+            }
+          ]
+        },
+        {
+          "transform": [
+            { "calculate": "datum.cellX + 3", "as": "cellX0" },
+            { "calculate": "datum.cellX + datum.colW - 3", "as": "cellX1" },
+            { "calculate": "datum.y0 + 3", "as": "cellY" },
+            { "calculate": "datum.y1 - 3", "as": "cellY2" },
+            { "calculate": "datum.cellX0 + 3", "as": "stripeX1" }
+          ],
+          "encoding": {
+            "tooltip": [
+              { "field": "team", "title": "Team" },
+              { "field": "domain", "title": "Domain" },
+              { "field": "score", "title": "Score" },
+              { "field": "bandWord", "title": "Band" }
+            ]
+          },
+          "layer": [
+            {
+              "params": [
+                { "name": "__select__", "select": { "type": "point", "fields": ["team"], "on": "click", "clear": "dblclick" } }
+              ],
+              "mark": { "type": "rect", "cornerRadius": 6 },
+              "encoding": {
+                "x": { "field": "cellX0", "type": "quantitative", "scale": null },
+                "x2": { "field": "cellX1" },
+                "y": { "field": "cellY", "type": "quantitative", "scale": null },
+                "y2": { "field": "cellY2" },
+                "color": {
+                  "condition": [
+                    { "test": "datum.band === 'healthy'", "value": { "expr": "goodFill" } },
+                    { "test": "datum.band === 'watch'", "value": { "expr": "warnFill" } },
+                    { "test": "datum.band === 'act'", "value": { "expr": "badFill" } }
+                  ],
+                  "value": { "expr": "sage" }
+                }
+              }
+            },
+            {
+              "mark": { "type": "rect", "cornerRadiusTopLeft": 3, "cornerRadiusBottomLeft": 3 },
+              "encoding": {
+                "x": { "field": "cellX0", "type": "quantitative", "scale": null },
+                "x2": { "field": "stripeX1" },
+                "y": { "field": "cellY", "type": "quantitative", "scale": null },
+                "y2": { "field": "cellY2" },
+                "color": {
+                  "condition": [
+                    { "test": "datum.band === 'healthy'", "value": { "expr": "emerald" } },
+                    { "test": "datum.band === 'watch'", "value": { "expr": "amber" } },
+                    { "test": "datum.band === 'act'", "value": { "expr": "red" } }
+                  ],
+                  "value": { "expr": "muted" }
+                }
+              }
+            },
+            {
+              "mark": { "type": "text", "align": "center", "baseline": "middle", "fontSize": 14, "fontWeight": 700, "color": { "expr": "ink" } },
+              "encoding": {
+                "x": { "field": "cellMid", "type": "quantitative", "scale": null },
+                "y": { "field": "yMid", "type": "quantitative", "scale": null },
+                "text": { "field": "score" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "transform": [
+        { "aggregate": [{ "op": "max", "field": "rowCount", "as": "rows" }, { "op": "min", "field": "fitRows", "as": "shown" }] },
+        { "filter": "datum.rows > datum.shown" },
+        { "calculate": "'+' + (datum.rows - datum.shown) + ' more teams'", "as": "moreText" }
+      ],
+      "mark": {
+        "type": "text",
+        "x": { "expr": "width" },
+        "y": { "expr": "height - 6" },
+        "align": "right",
+        "baseline": "alphabetic",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": { "expr": "muted" }
+      },
+      "encoding": { "text": { "field": "moreText" } }
+    }
+  ]
+}

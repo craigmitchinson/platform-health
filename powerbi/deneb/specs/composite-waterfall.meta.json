@@ -1,0 +1,8 @@
+{
+  "sample": "waterfall.json",
+  "container": "card",
+  "optional": ["short"],
+  "sampleFilter": { "scope": "Estate" },
+  "width": 900,
+  "height": 360
+}

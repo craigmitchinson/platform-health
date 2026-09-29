@@ -1,0 +1,7 @@
+{
+  "sample": "leadership.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "width": 1824,
+  "height": 300
+}

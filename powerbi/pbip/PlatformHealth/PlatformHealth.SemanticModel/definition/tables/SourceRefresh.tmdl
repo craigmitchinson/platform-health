@@ -1,0 +1,49 @@
+table SourceRefresh
+	lineageTag: e0e57844-b86e-5a70-b63c-2a40f7b575e0
+
+	column System
+		dataType: string
+		lineageTag: b4bfe698-dc38-583e-8528-37b8607742ed
+		summarizeBy: none
+		sourceColumn: System
+
+		annotation SummarizationSetBy = Automatic
+
+	column Short
+		dataType: string
+		lineageTag: 19cf87a2-0a4e-525b-8799-b17817ca283b
+		summarizeBy: none
+		sourceColumn: Short
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastRefresh
+		dataType: dateTime
+		formatString: d mmm yyyy hh:nn
+		lineageTag: 0bed079d-8837-5f3e-920d-228aee83a102
+		summarizeBy: none
+		sourceColumn: LastRefresh
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = DateTime
+
+	column Cadence
+		dataType: string
+		lineageTag: 09f4598b-2a51-504d-84c5-89c0c24a2268
+		summarizeBy: none
+		sourceColumn: Cadence
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SourceRefresh = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\SourceRefresh.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"System", type text}, {"Short", type text}, {"LastRefresh", type datetime}, {"Cadence", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

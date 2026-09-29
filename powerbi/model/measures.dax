@@ -1,0 +1,1406 @@
+// Platform Health measures for the _Measures table.
+//
+// UNTESTED against a live model. Written to reproduce src/data/health.ts and the
+// page headline rules exactly, but not yet run in Power BI Desktop. Check the
+// figures against the mock (npm run dev) before relying on them.
+//
+// Desktop feedback, 2026-09-29: the first open of the generated PBIP in Power BI
+// Desktop rejected the table 'Action' written without quotes ("The syntax for
+// 'Action' is incorrect") and the variable names Value, Start, Rows and Open.
+// Every table reference is now single-quoted ('Action'[DueDate]) and every
+// variable name takes an underscore prefix (_Value). Follow both rules in new
+// measures; npm run deneb:pbip checks them.
+//
+// Desktop feedback, first render: every domain card showed the same score and
+// driver, because removing filters from the whole 'Metric' table clears the
+// expanded table, which takes in Domain, so the domain filter went with it.
+// The rule: never REMOVEFILTERS a whole dimension table; remove the column you
+// mean, as in
+// REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ). The same holds for
+// ALL and for 'Domain', 'Team' and 'Lab'. The one exception is ALLNOBLANKROW
+// ( 'Domain' ) in the MovementStep table. 'Quarter' has no table beyond it, so
+// REMOVEFILTERS ( 'Quarter' ) stays. npm run deneb:pbip fails on the table forms.
+//
+// Desktop feedback, second render: when clearing a dimension, clear every column
+// of it that visuals bind, including SortOrder; Power BI adds sort-by columns to
+// queries silently. REMOVEFILTERS or ALL over a dimension's key or name columns
+// ('Domain'[DomainKey]/[DomainName]/[Question], 'Team'[TeamKey]/[TeamName],
+// 'Lab'[LabKey]/[LabName], 'Metric'[MetricKey]/[MetricName]) must also clear that
+// table's sort column ('Domain'[SortOrder], 'Team'[SortOrder], 'Lab'[SortOrder],
+// 'Metric'[SortOrder]) and any other column of it a visual could group by:
+// 'Domain'[DomainGroup] and [DomainGroupName], 'Lab'[LabCode] and [LabColour],
+// 'Team'[LabName] and 'Metric'[DomainName]. npm run deneb:pbip checks this.
+//
+// Desktop feedback, fourth open: the Actions timeline read "14352 open actions"
+// (23 actions x 12 teams x 4 labs x 13 domains) and the Movement teams table
+// listed every team against every lab. Domain, Team and Lab names came from
+// their own tables beside Action or Team rows, and the measures returned 0
+// rather than BLANK, so Power BI kept every combination. Two rules follow.
+// Names: a visual whose rows are actions, teams or metrics takes them from that
+// table's calculated columns, 'Action'[DomainName], 'Action'[TeamName],
+// 'Action'[LabName], 'Team'[LabName] and 'Metric'[DomainName] (model/README.md).
+// The blank rule: a measure returns BLANK when its base table has no rows in
+// context, never a zero fallback, so no plus-zero and no COALESCE. Where a
+// visual must show 0, a measure named "... Display" coalesces to 0 for that
+// visual alone. Text measures, whose names end Headline, Read Out, Display or
+// Formatted, may coalesce their counts inside the text. npm run deneb:pbip fails
+// on plus-zero or COALESCE in any other measure.
+//
+// Desktop feedback, 2026-09-29, speed: pages took one to two minutes because
+// every Deneb row scored each team and metric inside nested iterators
+// (AVERAGEX over teams of a measure that ran ADDCOLUMNS over metrics of a
+// measure that summed MetricValue). Scores are now computed at refresh in the
+// 'ScoreFact' table (model/csv/ScoreFact.csv): one row per MetricValue row with the
+// team-grain Score (scoreMetric, teamCount 1), Band and IsScored. The rule: no
+// nested iterators in measures bound to Deneb rows. Score measures aggregate
+// 'ScoreFact'[Score]; where the app rounds per team or per domain before taking a
+// mean, build that grain once with SUMMARIZE over 'ScoreFact' (and GROUPBY for the
+// next level) inside one CALCULATETABLE, never an iterator over a measure that
+// iterates. [Metric Value] still reads 'MetricValue' by the Aggregate rule.
+//
+// Assumptions:
+// - Tables and columns are exactly as written by powerbi/scripts/export-model.ts,
+//   with Value, Target, SortOrder and the key columns typed as numbers where
+//   numeric, IsScored, IsCore and IsCurrent typed as True/False, and DueDate,
+//   QuarterStart and RefreshDate typed as Date.
+// - Relationships are as listed in relationships.md: all many to one, all single
+//   direction. 'Lab' filters 'Team'; 'Team' filters 'MetricValue', 'ScoreFact' and 'Action';
+//   'Metric' and 'Quarter' filter 'MetricValue' and 'ScoreFact'; 'Domain' filters 'Metric' and 'Action'.
+//   'Team' filters 'Person'; 'Person' and 'Skill' filter 'PersonSkill'.
+// - Config, Period, MovementStep, Page and SourceRefresh are disconnected tables. Period is the calculated table
+//   below, used as a single-select slicer. MovementStep is the calculated table
+//   below that gives the Movement waterfall its start, domain and end rows.
+// - Slicers sit on Lab and Team columns. A single selected team wins over a lab,
+//   as in the app.
+// - Scores use the app's rounding (JavaScript Math.round, half up), written as
+//   INT ( x + 0.5 ), not DAX ROUND, which rounds half away from zero.
+// - The model culture is English (United Kingdom), so FORMAT gives "1,234.5".
+// - With no Quarter filter, every measure reads the current quarter
+//   ('Quarter'[IsCurrent]). With one quarter in context (a trend axis), it reads
+//   that quarter.
+//
+// Period table (Modeling, New table), disconnected:
+//
+// Period =
+// DATATABLE (
+//     "Quarters", INTEGER,
+//     "Period", STRING,
+//     { { 2, "Last 2 quarters" }, { 4, "Last 4 quarters" }, { 6, "Last 6 quarters" } }
+// )
+//
+// MovementStep table (Modeling, New table), disconnected:
+//
+// MovementStep =
+// VAR _Core =
+//     SELECTCOLUMNS (
+//         FILTER ( ALLNOBLANKROW ( 'Domain' ), 'Domain'[IsCore] = TRUE () ),
+//         "Step", 'Domain'[SortOrder],
+//         "Label", 'Domain'[DomainName],
+//         "Short", SWITCH ( 'Domain'[DomainKey], "maturity", "Maturity", "architecture", "Arch.", 'Domain'[DomainName] ),
+//         "Kind", "delta",
+//         "DomainKey", 'Domain'[DomainKey]
+//     )
+// VAR _EndStep = MAXX ( _Core, [Step] ) + 1
+// RETURN
+//     UNION (
+//         ROW ( "Step", 0, "Label", "Period start", "Short", "Period start", "Kind", "start", "DomainKey", BLANK () ),
+//         _Core,
+//         ROW ( "Step", _EndStep, "Label", "Now", "Short", "Now", "Kind", "end", "DomainKey", BLANK () )
+//     )
+//
+// Paste each block below into the formula bar as a new measure on _Measures.
+
+
+// ===========================================================================
+// Quarter and value helpers
+// ===========================================================================
+
+// The quarter a measure reads: the one quarter in context, else the current quarter.
+Score Quarter Key =
+VAR _CurrentKey =
+    CALCULATE ( MAX ( 'Quarter'[QuarterKey] ), REMOVEFILTERS ( 'Quarter' ), 'Quarter'[IsCurrent] = TRUE () )
+RETURN
+    IF ( HASONEVALUE ( 'Quarter'[QuarterKey] ), VALUES ( 'Quarter'[QuarterKey] ), _CurrentKey )
+
+// Raw sum of MetricValue at the score quarter. A building block, not for visuals.
+Value At Quarter =
+VAR _ReadKey = [Score Quarter Key]
+RETURN
+    CALCULATE ( SUM ( 'MetricValue'[Value] ), REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _ReadKey )
+
+// Teams in scope for the current slicers (filteredTeams).
+Teams In Scope =
+COUNTROWS ( 'Team' )
+
+// Scope label: the team when one is selected, else the lab, else the estate.
+Scope Name =
+SWITCH (
+    TRUE (),
+    ISFILTERED ( 'Team' ) && HASONEVALUE ( 'Team'[TeamKey] ), SELECTEDVALUE ( 'Team'[TeamName] ),
+    ISFILTERED ( 'Lab' ) && HASONEVALUE ( 'Lab'[LabKey] ), SELECTEDVALUE ( 'Lab'[LabName] ),
+    "the estate"
+)
+
+
+// ===========================================================================
+// Score helpers (one metric in context)
+// ===========================================================================
+
+// Metric value for the teams in scope, rolled up by Aggregate (aggregateMetrics).
+// Averages are rounded to one decimal, as the app does.
+Metric Value =
+VAR _Agg = SELECTEDVALUE ( 'Metric'[Aggregate] )
+VAR _ReadKey = [Score Quarter Key]
+VAR _Result =
+    SWITCH (
+        _Agg,
+        "sum", [Value At Quarter],
+        "avg",
+            VAR _Mean = CALCULATE ( AVERAGE ( 'MetricValue'[Value] ), REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _ReadKey )
+            RETURN IF ( ISBLANK ( _Mean ), BLANK (), INT ( _Mean * 10 + 0.5 ) / 10 ),
+        "max", CALCULATE ( MAX ( 'MetricValue'[Value] ), REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _ReadKey )
+    )
+RETURN
+    IF ( HASONEVALUE ( 'Metric'[MetricKey] ), _Result )
+
+// Target for the scope: sums scale with the number of teams, rates do not (targetFor).
+Metric Target =
+VAR _Teams = MAX ( 1, [Teams In Scope] )
+VAR _Target = SELECTEDVALUE ( 'Metric'[Target] )
+RETURN
+    IF (
+        HASONEVALUE ( 'Metric'[MetricKey] ),
+        _Target * IF ( SELECTEDVALUE ( 'Metric'[Aggregate] ) = "sum", _Teams, 1 )
+    )
+
+// Distance past target at which the metric scores 0 (spanFor), scaled like the target.
+Metric Span =
+VAR _Teams = MAX ( 1, [Teams In Scope] )
+VAR _Target = SELECTEDVALUE ( 'Metric'[Target] )
+VAR _Dir = SELECTEDVALUE ( 'Metric'[Direction] )
+VAR _Unit = SELECTEDVALUE ( 'Metric'[Unit] )
+VAR _Span =
+    SWITCH (
+        TRUE (),
+        _Unit = "pct", IF ( _Dir = "lower", 20, 30 ),
+        _Dir = "higher", _Target,
+        MAX ( _Target * 2, 5 )
+    )
+RETURN
+    IF (
+        HASONEVALUE ( 'Metric'[MetricKey] ),
+        _Span * IF ( SELECTEDVALUE ( 'Metric'[Aggregate] ) = "sum", _Teams, 1 )
+    )
+
+// Signed shortfall against target for the scope: above 0 means off target.
+Metric Gap =
+VAR _Value = [Metric Value]
+VAR _Target = [Metric Target]
+RETURN
+    IF (
+        HASONEVALUE ( 'Metric'[MetricKey] ) && NOT ISBLANK ( _Value ),
+        IF ( SELECTEDVALUE ( 'Metric'[Direction] ) = "lower", _Value - _Target, _Target - _Value )
+    )
+
+// One team's 0 to 100 score for one metric (scoreMetric with teamCount 1).
+Team Metric Score =
+IF (
+    HASONEVALUE ( 'Team'[TeamKey] ) && HASONEVALUE ( 'Metric'[MetricKey] ),
+    VAR _ReadKey = [Score Quarter Key]
+    RETURN
+        CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ), REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _ReadKey, 'ScoreFact'[IsScored] = TRUE () )
+)
+
+// 0 to 100 metric score for the scope: the mean of each team's own score, so the
+// band agrees with the domain score (DomainPage metricRows).
+Metric Score =
+IF (
+    HASONEVALUE ( 'Metric'[MetricKey] ),
+    VAR _ReadKey = [Score Quarter Key]
+    VAR _Mean =
+        CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ), REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _ReadKey, 'ScoreFact'[IsScored] = TRUE () )
+    RETURN IF ( ISBLANK ( _Mean ), BLANK (), INT ( _Mean + 0.5 ) )
+)
+
+// Band word for the metric; context-only metrics read "Context".
+Metric Band =
+VAR _MetricScore = [Metric Score]
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+RETURN
+    IF (
+        HASONEVALUE ( 'Metric'[MetricKey] ),
+        IF (
+            SELECTEDVALUE ( 'Metric'[IsScored] ) = FALSE (),
+            "Context",
+            IF ( ISBLANK ( _MetricScore ), BLANK (), IF ( _MetricScore >= _Healthy, "Healthy", IF ( _MetricScore >= _Watch, "Watch", "Act" ) ) )
+        )
+    )
+
+// Change in the metric value over the selected period, one decimal (KPI tile delta).
+Metric Delta over Period =
+VAR _CurrentKey = [Score Quarter Key]
+VAR _StartKey = _CurrentKey - [Selected Quarters] + 1
+VAR _StartValue =
+    CALCULATE ( [Metric Value], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _StartKey )
+VAR _NowValue = [Metric Value]
+RETURN
+    IF (
+        HASONEVALUE ( 'Metric'[MetricKey] ) && _StartKey >= 1 && NOT ISBLANK ( _NowValue ) && NOT ISBLANK ( _StartValue ),
+        INT ( ( _NowValue - _StartValue ) * 10 + 0.5 ) / 10
+    )
+
+
+// ===========================================================================
+// Domain and composite scores
+// ===========================================================================
+
+// One team's score for one domain: the mean of its scored metric scores (domainScore).
+Team Domain Score =
+IF (
+    HASONEVALUE ( 'Team'[TeamKey] ) && HASONEVALUE ( 'Domain'[DomainKey] ),
+    VAR _ReadKey = [Score Quarter Key]
+    VAR _Mean =
+        CALCULATE (
+            AVERAGE ( 'ScoreFact'[Score] ),
+            REMOVEFILTERS ( 'Quarter' ),
+            'Quarter'[QuarterKey] = _ReadKey,
+            'ScoreFact'[IsScored] = TRUE (),
+            REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] )
+        )
+    RETURN
+        IF ( NOT ISBLANK ( _Mean ), INT ( _Mean + 0.5 ) )
+)
+
+// A domain's score for the teams in scope: the mean of each team's domain score (scopeDomainScore).
+Domain Score =
+IF (
+    HASONEVALUE ( 'Domain'[DomainKey] ),
+    VAR _ReadKey = [Score Quarter Key]
+    VAR _Teams =
+        CALCULATETABLE (
+            ADDCOLUMNS ( VALUES ( 'ScoreFact'[TeamKey] ), "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 ) ),
+            REMOVEFILTERS ( 'Quarter' ),
+            'Quarter'[QuarterKey] = _ReadKey,
+            'ScoreFact'[IsScored] = TRUE (),
+            REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] )
+        )
+    VAR _Mean = AVERAGEX ( _Teams, [@Domain] )
+    RETURN
+        IF ( NOT ISBLANK ( _Mean ), INT ( _Mean + 0.5 ) )
+)
+
+// One team's composite: the mean of its core domain scores (teamScore).
+Team Composite =
+IF (
+    HASONEVALUE ( 'Team'[TeamKey] ),
+    VAR _ReadKey = [Score Quarter Key]
+    VAR _TeamDomain =
+        CALCULATETABLE (
+            ADDCOLUMNS (
+                SUMMARIZE ( 'ScoreFact', 'Domain'[DomainKey] ),
+                "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+            ),
+            REMOVEFILTERS ( 'Quarter' ),
+            'Quarter'[QuarterKey] = _ReadKey,
+            'ScoreFact'[IsScored] = TRUE (),
+            REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+            REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+            'Domain'[IsCore] = TRUE ()
+        )
+    VAR _Mean = AVERAGEX ( _TeamDomain, [@Domain] )
+    RETURN
+        IF ( NOT ISBLANK ( _Mean ), INT ( _Mean + 0.5 ) )
+)
+
+// Composite for the scope: the mean of team composites (OverviewPage compositeScore, labScore).
+Composite =
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Teams = GROUPBY ( _TeamDomain, 'ScoreFact'[TeamKey], "@Composite", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+VAR _Mean = AVERAGEX ( _Teams, INT ( [@Composite] + 0.5 ) )
+RETURN
+    IF ( NOT ISBLANK ( _Mean ), INT ( _Mean + 0.5 ) )
+
+// The score a visual should show: the domain score with one domain in context, else the composite.
+Score =
+IF ( HASONEVALUE ( 'Domain'[DomainKey] ), [Domain Score], [Composite] )
+
+// Band word for [Score], from the Config thresholds (bandFor).
+Band =
+VAR _ScoreNow = [Score]
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+RETURN
+    IF ( NOT ISBLANK ( _ScoreNow ), IF ( _ScoreNow >= _Healthy, "Healthy", IF ( _ScoreNow >= _Watch, "Watch", "Act" ) ) )
+
+
+// ===========================================================================
+// Period
+// ===========================================================================
+
+// Quarters in the trend window from the disconnected Period slicer; six when none is chosen.
+Selected Quarters =
+SELECTEDVALUE ( 'Period'[Quarters], 6 )
+
+// 1 when the quarter in context sits inside the selected window, else blank. Use as
+// a visual filter (is 1) on trend visuals with Quarter[QuarterLabel] on the axis.
+In Selected Period =
+VAR _CurrentKey =
+    CALCULATE ( MAX ( 'Quarter'[QuarterKey] ), REMOVEFILTERS ( 'Quarter' ), 'Quarter'[IsCurrent] = TRUE () )
+VAR _ThisKey = SELECTEDVALUE ( 'Quarter'[QuarterKey] )
+RETURN
+    IF ( _ThisKey > _CurrentKey - [Selected Quarters] && _ThisKey <= _CurrentKey, 1 )
+
+// Change in [Score] against the previous quarter.
+Score Delta vs Previous =
+VAR _CurrentKey = [Score Quarter Key]
+VAR _Previous =
+    CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _CurrentKey - 1 )
+VAR _ScoreNow = [Score]
+RETURN
+    IF ( _CurrentKey > 1 && NOT ISBLANK ( _ScoreNow ) && NOT ISBLANK ( _Previous ), _ScoreNow - _Previous )
+
+// Change in [Score] from the first to the last quarter of the selected period
+// (the Labs movers and the domain trend read-out).
+Score Delta over Period =
+VAR _CurrentKey = [Score Quarter Key]
+VAR _StartKey = _CurrentKey - [Selected Quarters] + 1
+VAR _Start =
+    CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _StartKey )
+VAR _ScoreNow = [Score]
+RETURN
+    IF ( _StartKey >= 1 && NOT ISBLANK ( _ScoreNow ) && NOT ISBLANK ( _Start ), _ScoreNow - _Start )
+
+
+// ===========================================================================
+// Counts
+// ===========================================================================
+
+// Core domains scoring Healthy for the scope.
+Domains Healthy =
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Domains = GROUPBY ( _TeamDomain, 'Domain'[DomainKey], "@Mean", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+RETURN
+    COUNTROWS ( FILTER ( _Domains, INT ( [@Mean] + 0.5 ) >= _Healthy ) )
+
+// Core domains scoring Watch for the scope.
+Domains Watch =
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Domains = GROUPBY ( _TeamDomain, 'Domain'[DomainKey], "@Mean", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+RETURN
+    COUNTROWS ( FILTER ( _Domains, INT ( [@Mean] + 0.5 ) >= _Watch && INT ( [@Mean] + 0.5 ) < _Healthy ) )
+
+// Core domains scoring Act for the scope.
+Domains Act =
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Domains = GROUPBY ( _TeamDomain, 'Domain'[DomainKey], "@Mean", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+RETURN
+    COUNTROWS ( FILTER ( _Domains, INT ( [@Mean] + 0.5 ) < _Watch ) )
+
+// Number of core domains.
+Core Domains =
+CALCULATE ( COUNTROWS ( 'Domain' ), REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ), 'Domain'[IsCore] = TRUE () )
+
+// Teams in scope whose composite is Healthy (Labs page lab cards).
+Teams Healthy =
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Teams = GROUPBY ( _TeamDomain, 'ScoreFact'[TeamKey], "@Composite", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+RETURN
+    COUNTROWS ( FILTER ( _Teams, INT ( [@Composite] + 0.5 ) >= _Healthy ) )
+
+// Teams in scope whose composite is Watch (Labs page lab cards).
+Teams Watch =
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Teams = GROUPBY ( _TeamDomain, 'ScoreFact'[TeamKey], "@Composite", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+RETURN
+    COUNTROWS ( FILTER ( _Teams, INT ( [@Composite] + 0.5 ) >= _Watch && INT ( [@Composite] + 0.5 ) < _Healthy ) )
+
+// Teams in scope whose composite is in the Act band.
+Teams Needing Action =
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Teams = GROUPBY ( _TeamDomain, 'ScoreFact'[TeamKey], "@Composite", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+RETURN
+    COUNTROWS ( FILTER ( _Teams, INT ( [@Composite] + 0.5 ) < _Watch ) )
+
+// Name of the lowest-scoring core domain for the scope; ties go to the earlier domain.
+Worst Domain =
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey], 'Domain'[SortOrder], 'Domain'[DomainName] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Domains =
+    GROUPBY (
+        _TeamDomain,
+        'Domain'[DomainKey], 'Domain'[SortOrder], 'Domain'[DomainName],
+        "@Mean", AVERAGEX ( CURRENTGROUP (), [@Domain] )
+    )
+VAR _Worst = TOPN ( 1, _Domains, INT ( [@Mean] + 0.5 ), ASC, 'Domain'[SortOrder], ASC )
+RETURN
+    CONCATENATEX ( _Worst, 'Domain'[DomainName] )
+
+// Open actions in scope.
+Open Actions =
+COUNTROWS ( 'Action' )
+
+// Open actions in scope due before the refresh date.
+Actions Past Due =
+VAR _Refreshed = MAX ( 'Config'[RefreshDate] )
+RETURN
+    COUNTROWS ( FILTER ( 'Action', 'Action'[DueDate] < _Refreshed ) )
+
+// Open actions in scope due from the refresh date to 30 days after it, inclusive.
+Actions Due 30 Days =
+VAR _Refreshed = MAX ( 'Config'[RefreshDate] )
+RETURN
+    COUNTROWS ( FILTER ( 'Action', 'Action'[DueDate] >= _Refreshed && 'Action'[DueDate] <= _Refreshed + 30 ) )
+
+// Open actions in scope of Act severity.
+Actions Act =
+COUNTROWS ( FILTER ( 'Action', 'Action'[Severity] = "act" ) )
+
+// Open actions in scope due from the refresh date to 7 days after it, inclusive.
+Actions This Week =
+VAR _Refreshed = MAX ( 'Config'[RefreshDate] )
+RETURN
+    COUNTROWS ( FILTER ( 'Action', 'Action'[DueDate] >= _Refreshed && 'Action'[DueDate] <= _Refreshed + 7 ) )
+
+// Open actions in scope due 8 to 30 days after the refresh date.
+Actions Next 30 Days =
+VAR _Refreshed = MAX ( 'Config'[RefreshDate] )
+RETURN
+    COUNTROWS ( FILTER ( 'Action', 'Action'[DueDate] > _Refreshed + 7 && 'Action'[DueDate] <= _Refreshed + 30 ) )
+
+// Open actions in scope due more than 30 days after the refresh date.
+Actions Later =
+VAR _Refreshed = MAX ( 'Config'[RefreshDate] )
+RETURN
+    COUNTROWS ( FILTER ( 'Action', 'Action'[DueDate] > _Refreshed + 30 ) )
+
+
+// ===========================================================================
+// Formatting (formatValue in src/components/primitives.tsx)
+// ===========================================================================
+
+// Metric value with its unit: count, pct, days, gbp, perMonth, level ("x.x of 5").
+Metric Value Formatted =
+VAR _X = [Metric Value]
+VAR _Unit = SELECTEDVALUE ( 'Metric'[Unit] )
+VAR _X3 = ROUND ( _X, 3 )
+VAR _Num = IF ( _X3 = INT ( _X3 ), FORMAT ( _X3, "#,0" ), FORMAT ( _X3, "#,0.###" ) )
+VAR _X1 = ROUND ( _X, 1 )
+VAR _Pct = IF ( _X1 = INT ( _X1 ), FORMAT ( _X1, "#,0" ), FORMAT ( _X1, "#,0.0" ) )
+RETURN
+    IF (
+        HASONEVALUE ( 'Metric'[MetricKey] ) && NOT ISBLANK ( _X ),
+        SWITCH (
+            _Unit,
+            "pct", _Pct & "%",
+            "days", _Num & " days",
+            "gbp", "£" & _Num,
+            "perMonth", _Num & " / month",
+            "level", FORMAT ( _X, "0.0" ) & " of 5",
+            _Num
+        )
+    )
+
+// Target for the scope with its unit, formatted as the value is.
+Metric Target Formatted =
+VAR _X = [Metric Target]
+VAR _Unit = SELECTEDVALUE ( 'Metric'[Unit] )
+VAR _X3 = ROUND ( _X, 3 )
+VAR _Num = IF ( _X3 = INT ( _X3 ), FORMAT ( _X3, "#,0" ), FORMAT ( _X3, "#,0.###" ) )
+VAR _X1 = ROUND ( _X, 1 )
+VAR _Pct = IF ( _X1 = INT ( _X1 ), FORMAT ( _X1, "#,0" ), FORMAT ( _X1, "#,0.0" ) )
+RETURN
+    IF (
+        HASONEVALUE ( 'Metric'[MetricKey] ) && NOT ISBLANK ( _X ),
+        SWITCH (
+            _Unit,
+            "pct", _Pct & "%",
+            "days", _Num & " days",
+            "gbp", "£" & _Num,
+            "perMonth", _Num & " / month",
+            "level", FORMAT ( _X, "0.0" ) & " of 5",
+            _Num
+        )
+    )
+
+
+// ===========================================================================
+// Worst and best metric of a domain (one domain in context)
+// ===========================================================================
+
+// Key of the scored metric with the lowest [Metric Score]; ties go to the earlier metric.
+Worst Metric Key =
+VAR _ReadKey = [Score Quarter Key]
+VAR _Rows =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'Metric'[MetricKey], 'Metric'[SortOrder] ),
+            "@Score", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] )
+    )
+RETURN
+    IF (
+        HASONEVALUE ( 'Domain'[DomainKey] ) && COUNTROWS ( _Rows ) > 0,
+        CONCATENATEX ( TOPN ( 1, _Rows, [@Score], ASC, 'Metric'[SortOrder], ASC ), 'Metric'[MetricKey] )
+    )
+
+// Key of the scored metric with the highest [Metric Score]; ties go to the earlier metric.
+Best Metric Key =
+VAR _ReadKey = [Score Quarter Key]
+VAR _Rows =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'Metric'[MetricKey], 'Metric'[SortOrder] ),
+            "@Score", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] )
+    )
+RETURN
+    IF (
+        HASONEVALUE ( 'Domain'[DomainKey] ) && COUNTROWS ( _Rows ) > 0,
+        CONCATENATEX ( TOPN ( 1, _Rows, [@Score], DESC, 'Metric'[SortOrder], ASC ), 'Metric'[MetricKey] )
+    )
+
+// Overview domain card driver line: "{short}: {value} vs target {target}".
+Domain Driver =
+VAR _DriverKey = [Worst Metric Key]
+RETURN
+    IF (
+        NOT ISBLANK ( _DriverKey ),
+        CALCULATE (
+            SELECTEDVALUE ( 'Metric'[ShortName] ) & ": " & [Metric Value Formatted] & " vs target "
+                & [Metric Target Formatted],
+            REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+            'Metric'[MetricKey] = _DriverKey
+        )
+    )
+
+
+// ===========================================================================
+// Headlines and read-outs
+// ===========================================================================
+
+// Overview headline (OverviewPage).
+Overview Headline =
+VAR _Healthy = COALESCE ( [Domains Healthy], 0 )
+VAR _Teams = COALESCE ( [Teams Needing Action], 0 )
+VAR _Worst = [Worst Domain]
+VAR _TeamsLine =
+    IF (
+        _Teams = 0,
+        "No team needs action; " & _Worst & " is the weakest domain.",
+        _Teams & IF ( _Teams = 1, " team needs", " teams need" ) & " action, led by " & _Worst & "."
+    )
+RETURN
+    _Healthy & " of " & [Core Domains] & " domains healthy across " & [Scope Name] & ". " & _TeamsLine
+
+// Labs headline (labHeadline in LabsPage): single team, single lab, estate with
+// and without Act ratings, and no teams in scope.
+Labs Headline =
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _IsTeam = ISFILTERED ( 'Team' ) && HASONEVALUE ( 'Team'[TeamKey] )
+VAR _TeamScore = [Composite]
+VAR _TeamBand = IF ( _TeamScore >= _Healthy, "Healthy", IF ( _TeamScore >= _Watch, "Watch", "Act" ) )
+VAR _Labs =
+    FILTER (
+        ADDCOLUMNS (
+            'Lab',
+            "@Teams", CALCULATE ( COUNTROWS ( 'Team' ) ) + 0,
+            "@Score", CALCULATE ( [Composite] ),
+            "@Act", CALCULATE ( COALESCE ( [Teams Needing Action], 0 ) )
+        ),
+        [@Teams] > 0
+    )
+VAR _LabCount = COUNTROWS ( _Labs ) + 0
+VAR _Best = TOPN ( 1, _Labs, [@Score], DESC, 'Lab'[SortOrder], ASC )
+VAR _MostAct = TOPN ( 1, _Labs, [@Act], DESC, 'Lab'[SortOrder], ASC )
+VAR _MostActCount = MAXX ( _MostAct, [@Act] )
+RETURN
+    SWITCH (
+        TRUE (),
+        _IsTeam,
+            SELECTEDVALUE ( 'Team'[TeamName] ) & " scores " & _TeamScore & ", in the " & _TeamBand & " band.",
+        _LabCount = 0, "No teams in scope.",
+        _LabCount = 1,
+            CONCATENATEX ( _Labs, 'Lab'[LabName] ) & " scores " & MAXX ( _Labs, [@Score] ) & "; "
+                & MAXX ( _Labs, [@Act] ) & " of " & MAXX ( _Labs, [@Teams] ) & " teams sit in the Act band.",
+        _MostActCount > 0,
+            CONCATENATEX ( _Best, 'Lab'[LabName] ) & " is the healthiest lab; "
+                & CONCATENATEX ( _MostAct, 'Lab'[LabName] ) & " carries the most Act ratings.",
+        CONCATENATEX ( _Best, 'Lab'[LabName] ) & " is the healthiest lab; no lab has a team in the Act band."
+    )
+
+// Domain page headline (DomainPage): furthest-from-target, inside-in-total,
+// every-metric (only when the worst metric scores 100) and no-scored-metric branches.
+Domain Headline =
+VAR _DomainName = SELECTEDVALUE ( 'Domain'[DomainName] )
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+VAR _ScoreNow = [Domain Score]
+VAR _BandWord = IF ( _ScoreNow >= _Healthy, "healthy", IF ( _ScoreNow >= _Watch, "watch", "act" ) )
+VAR _WorstKey = [Worst Metric Key]
+VAR _BestKey = [Best Metric Key]
+VAR _WorstName = CALCULATE ( SELECTEDVALUE ( 'Metric'[MetricName] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstScore = CALCULATE ( [Metric Score], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstGap = CALCULATE ( [Metric Gap], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstValue = CALCULATE ( [Metric Value Formatted], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstTarget = CALCULATE ( [Metric Target Formatted], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _BestName = CALCULATE ( SELECTEDVALUE ( 'Metric'[MetricName] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _BestKey )
+VAR _BestGap = CALCULATE ( [Metric Gap], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _BestKey )
+VAR _BestValue = CALCULATE ( [Metric Value Formatted], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _BestKey )
+VAR _BestTarget = CALCULATE ( [Metric Target Formatted], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _BestKey )
+VAR _BestWording =
+    IF (
+        _BestGap < 0,
+        _BestName & " is ahead of target",
+        IF (
+            _BestGap = 0,
+            _BestName & " is on target",
+            _BestName & " is closest to target at " & _BestValue & " against " & _BestTarget
+        )
+    )
+VAR _BestClause = IF ( _BestKey = _WorstKey, "", "; " & _BestWording )
+VAR _ScoreLead = _DomainName & " scores " & _ScoreNow & ", " & _BandWord & "."
+RETURN
+    IF (
+        HASONEVALUE ( 'Domain'[DomainKey] ),
+        SWITCH (
+            TRUE (),
+            ISBLANK ( _WorstKey ) || ISBLANK ( _BestKey ), "No measure in " & _DomainName & " is scored yet.",
+            _WorstScore = 100, _ScoreLead & " Every metric is on or ahead of target.",
+            _WorstGap > 0,
+                _ScoreLead & " " & _WorstName & " is furthest from target at " & _WorstValue & " against "
+                    & _WorstTarget & _BestClause & ".",
+            _ScoreLead & " " & _WorstName & " is inside target in total, but not for every team" & _BestClause & "."
+        )
+    )
+
+// Sources headline (SourcesPage). Estate-wide: ignores every slicer.
+Sources Headline =
+VAR _Metrics = ALL ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName], 'Metric'[Readiness] )
+VAR _Total = COUNTROWS ( _Metrics )
+VAR _Live = COUNTROWS ( FILTER ( _Metrics, 'Metric'[Readiness] = "live" ) ) + 0
+VAR _Partial = COUNTROWS ( FILTER ( _Metrics, 'Metric'[Readiness] = "partial" ) ) + 0
+VAR _Aspirational = COUNTROWS ( FILTER ( _Metrics, 'Metric'[Readiness] = "aspirational" ) ) + 0
+RETURN
+    _Live & " of " & _Total & " metrics are live today; " & _Partial & " are partial and " & _Aspirational
+        & " are aspirational. Plan for all of them."
+
+// Actions headline (ActionsPage).
+Actions Headline =
+VAR _Open = COALESCE ( [Open Actions], 0 )
+RETURN
+    _Open & " open action" & IF ( _Open = 1, "", "s" ) & " across " & [Scope Name] & "; " & COALESCE ( [Actions Past Due], 0 )
+        & " past due, " & COALESCE ( [Actions Due 30 Days], 0 ) & " due within 30 days."
+
+// Domain read-out 1: the worst metric's gap to target, or confirmation it is inside target.
+Read Out 1 =
+VAR _WorstKey = [Worst Metric Key]
+VAR _ScopeName = [Scope Name]
+VAR _WorstName = CALCULATE ( SELECTEDVALUE ( 'Metric'[MetricName] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstUnit = CALCULATE ( SELECTEDVALUE ( 'Metric'[Unit] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstScore = CALCULATE ( [Metric Score], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstGap = CALCULATE ( [Metric Gap], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _G = INT ( _WorstGap * 10 + 0.5 ) / 10
+VAR _G3 = ROUND ( _G, 3 )
+VAR _Num = IF ( _G3 = INT ( _G3 ), FORMAT ( _G3, "#,0" ), FORMAT ( _G3, "#,0.###" ) )
+VAR _G1 = ROUND ( _G, 1 )
+VAR _Pct = IF ( _G1 = INT ( _G1 ), FORMAT ( _G1, "#,0" ), FORMAT ( _G1, "#,0.0" ) )
+VAR _GapText =
+    SWITCH (
+        _WorstUnit,
+        "pct", _Pct & "%",
+        "days", _Num & " days",
+        "gbp", "£" & _Num,
+        "perMonth", _Num & " / month",
+        "level", FORMAT ( _G, "0.0" ) & " of 5",
+        _Num
+    )
+RETURN
+    IF (
+        HASONEVALUE ( 'Domain'[DomainKey] ),
+        SWITCH (
+            TRUE (),
+            ISBLANK ( _WorstKey ), "No measure in this domain is scored yet.",
+            _WorstGap > 0, _WorstName & " is " & _GapText & " off target across " & _ScopeName & ".",
+            _WorstScore < 100,
+                _WorstName & " is inside target across " & _ScopeName & " in total, but not for every team.",
+            "Every scored measure is at or inside target across " & _ScopeName & "."
+        )
+    )
+
+// Domain read-out 2: concentration of a summed metric, range of an averaged one,
+// or a single team against the estate average.
+Read Out 2 =
+VAR _WorstKey = [Worst Metric Key]
+VAR _ScopeName = [Scope Name]
+VAR _TeamCount = [Teams In Scope]
+VAR _WorstName = CALCULATE ( SELECTEDVALUE ( 'Metric'[MetricName] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstUnit = CALCULATE ( SELECTEDVALUE ( 'Metric'[Unit] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _WorstAgg = CALCULATE ( SELECTEDVALUE ( 'Metric'[Aggregate] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _WorstKey )
+VAR _ReadKey = [Score Quarter Key]
+VAR _Shares =
+    CALCULATETABLE (
+        ADDCOLUMNS ( SUMMARIZE ( 'ScoreFact', 'Team'[TeamKey], 'Team'[TeamName], 'Team'[SortOrder] ), "@Value", CALCULATE ( SUM ( 'ScoreFact'[Value] ) ) ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        'Metric'[MetricKey] = _WorstKey
+    )
+VAR _Total = SUMX ( _Shares, [@Value] )
+VAR _Top2 = TOPN ( 2, _Shares, [@Value], DESC, 'Team'[SortOrder], ASC )
+VAR _Top2Names = CONCATENATEX ( _Top2, 'Team'[TeamName], " and ", [@Value], DESC, 'Team'[SortOrder], ASC )
+VAR _Share = IF ( _Total > 0, INT ( SUMX ( _Top2, [@Value] ) / _Total * 100 + 0.5 ), 0 )
+VAR _Lo = MINX ( _Shares, [@Value] )
+VAR _Hi = MAXX ( _Shares, [@Value] )
+VAR _Lo3 = ROUND ( _Lo, 3 )
+VAR _Hi3 = ROUND ( _Hi, 3 )
+VAR _LoNum = IF ( _Lo3 = INT ( _Lo3 ), FORMAT ( _Lo3, "#,0" ), FORMAT ( _Lo3, "#,0.###" ) )
+VAR _HiNum = IF ( _Hi3 = INT ( _Hi3 ), FORMAT ( _Hi3, "#,0" ), FORMAT ( _Hi3, "#,0.###" ) )
+VAR _Lo1 = ROUND ( _Lo, 1 )
+VAR _Hi1 = ROUND ( _Hi, 1 )
+VAR _LoPct = IF ( _Lo1 = INT ( _Lo1 ), FORMAT ( _Lo1, "#,0" ), FORMAT ( _Lo1, "#,0.0" ) )
+VAR _HiPct = IF ( _Hi1 = INT ( _Hi1 ), FORMAT ( _Hi1, "#,0" ), FORMAT ( _Hi1, "#,0.0" ) )
+VAR _LoText =
+    SWITCH (
+        _WorstUnit,
+        "pct", _LoPct & "%",
+        "days", _LoNum & " days",
+        "gbp", "£" & _LoNum,
+        "perMonth", _LoNum & " / month",
+        "level", FORMAT ( _Lo, "0.0" ) & " of 5",
+        _LoNum
+    )
+VAR _HiText =
+    SWITCH (
+        _WorstUnit,
+        "pct", _HiPct & "%",
+        "days", _HiNum & " days",
+        "gbp", "£" & _HiNum,
+        "perMonth", _HiNum & " / month",
+        "level", FORMAT ( _Hi, "0.0" ) & " of 5",
+        _HiNum
+    )
+VAR _Own = [Domain Score]
+VAR _EstateAverage = CALCULATE ( [Domain Score], REMOVEFILTERS ( 'Team'[TeamKey], 'Team'[TeamName], 'Team'[SortOrder], 'Team'[LabName], 'Lab'[LabKey], 'Lab'[LabName], 'Lab'[SortOrder], 'Lab'[LabCode], 'Lab'[LabColour] ) )
+VAR _Diff = _Own - _EstateAverage
+RETURN
+    IF (
+        HASONEVALUE ( 'Domain'[DomainKey] ),
+        SWITCH (
+            TRUE (),
+            ISBLANK ( _WorstKey ) || _TeamCount = 0, "There are no team figures to compare for " & _ScopeName & ".",
+            _TeamCount > 1 && _WorstAgg = "sum",
+                _Top2Names & " carry " & _Share & " per cent of " & LOWER ( _WorstName ) & " across " & _ScopeName & ".",
+            _TeamCount > 1,
+                _WorstName & " ranges from " & _LoText & " to " & _HiText & " across teams in " & _ScopeName & ".",
+            _Diff >= 0, _ScopeName & " scores " & _Diff & " points above the estate average for this domain.",
+            _ScopeName & " scores " & ABS ( _Diff ) & " points below the estate average for this domain."
+        )
+    )
+
+// Domain read-out 3: trend direction over the selected period, from the domain score.
+Read Out 3 =
+VAR _Points = [Selected Quarters]
+VAR _Diff = [Score Delta over Period]
+RETURN
+    IF (
+        HASONEVALUE ( 'Domain'[DomainKey] ) && NOT ISBLANK ( _Diff ),
+        IF (
+            _Diff > 2,
+            "Trend is improving, up " & _Diff & " points over the last " & _Points & " quarters.",
+            IF (
+                _Diff < -2,
+                "Trend is declining, down " & ABS ( _Diff ) & " points over the last " & _Points & " quarters.",
+                "Trend is broadly flat over the last " & _Points & " quarters."
+            )
+        )
+    )
+
+
+// ===========================================================================
+// Page footer (page-footer, one a page)
+// ===========================================================================
+
+// Footer left: "Platform Health · <report> · <page>" from the disconnected Page table, which each page's Page[PageKey] filter cuts to one row.
+Page Footer Left =
+VAR _Report = SELECTEDVALUE ( 'Page'[ReportName] )
+VAR _Page = SELECTEDVALUE ( 'Page'[PageName] )
+RETURN
+    IF ( NOT ISBLANK ( _Page ), "Platform Health · " & _Report & " · " & _Page )
+
+// Footer right: the source systems behind the metrics in the page's domain (every core domain where no single domain is filtered), most recently refreshed first, at most five then "+N more". SourceRefresh is disconnected; TREATAS matches its System to Metric[SourceSystem]. Refresh reads "today 06:00" or "yesterday 18:00" against Config[RefreshDate], else the date as "30 Jun".
+Page Sources Refreshed =
+VAR _DomainPage = ISFILTERED ( 'Domain'[DomainKey] ) && HASONEVALUE ( 'Domain'[DomainKey] )
+VAR _Systems =
+    CALCULATETABLE (
+        SUMMARIZE ( 'Metric', 'Metric'[SourceSystem] ),
+        FILTER ( VALUES ( 'Domain'[IsCore] ), _DomainPage || 'Domain'[IsCore] = TRUE () )
+    )
+VAR _Today = INT ( MAX ( 'Config'[RefreshDate] ) )
+VAR _Rows =
+    ADDCOLUMNS (
+        CALCULATETABLE ( 'SourceRefresh', TREATAS ( _Systems, 'SourceRefresh'[System] ) ),
+        "@Label",
+            'SourceRefresh'[Short] & " "
+                & SWITCH (
+                    INT ( 'SourceRefresh'[LastRefresh] ),
+                    _Today, "today " & FORMAT ( 'SourceRefresh'[LastRefresh], "hh:nn" ),
+                    _Today - 1, "yesterday " & FORMAT ( 'SourceRefresh'[LastRefresh], "hh:nn" ),
+                    FORMAT ( 'SourceRefresh'[LastRefresh], "d mmm" )
+                )
+    )
+VAR _Count = COUNTROWS ( _Rows )
+VAR _Top = TOPN ( 5, _Rows, 'SourceRefresh'[LastRefresh], DESC, 'SourceRefresh'[System], ASC )
+RETURN
+    IF (
+        _Count > 0,
+        "Sources: " & CONCATENATEX ( _Top, [@Label], " · ", 'SourceRefresh'[LastRefresh], DESC, 'SourceRefresh'[System], ASC )
+            & IF ( _Count > 5, " · +" & ( _Count - 5 ) & " more" )
+    )
+
+// ===========================================================================
+// Movement waterfall (one MovementStep row in context)
+// ===========================================================================
+
+// Start: the composite at the first quarter of the period; delta: the domain's change
+// over the period divided by the core domain count; end: the composite now. The
+// composite here is the unrounded mean of core domain scores, so the steps add up.
+Step Value =
+VAR _Kind = SELECTEDVALUE ( 'MovementStep'[Kind] )
+VAR _StepDomain = SELECTEDVALUE ( 'MovementStep'[DomainKey] )
+VAR _NowKey = [Score Quarter Key]
+VAR _StartKey = _NowKey - [Selected Quarters] + 1
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[QuarterKey], 'ScoreFact'[TeamKey], 'Domain'[DomainKey], 'Domain'[SortOrder] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] IN { _StartKey, _NowKey },
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Domains =
+    GROUPBY (
+        _TeamDomain,
+        'ScoreFact'[QuarterKey], 'Domain'[DomainKey], 'Domain'[SortOrder],
+        "@Mean", AVERAGEX ( CURRENTGROUP (), [@Domain] )
+    )
+VAR _Start = AVERAGEX ( FILTER ( _Domains, 'ScoreFact'[QuarterKey] = _StartKey ), INT ( [@Mean] + 0.5 ) )
+VAR _End = AVERAGEX ( FILTER ( _Domains, 'ScoreFact'[QuarterKey] = _NowKey ), INT ( [@Mean] + 0.5 ) )
+VAR _DomainStart =
+    MAXX ( FILTER ( _Domains, 'ScoreFact'[QuarterKey] = _StartKey && 'Domain'[DomainKey] = _StepDomain ), INT ( [@Mean] + 0.5 ) )
+VAR _DomainEnd =
+    MAXX ( FILTER ( _Domains, 'ScoreFact'[QuarterKey] = _NowKey && 'Domain'[DomainKey] = _StepDomain ), INT ( [@Mean] + 0.5 ) )
+RETURN
+    SWITCH (
+        _Kind,
+        "start", IF ( _StartKey >= 1, _Start ),
+        "delta",
+            IF (
+                _StartKey >= 1 && NOT ISBLANK ( _DomainStart ) && NOT ISBLANK ( _DomainEnd ),
+                DIVIDE ( _DomainEnd - _DomainStart, [Core Domains] )
+            ),
+        "end", _End
+    )
+
+// The composite after this step: the start plus every delta up to and including
+// this one; equals [Step Value] on the start and end rows.
+Step Running =
+VAR _ThisStep = SELECTEDVALUE ( 'MovementStep'[Step] )
+VAR _Kind = SELECTEDVALUE ( 'MovementStep'[Kind] )
+VAR _NowKey = [Score Quarter Key]
+VAR _StartKey = _NowKey - [Selected Quarters] + 1
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[QuarterKey], 'ScoreFact'[TeamKey], 'Domain'[DomainKey], 'Domain'[SortOrder] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] IN { _StartKey, _NowKey },
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Domains =
+    GROUPBY (
+        _TeamDomain,
+        'ScoreFact'[QuarterKey], 'Domain'[DomainKey], 'Domain'[SortOrder],
+        "@Mean", AVERAGEX ( CURRENTGROUP (), [@Domain] )
+    )
+VAR _Start = AVERAGEX ( FILTER ( _Domains, 'ScoreFact'[QuarterKey] = _StartKey ), INT ( [@Mean] + 0.5 ) )
+VAR _End = AVERAGEX ( FILTER ( _Domains, 'ScoreFact'[QuarterKey] = _NowKey ), INT ( [@Mean] + 0.5 ) )
+VAR _Moved =
+    SUMX (
+        FILTER ( _Domains, 'Domain'[SortOrder] <= _ThisStep ),
+        IF ( 'ScoreFact'[QuarterKey] = _NowKey, 1, -1 ) * INT ( [@Mean] + 0.5 )
+    )
+RETURN
+    IF (
+        HASONEVALUE ( 'MovementStep'[Step] ),
+        IF ( _Kind = "end", _End, IF ( _StartKey >= 1, _Start + DIVIDE ( _Moved, [Core Domains] ) ) )
+    )
+
+
+// ===========================================================================
+// People structure (Person, Skill and PersonSkill; the Structure and skills page)
+// ===========================================================================
+//
+// Person reaches Team, and so Lab, through Person[TeamKey]. The platform lead and the four lab leads
+// have no team, so a Lab or Team slicer leaves them out; the people visuals group by Person[LabName].
+// REMOVEFILTERS ( 'Person' ) below is deliberate: it clears the lab grouping and the Lab and Team
+// slicers together, which is what an estate-wide or a leader's-span figure needs.
+
+// People in context.
+Headcount =
+COUNTROWS ( 'Person' )
+
+// Contractors in context; BLANK where there are none.
+Contractors =
+CALCULATE ( COUNTROWS ( 'Person' ), 'Person'[Employment] = "contractor" )
+
+// Contractor share of the people in context, a whole percentage (contractorPct).
+Contractor Pct =
+VAR _People = [Headcount]
+RETURN
+    IF ( _People > 0, INT ( 100 * DIVIDE ( [Contractors], _People ) + 0.5 ) )
+
+// A leader's span on the leadership chart (spanOf): everyone for the platform lead (LeadLevel 1), the
+// lab for a lab lead (2), the team for a team lead (3). Reads the one Person row in context.
+Span Headcount =
+VAR _Level = SELECTEDVALUE ( 'Person'[LeadLevel] )
+VAR _Lab = SELECTEDVALUE ( 'Person'[LabKey] )
+VAR _Team = SELECTEDVALUE ( 'Person'[TeamKey] )
+RETURN
+    SWITCH (
+        _Level,
+        1, CALCULATE ( [Headcount], REMOVEFILTERS ( 'Person' ) ),
+        2, CALCULATE ( [Headcount], REMOVEFILTERS ( 'Person' ), 'Person'[LabKey] = _Lab ),
+        3, CALCULATE ( [Headcount], REMOVEFILTERS ( 'Person' ), 'Person'[TeamKey] = _Team )
+    )
+
+// The contractor share of the same span.
+Span Contractor Pct =
+VAR _Level = SELECTEDVALUE ( 'Person'[LeadLevel] )
+VAR _Lab = SELECTEDVALUE ( 'Person'[LabKey] )
+VAR _Team = SELECTEDVALUE ( 'Person'[TeamKey] )
+RETURN
+    SWITCH (
+        _Level,
+        1, CALCULATE ( [Contractor Pct], REMOVEFILTERS ( 'Person' ) ),
+        2, CALCULATE ( [Contractor Pct], REMOVEFILTERS ( 'Person' ), 'Person'[LabKey] = _Lab ),
+        3, CALCULATE ( [Contractor Pct], REMOVEFILTERS ( 'Person' ), 'Person'[TeamKey] = _Team )
+    )
+
+// Holders of the skill in context among the people in context; BLANK where none.
+Skill Count =
+COUNTROWS ( 'PersonSkill' )
+
+// Holders of the skill in context across the estate, whatever the lab grouping or slicers.
+Skill Estate Count =
+CALCULATE ( [Skill Count], REMOVEFILTERS ( 'Person' ) )
+
+// Estate-wide depth of the skill in context, in words (skillFlagFor): one holder, two, or three and more.
+Skill Flag =
+VAR _Holders = [Skill Estate Count]
+RETURN
+    IF (
+        NOT ISBLANK ( _Holders ),
+        SWITCH ( TRUE (), _Holders <= 1, "Single-person", _Holders = 2, "Thin", "Covered" )
+    )
+
+// Critical skills held by one or two people across the estate (THIN_SKILLS); BLANK where none.
+Thin Skills =
+COUNTROWS ( FILTER ( ALL ( 'Skill'[SkillKey] ), CALCULATE ( [Skill Estate Count] ) <= 2 ) )
+
+// Structure and skills headline (PeopleStructurePage). Estate-wide: ignores every slicer.
+People Structure Headline =
+VAR _People = CALCULATE ( [Headcount], REMOVEFILTERS ( 'Person' ) )
+VAR _Pct = CALCULATE ( [Contractor Pct], REMOVEFILTERS ( 'Person' ) )
+VAR _Thin = COALESCE ( [Thin Skills], 0 )
+RETURN
+    _People & " people across four labs, " & _Pct & "% contractors; " & _Thin & " critical skill"
+        & IF ( _Thin = 1, "", "s" ) & " rest" & IF ( _Thin = 1, "s", "" ) & " on one or two people."
+
+
+// ===========================================================================
+// Build measures
+// ===========================================================================
+
+// [Score] 5 quarters before the current one: sparkline point q1.
+Score Q1 =
+VAR _K = [Score Quarter Key] - 5
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Score] 4 quarters before the current one: sparkline point q2.
+Score Q2 =
+VAR _K = [Score Quarter Key] - 4
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Score] 3 quarters before the current one: sparkline point q3.
+Score Q3 =
+VAR _K = [Score Quarter Key] - 3
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Score] 2 quarters before the current one: sparkline point q4.
+Score Q4 =
+VAR _K = [Score Quarter Key] - 2
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Score] 1 quarter before the current one: sparkline point q5.
+Score Q5 =
+VAR _K = [Score Quarter Key] - 1
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Team Composite] 5 quarters before the current one, for the team in context: sparkline point q1 on movement-table rows.
+Team Score Q1 =
+VAR _K = [Score Quarter Key] - 5
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Team Composite], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Team Composite] 4 quarters before the current one, for the team in context: sparkline point q2 on movement-table rows.
+Team Score Q2 =
+VAR _K = [Score Quarter Key] - 4
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Team Composite], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Team Composite] 3 quarters before the current one, for the team in context: sparkline point q3 on movement-table rows.
+Team Score Q3 =
+VAR _K = [Score Quarter Key] - 3
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Team Composite], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Team Composite] 2 quarters before the current one, for the team in context: sparkline point q4 on movement-table rows.
+Team Score Q4 =
+VAR _K = [Score Quarter Key] - 2
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Team Composite], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Team Composite] 1 quarter before the current one, for the team in context: sparkline point q5 on movement-table rows.
+Team Score Q5 =
+VAR _K = [Score Quarter Key] - 1
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Team Composite], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// True for the proposed domains, Cost and Operability.
+Is Proposed =
+IF ( HASONEVALUE ( 'Domain'[DomainKey] ), SELECTEDVALUE ( 'Domain'[IsCore] ) == FALSE () )
+
+// Band word in lower case, as the templates test it.
+Band Key =
+VAR _Band = [Band]
+RETURN
+    IF ( NOT ISBLANK ( _Band ), LOWER ( _Band ) )
+
+// Short name of the weakest scored metric in the domain.
+Driver Label =
+VAR _K = [Worst Metric Key]
+RETURN
+    IF ( NOT ISBLANK ( _K ), CALCULATE ( SELECTEDVALUE ( 'Metric'[ShortName] ), REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _K ) )
+
+// Value of the weakest scored metric, with its unit.
+Driver Value Formatted =
+VAR _K = [Worst Metric Key]
+RETURN
+    IF ( NOT ISBLANK ( _K ), CALCULATE ( [Metric Value Formatted], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _K ) )
+
+// Target of the weakest scored metric, with its unit.
+Driver Target Formatted =
+VAR _K = [Worst Metric Key]
+RETURN
+    IF ( NOT ISBLANK ( _K ), CALCULATE ( [Metric Target Formatted], REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ), 'Metric'[MetricKey] = _K ) )
+
+// Team rank by composite at the quarter in context, 1 highest; ties share a rank.
+Team Rank =
+VAR _ThisScore = [Composite]
+VAR _ReadKey = [Score Quarter Key]
+VAR _TeamDomain =
+    CALCULATETABLE (
+        ADDCOLUMNS (
+            SUMMARIZE ( 'ScoreFact', 'ScoreFact'[TeamKey], 'Domain'[DomainKey] ),
+            "@Domain", INT ( CALCULATE ( AVERAGE ( 'ScoreFact'[Score] ) ) + 0.5 )
+        ),
+        ALLSELECTED ( 'Team' ),
+        ALLSELECTED ( 'Lab' ),
+        REMOVEFILTERS ( 'Quarter' ),
+        'Quarter'[QuarterKey] = _ReadKey,
+        'ScoreFact'[IsScored] = TRUE (),
+        REMOVEFILTERS ( 'Metric'[MetricKey], 'Metric'[MetricName], 'Metric'[SortOrder], 'Metric'[DomainName] ),
+        REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ),
+        'Domain'[IsCore] = TRUE ()
+    )
+VAR _Teams = GROUPBY ( _TeamDomain, 'ScoreFact'[TeamKey], "@Composite", AVERAGEX ( CURRENTGROUP (), [@Domain] ) )
+RETURN
+    IF (
+        HASONEVALUE ( 'Team'[TeamKey] ) && NOT ISBLANK ( _ThisScore ),
+        COUNTROWS ( FILTER ( _Teams, INT ( [@Composite] + 0.5 ) > _ThisScore ) ) + 1
+    )
+
+// Days from the refresh date to the action's due date; blank without one action in context.
+Days From Refresh =
+VAR _Due = SELECTEDVALUE ( 'Action'[DueDate] )
+RETURN
+    IF ( NOT ISBLANK ( _Due ), DATEDIFF ( MAX ( 'Config'[RefreshDate] ), _Due, DAY ) )
+
+// Movement page headline (MovementPage): the composite change over the period, then the core domains that moved most and least by absolute change; ties go to the earlier domain.
+Movement Headline =
+VAR _N = [Selected Quarters]
+VAR _ScoreNow = [Composite]
+VAR _Moved = CALCULATE ( [Score Delta over Period], REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ) )
+VAR _Core = CALCULATETABLE ( 'Domain', REMOVEFILTERS ( 'Domain'[DomainKey], 'Domain'[DomainName], 'Domain'[Question], 'Domain'[SortOrder], 'Domain'[DomainGroup], 'Domain'[DomainGroupName] ), 'Domain'[IsCore] = TRUE () )
+VAR _Most = TOPN ( 1, _Core, ABS ( CALCULATE ( [Score Delta over Period] ) ), DESC, 'Domain'[SortOrder], ASC )
+VAR _Least = TOPN ( 1, _Core, ABS ( CALCULATE ( [Score Delta over Period] ) ), ASC, 'Domain'[SortOrder], ASC )
+VAR _MostDelta = MAXX ( _Most, CALCULATE ( [Score Delta over Period] ) )
+RETURN
+    "The composite moved " & FORMAT ( _Moved, "+0;−0;0" ) & " to " & _ScoreNow & " over the last " & _N & " quarters; "
+        & CONCATENATEX ( _Most, 'Domain'[DomainName] ) & IF ( _MostDelta < 0, " worsened", IF ( _MostDelta > 0, " improved", " moved" ) ) & " most (" & FORMAT ( _MostDelta, "+0;−0;0" ) & "), "
+        & CONCATENATEX ( _Least, 'Domain'[DomainName] ) & " moved least."
+
+// The composite at the first quarter of the selected period.
+Composite Period Start =
+VAR _StartKey = [Score Quarter Key] - [Selected Quarters] + 1
+RETURN
+    IF ( _StartKey >= 1, CALCULATE ( [Composite], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _StartKey ) )
+
+// [Score] at the first quarter of the selected period.
+Score Period Start =
+VAR _StartKey = [Score Quarter Key] - [Selected Quarters] + 1
+RETURN
+    IF ( _StartKey >= 1, CALCULATE ( [Score], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _StartKey ) )
+
+// Band at the start of the period and now for one team: "Watch → Healthy", or "Healthy, held" when it did not change.
+Band Movement =
+VAR _Healthy = MAX ( 'Config'[HealthyThreshold] )
+VAR _Watch = MAX ( 'Config'[WatchThreshold] )
+VAR _ScoreThen = [Composite Period Start]
+VAR _ScoreNow = [Composite]
+VAR _BandThen = IF ( _ScoreThen >= _Healthy, "Healthy", IF ( _ScoreThen >= _Watch, "Watch", "Act" ) )
+VAR _BandNow = IF ( _ScoreNow >= _Healthy, "Healthy", IF ( _ScoreNow >= _Watch, "Watch", "Act" ) )
+RETURN
+    IF (
+        HASONEVALUE ( 'Team'[TeamKey] ) && NOT ISBLANK ( _ScoreNow ) && NOT ISBLANK ( _ScoreThen ),
+        IF ( _BandThen = _BandNow, _BandNow & ", held", _BandThen & " → " & _BandNow )
+    )
+
+// Metric band in lower case; unscored metrics read "context".
+Metric Band Key =
+VAR _Band = [Metric Band]
+RETURN
+    IF ( NOT ISBLANK ( _Band ), LOWER ( _Band ) )
+
+// [Metric Value] 5 quarters before the current one: sparkline point q1.
+Metric Value Q1 =
+VAR _K = [Score Quarter Key] - 5
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Metric Value], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Metric Value] 4 quarters before the current one: sparkline point q2.
+Metric Value Q2 =
+VAR _K = [Score Quarter Key] - 4
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Metric Value], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Metric Value] 3 quarters before the current one: sparkline point q3.
+Metric Value Q3 =
+VAR _K = [Score Quarter Key] - 3
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Metric Value], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Metric Value] 2 quarters before the current one: sparkline point q4.
+Metric Value Q4 =
+VAR _K = [Score Quarter Key] - 2
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Metric Value], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// [Metric Value] 1 quarter before the current one: sparkline point q5.
+Metric Value Q5 =
+VAR _K = [Score Quarter Key] - 1
+RETURN
+    IF ( _K >= 1, CALCULATE ( [Metric Value], REMOVEFILTERS ( 'Quarter' ), 'Quarter'[QuarterKey] = _K ) )
+
+// Full name of the ingestion mode, blank where the domain has no metric in that mode.
+Mode Label =
+IF (
+    COUNTROWS ( 'Metric' ) > 0,
+    SWITCH (
+        SELECTEDVALUE ( 'Metric'[IngestionMode] ),
+        "sql", "SQL direct query",
+        "semantic", "Semantic model",
+        "spreadsheet", "Spreadsheet",
+        "csv", "CSV drop",
+        "api", "API"
+    )
+)
+
+// The least ready source among the metrics in context.
+Worst Readiness =
+VAR _A = CALCULATE ( COUNTROWS ( 'Metric' ), 'Metric'[Readiness] = "aspirational" )
+VAR _P = CALCULATE ( COUNTROWS ( 'Metric' ), 'Metric'[Readiness] = "partial" )
+RETURN
+    IF ( COUNTROWS ( 'Metric' ) > 0, SWITCH ( TRUE (), _A > 0, "aspirational", _P > 0, "partial", "live" ) )
+
+// Metrics whose readiness is live, for the domain and mode in context.
+Live Metrics =
+CALCULATE ( COUNTROWS ( 'Metric' ), 'Metric'[Readiness] = "live" )
+
+// Metrics whose readiness is partial, for the domain and mode in context.
+Partial Metrics =
+CALCULATE ( COUNTROWS ( 'Metric' ), 'Metric'[Readiness] = "partial" )
+
+// Metrics whose readiness is aspirational, for the domain and mode in context.
+Aspirational Metrics =
+CALCULATE ( COUNTROWS ( 'Metric' ), 'Metric'[Readiness] = "aspirational" )
+
+// [Domains Healthy] showing 0 rather than blank, for the one-row Overview hero only.
+Domains Healthy Display =
+COALESCE ( [Domains Healthy], 0 )
+
+// [Domains Watch] showing 0 rather than blank, for the one-row Overview hero only.
+Domains Watch Display =
+COALESCE ( [Domains Watch], 0 )
+
+// [Domains Act] showing 0 rather than blank, for the one-row Overview hero only.
+Domains Act Display =
+COALESCE ( [Domains Act], 0 )
+
+// [Teams Healthy] showing 0 where teams are in scope, blank where none are (lab cards).
+Teams Healthy Display =
+IF ( NOT ISEMPTY ( 'Team' ), COALESCE ( [Teams Healthy], 0 ) )
+
+// [Teams Watch] showing 0 where teams are in scope, blank where none are (lab cards).
+Teams Watch Display =
+IF ( NOT ISEMPTY ( 'Team' ), COALESCE ( [Teams Watch], 0 ) )
+
+// [Teams Needing Action] showing 0 where teams are in scope, blank where none are (hero and lab cards).
+Teams Needing Action Display =
+IF ( NOT ISEMPTY ( 'Team' ), COALESCE ( [Teams Needing Action], 0 ) )

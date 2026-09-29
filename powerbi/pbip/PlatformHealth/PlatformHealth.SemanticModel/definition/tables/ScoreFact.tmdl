@@ -1,0 +1,88 @@
+table ScoreFact
+	lineageTag: f5b99a01-62a0-5a63-b110-5c35be596f48
+
+	column TeamKey
+		dataType: string
+		lineageTag: f37f0e47-b755-52b5-b7a3-5fa327dc3483
+		summarizeBy: none
+		sourceColumn: TeamKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricKey
+		dataType: string
+		lineageTag: 1ff38882-a411-5200-a080-7bfb1b598ebf
+		summarizeBy: none
+		sourceColumn: MetricKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 48ab60c5-4e82-5169-bbb9-79be64e26597
+		summarizeBy: none
+		sourceColumn: QuarterKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 68b62340-368a-557d-80dc-8f3ea43d808f
+		summarizeBy: none
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		lineageTag: b0732948-f592-5106-9ffb-c827d501c351
+		summarizeBy: none
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+	column Span
+		dataType: double
+		lineageTag: 6b6cb2af-fa26-58fb-97d0-5658656e453b
+		summarizeBy: none
+		sourceColumn: Span
+
+		annotation SummarizationSetBy = Automatic
+
+	column Score
+		dataType: int64
+		formatString: 0
+		lineageTag: 61ebc76b-2f60-5b72-be35-f42702e0cda9
+		summarizeBy: none
+		sourceColumn: Score
+
+		annotation SummarizationSetBy = Automatic
+
+	column Band
+		dataType: string
+		lineageTag: decbadd7-ce66-5089-aaf2-4b04318eec16
+		summarizeBy: none
+		sourceColumn: Band
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsScored
+		dataType: boolean
+		lineageTag: 53ecfb05-78b5-5c4d-acb3-085bfbe2e787
+		summarizeBy: none
+		sourceColumn: IsScored
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ScoreFact = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\ScoreFact.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"TeamKey", type text}, {"MetricKey", type text}, {"QuarterKey", Int64.Type}, {"Value", type number}, {"Target", type number}, {"Span", type number}, {"Score", Int64.Type}, {"Band", type text}, {"IsScored", type logical}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

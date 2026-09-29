@@ -1,0 +1,8 @@
+{
+  "sample": "sourcesstrip.json",
+  "container": "card",
+  "optional": ["sourceOrder"],
+  "sampleFilter": { "domainId": "stability" },
+  "width": 700,
+  "height": 160
+}

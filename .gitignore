@@ -1,0 +1,42 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local development scratch, not part of the app
+Screenshot*.png
+screenshots/
+
+# Personal Claude Code settings (machine-specific paths, not shared)
+.claude/settings.local.json
+.claude/agents.previous
+.claude/agent-memory
+
+# Machine-specific Power BI settings (CsvFolder path for npm run deneb:pbip)
+powerbi/local.json
+powerbi/local.json.bak
+*.bak
+
+# Power BI Desktop local files inside the PBIP
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

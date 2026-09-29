@@ -1,0 +1,48 @@
+{
+  "background": "transparent",
+  "font": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+  "padding": 8,
+  "view": { "stroke": null },
+  "title": {
+    "font": "Fraunces, Cambria, Georgia, serif",
+    "fontSize": 17,
+    "fontWeight": 600,
+    "color": "#0F4D43",
+    "anchor": "start",
+    "offset": 12
+  },
+  "axis": {
+    "domain": false,
+    "ticks": false,
+    "grid": true,
+    "gridColor": "#E6E8E2",
+    "gridWidth": 1,
+    "labelColor": "#5F6E69",
+    "labelFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "labelFontSize": 12,
+    "labelPadding": 8,
+    "titleColor": "#5F6E69",
+    "titleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "titleFontSize": 12,
+    "titleFontWeight": "normal"
+  },
+  "axisX": { "grid": false },
+  "legend": { "disable": true },
+  "range": {
+    "category": [
+      "#0F4D43",
+      "#0B8A6B",
+      "#5E8C82",
+      "#B9852C",
+      "#B6462F",
+      "#2A6A5F",
+      "#5F6E69",
+      "#CFDDD4",
+      "#D6D9D2"
+    ]
+  },
+  "text": { "font": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif", "color": "#0F4D43" },
+  "line": { "color": "#0F4D43", "strokeWidth": 2.5, "strokeJoin": "round", "strokeCap": "round" },
+  "point": { "color": "#0B8A6B", "filled": true },
+  "rule": { "color": "#D6D9D2" }
+}

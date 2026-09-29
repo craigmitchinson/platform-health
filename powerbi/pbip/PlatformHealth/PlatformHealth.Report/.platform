@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Platform Health"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "18557296-6cb1-581a-bae3-fb66bafb8caa"
+  }
+}

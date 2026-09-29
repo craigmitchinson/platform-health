@@ -1,0 +1,13 @@
+TeamKey,TeamName,LabKey,Lead,SortOrder
+portal,Customer Portal,core,Chloe Adams,1
+claims,Claims Intake,core,Samir Khan,2
+policy,Policy Servicing,core,Rhys Evans,3
+digital,Adviser Workbench,customer,Leah Morgan,4
+onboarding,Underwriting Desk,customer,Marcus Bell,5
+contact,Contact Centre,customer,Owen Price,6
+automation,Automation Platform,payments,Hannah Wright,7
+agents,Agent Runtime,payments,Dev Patel,8
+observability,Observability,payments,Sophie Grant,9
+warehouse,Data Platform,data,Nadia Hussain,10
+analytics,Actuarial Analytics,data,James Carter,11
+reporting,Regulatory Reporting,data,Emily Shaw,12

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Footer legend for source readiness: three pills, Live, Partial and Aspirational, each a dot and a word on a pale fill, right-aligned. The pills are constant; the one bound field only gives Deneb a row to render.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "padding": 0,
+  "params": [
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "panel", "value": "#DCE8E0" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "pillH", "value": 23 }
+  ],
+  "transform": [{ "filter": "isValid(datum.quarters)" }],
+  "layer": [
+    {
+      "data": {
+        "values": [
+          { "word": "LIVE", "kind": "live", "right": 217, "left": 287 },
+          { "word": "PARTIAL", "kind": "partial", "right": 122, "left": 217 },
+          { "word": "ASPIRATIONAL", "kind": "aspirational", "right": 0, "left": 122 }
+        ]
+      },
+      "transform": [
+        { "calculate": "width - datum.left", "as": "x0" },
+        { "calculate": "width - datum.right - (datum.right > 0 ? 14 : 0)", "as": "x1" },
+        { "calculate": "datum.x0 + 14", "as": "dotX" },
+        { "calculate": "datum.x0 + 24", "as": "wordX" },
+        { "calculate": "datum.kind === 'live' ? goodFill : datum.kind === 'partial' ? warnFill : panel", "as": "fill" },
+        { "calculate": "datum.kind === 'live' ? emerald : datum.kind === 'partial' ? amber : muted", "as": "dot" }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 11.5,
+            "y": { "expr": "height / 2 - pillH / 2" },
+            "y2": { "expr": "height / 2 + pillH / 2" }
+          },
+          "encoding": {
+            "x": { "field": "x0", "type": "quantitative", "scale": null },
+            "x2": { "field": "x1" },
+            "color": { "field": "fill", "type": "nominal", "scale": null },
+            "tooltip": null
+          }
+        },
+        {
+          "mark": { "type": "circle", "size": 64, "y": { "expr": "height / 2" } },
+          "encoding": {
+            "x": { "field": "dotX", "type": "quantitative", "scale": null },
+            "color": { "field": "dot", "type": "nominal", "scale": null },
+            "tooltip": null
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "y": { "expr": "height / 2" },
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": { "expr": "ink" }
+          },
+          "encoding": {
+            "x": { "field": "wordX", "type": "quantitative", "scale": null },
+            "text": { "field": "word" },
+            "tooltip": null
+          }
+        }
+      ]
+    },
+    {
+      "data": { "values": [{ "label": "READINESS:" }] },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "x": { "expr": "width - 301" },
+        "y": { "expr": "height / 2" },
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "color": { "expr": "muted" }
+      },
+      "encoding": { "text": { "field": "label" }, "tooltip": null }
+    }
+  ]
+}

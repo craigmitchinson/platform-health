@@ -1,0 +1,178 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Each core domain's score at the start of the period and now, drawn as a dumbbell, sorted by the biggest fall first.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "WHAT MOVED OVER THE PERIOD" },
+    {
+      "name": "domainOrder",
+      "value": ["stability", "incidents", "problems", "maturity", "architecture", "risk", "security", "resilience", "change", "estate", "governance", "delivery", "people", "cost", "operability"]
+    },
+    { "name": "labelWidth", "value": 220 },
+    { "name": "valueWidth", "value": 140 }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "subtitle": { "expr": "[length(data('dataset')) ? (data('dataset')[0].scope === 'Estate' ? 'Whole estate' : data('dataset')[0].scope) + (data('dataset')[0].quarters ? ', over the last ' + data('dataset')[0].quarters + ' quarters' : '') : '', 'Change in health score, 60 to 100. Up is better.']" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": { "expr": "muted" },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    { "calculate": "datum.delta > 0 ? emerald : datum.delta < 0 ? amber : muted", "as": "moveColour" },
+    {
+      "calculate": "(datum.delta > 0 ? '+' + datum.delta : datum.delta < 0 ? '−' + abs(datum.delta) : '0') + ' ' + (datum.delta > 0 ? 'better' : datum.delta < 0 ? 'worse' : 'held')",
+      "as": "moveLabel"
+    },
+    { "calculate": "max(60, datum.from)", "as": "fromAt" },
+    { "calculate": "max(60, datum.to)", "as": "toAt" },
+    { "calculate": "min(datum.from, datum.to) < 60", "as": "clamped" },
+    { "calculate": "max(datum.fromAt, datum.toAt)", "as": "rightEnd" },
+    { "calculate": "min(datum.fromAt, datum.toAt)", "as": "leftEnd" },
+    { "calculate": "datum.clamped ? datum.domain + ' <60' : datum.domain", "as": "domainLabel" },
+    { "calculate": "indexof(domainOrder, datum.domainId) < 0 ? length(domainOrder) : indexof(domainOrder, datum.domainId)", "as": "domainRank" },
+    {
+      "window": [{ "op": "row_number", "as": "moveOrder" }],
+      "sort": [{ "field": "delta", "order": "ascending" }, { "field": "domainRank", "order": "ascending" }, { "field": "domain", "order": "ascending" }]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "type": "quantitative",
+      "scale": {
+        "domain": [60, 100],
+        "nice": false,
+        "zero": false,
+        "clamp": true,
+        "range": [{ "expr": "labelWidth" }, { "expr": "max(labelWidth + 60, width - valueWidth)" }]
+      },
+      "axis": { "title": "Domain score, 60 to 100", "titlePadding": 10, "values": [60, 70, 80, 90, 100], "grid": false }
+    },
+    "y": {
+      "field": "domain",
+      "type": "nominal",
+      "sort": { "field": "moveOrder", "op": "min", "order": "ascending" },
+      "scale": { "paddingInner": 0.2, "paddingOuter": 0.2, "range": [22, { "expr": "max(22, height)" }] },
+      "axis": null
+    },
+    "tooltip": [
+      { "field": "domain", "title": "Domain" },
+      { "field": "from", "title": "Start of period" },
+      { "field": "to", "title": "Now" },
+      { "field": "moveLabel", "title": "Change" }
+    ],
+    "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+  },
+  "layer": [
+    {
+      "data": { "values": [{ "at": 60 }, { "at": 80 }] },
+      "mark": { "type": "rule", "y": 0, "y2": { "expr": "height" }, "color": { "expr": "line" }, "strokeWidth": 1 },
+      "encoding": { "x": { "field": "at", "type": "quantitative" }, "y": null, "tooltip": null, "opacity": null }
+    },
+    {
+      "data": { "values": [{ "at": 60, "word": "WATCH" }, { "at": 80, "word": "HEALTHY" }] },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "y": 0,
+        "dx": 6,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": { "expr": "muted" }
+      },
+      "encoding": {
+        "x": { "field": "at", "type": "quantitative" },
+        "y": null,
+        "text": { "field": "word" },
+        "tooltip": null,
+        "opacity": null
+      }
+    },
+    {
+      "mark": { "type": "rule", "color": { "expr": "muted" }, "strokeWidth": 1.5, "strokeOpacity": 0.6 },
+      "encoding": { "x": { "field": "fromAt" }, "x2": { "field": "toAt" } }
+    },
+    {
+      "mark": { "type": "point", "filled": true, "size": 90, "fill": { "expr": "surface" }, "stroke": { "expr": "muted" }, "strokeWidth": 1.5 },
+      "encoding": {
+        "x": { "field": "fromAt" },
+        "shape": { "condition": { "test": "datum.from < 60", "value": "triangle-left" }, "value": "circle" }
+      }
+    },
+    {
+      "params": [
+        { "name": "__select__", "select": { "type": "point", "fields": ["domainId"], "on": "click", "clear": "dblclick" } }
+      ],
+      "mark": { "type": "point", "filled": true, "size": 110, "stroke": { "expr": "surface" }, "strokeWidth": 1.5 },
+      "encoding": {
+        "x": { "field": "toAt" },
+        "shape": { "condition": { "test": "datum.to < 60", "value": "triangle-left" }, "value": "circle" },
+        "color": { "field": "moveColour", "type": "nominal", "scale": null }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 14,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": { "expr": "surface" },
+        "stroke": { "expr": "surface" },
+        "strokeWidth": 5,
+        "strokeJoin": "round"
+      },
+      "encoding": {
+        "x": { "field": "rightEnd" },
+        "text": { "field": "moveLabel" }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 14,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "x": { "field": "rightEnd" },
+        "text": { "field": "moveLabel" },
+        "color": { "field": "moveColour", "type": "nominal", "scale": null }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "right", "baseline": "middle", "dx": -14, "fontSize": 13, "color": { "expr": "ink" } },
+      "encoding": { "x": { "field": "leftEnd" }, "text": { "field": "domainLabel" } }
+    }
+  ]
+}

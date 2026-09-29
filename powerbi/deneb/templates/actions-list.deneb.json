@@ -1,0 +1,723 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health actions-list",
+      "description": "Priority actions: open actions by severity then due date, as many as fit, each with its domain and team, description, severity pill and due date, and a closing '+N more' line when some do not fit. Rows are 58px with the domain and team above the description; below 200px of height each row is one 20px line (chip, description, due date, pill), with the domain and team in the tooltip.",
+      "author": "Platform Health contributors",
+      "uuid": "6c7656b2-bfa6-5169-b4a3-3670e5c0d95c",
+      "generated": "2026-09-29T18:55:18.919Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "actionId",
+        "description": "One row per action; the selection key and final sort key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "domain",
+        "description": "Domain name, in the kicker line",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "team",
+        "description": "Team name, in the kicker line",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "description",
+        "description": "The action",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__6__",
+        "name": "due",
+        "description": "Due date; sorts within a severity",
+        "type": "dateTime",
+        "kind": "column"
+      },
+      {
+        "key": "__7__",
+        "name": "severity",
+        "description": "`act` or `watch`",
+        "type": "text",
+        "kind": "column"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Priority actions: open actions by severity then due date, as many as fit, each with its domain and team, description, severity pill and due date, and a closing '+N more' line when some do not fit. Rows are 58px with the domain and team above the description; below 200px of height each row is one 20px line (chip, description, due date, pill), with the domain and team in the tooltip.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "PRIORITY ACTIONS"
+    },
+    {
+      "name": "compact",
+      "expr": "height < 200"
+    },
+    {
+      "name": "rowH",
+      "expr": "compact ? 20 : 58"
+    },
+    {
+      "name": "moreH",
+      "expr": "compact ? 18 : 22"
+    },
+    {
+      "name": "sideW",
+      "expr": "compact ? 170 : 130"
+    },
+    {
+      "name": "fitAll",
+      "expr": "max(1, floor(height / rowH))"
+    },
+    {
+      "name": "fitMore",
+      "expr": "max(1, floor((height - moreH) / rowH))"
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "time(toDate(datum['__6__']))",
+      "as": "dueTime"
+    },
+    {
+      "calculate": "datum['__7__'] === 'act' ? 0 : 1",
+      "as": "sevRank"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "sevRank",
+          "order": "ascending"
+        },
+        {
+          "field": "dueTime",
+          "order": "ascending"
+        },
+        {
+          "field": "__0__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "count",
+          "as": "total"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.total <= fitAll ? datum.total : fitMore",
+      "as": "shown"
+    },
+    {
+      "calculate": "(datum.rank - 1) * rowH",
+      "as": "y0"
+    },
+    {
+      "calculate": "datum.y0 + rowH",
+      "as": "y1"
+    },
+    {
+      "calculate": "upper(datum['__1__'] + ' · ' + datum['__2__'])",
+      "as": "metaText"
+    },
+    {
+      "calculate": "'Due ' + timeFormat(datum.dueTime, '%-d %b')",
+      "as": "dueText"
+    },
+    {
+      "calculate": "datum['__7__'] === 'act' ? 'ACT' : 'WATCH'",
+      "as": "sevWord"
+    },
+    {
+      "calculate": "datum['__7__'] === 'act' ? red : amber",
+      "as": "sevKey"
+    },
+    {
+      "calculate": "datum['__7__'] === 'act' ? badFill : warnFill",
+      "as": "sevFill"
+    },
+    {
+      "calculate": "isValid(datum['__3__']) && datum['__3__'] !== '' ? datum['__3__'] + '' : ''",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__4__']) && datum['__4__'] !== '' ? datum['__4__'] + '' : muted",
+      "as": "chipColour"
+    },
+    {
+      "calculate": "datum.chipCode === '' ? 0 : 30",
+      "as": "metaX"
+    }
+  ],
+  "encoding": {
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.rank <= datum.shown"
+        }
+      ],
+      "layer": [
+        {
+          "params": [
+            {
+              "name": "__select__",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "__0__"
+                ],
+                "on": "click",
+                "clear": "dblclick"
+              }
+            }
+          ],
+          "mark": {
+            "type": "rect",
+            "x": 0,
+            "x2": {
+              "expr": "width"
+            },
+            "fill": "transparent"
+          },
+          "encoding": {
+            "y": {
+              "field": "y0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "y1"
+            },
+            "tooltip": [
+              {
+                "field": "__1__",
+                "title": "Domain"
+              },
+              {
+                "field": "__2__",
+                "title": "Team"
+              },
+              {
+                "field": "__5__",
+                "title": "Action"
+              },
+              {
+                "field": "dueTime",
+                "type": "temporal",
+                "title": "Due",
+                "format": "%-d %B %Y"
+              },
+              {
+                "field": "sevWord",
+                "title": "Status"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.rank < datum.shown"
+            }
+          ],
+          "mark": {
+            "type": "rule",
+            "x": 0,
+            "x2": {
+              "expr": "width"
+            },
+            "color": {
+              "expr": "line"
+            },
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "y": {
+              "field": "y1",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.chipCode !== ''"
+            },
+            {
+              "calculate": "datum.y0 + (compact ? 2 : 8)",
+              "as": "chipY"
+            },
+            {
+              "calculate": "datum.y0 + (compact ? 18 : 26)",
+              "as": "chipY2"
+            },
+            {
+              "calculate": "datum.y0 + (compact ? 10 : 17)",
+              "as": "chipMid"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "rect",
+                "x": 0,
+                "x2": 22,
+                "cornerRadius": 4
+              },
+              "encoding": {
+                "y": {
+                  "field": "chipY",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "y2": {
+                  "field": "chipY2"
+                },
+                "color": {
+                  "field": "chipColour",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "x": 11,
+                "align": "center",
+                "baseline": "middle",
+                "font": "JetBrains Mono, Consolas, monospace",
+                "fontSize": 10,
+                "fontWeight": 700,
+                "color": {
+                  "expr": "surface"
+                }
+              },
+              "encoding": {
+                "y": {
+                  "field": "chipMid",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "text": {
+                  "field": "chipCode"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "transform": [
+            {
+              "filter": "!compact"
+            },
+            {
+              "calculate": "datum.y0 + 17",
+              "as": "metaY"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 11,
+            "color": {
+              "expr": "muted"
+            },
+            "limit": {
+              "expr": "max(40, width - sideW - 30)"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "metaX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "metaY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "metaText"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "calculate": "datum.y0 + (compact ? 10 : 40)",
+              "as": "textY"
+            },
+            {
+              "calculate": "compact ? datum.metaX : 0",
+              "as": "textX"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": {
+              "expr": "compact ? 13 : 14"
+            },
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "max(40, width - sideW - (compact ? 30 : 12))"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "textX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "textY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "__5__"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "calculate": "compact ? 28 + length(datum.sevWord) * 6.6 : 34 + length(datum.sevWord) * 7.4",
+              "as": "pillW"
+            },
+            {
+              "calculate": "width - datum.pillW",
+              "as": "pillX"
+            },
+            {
+              "calculate": "width",
+              "as": "pillX2"
+            },
+            {
+              "calculate": "datum.y0 + (compact ? 10 : 20)",
+              "as": "pillMid"
+            },
+            {
+              "calculate": "datum.pillMid - (compact ? 9 : 12)",
+              "as": "pillY"
+            },
+            {
+              "calculate": "datum.pillMid + (compact ? 9 : 12)",
+              "as": "pillY2"
+            },
+            {
+              "calculate": "datum.pillX + (compact ? 12 : 15)",
+              "as": "pillDotX"
+            },
+            {
+              "calculate": "datum.pillX + (compact ? 20 : 25)",
+              "as": "pillTextX"
+            },
+            {
+              "calculate": "compact ? datum.pillX - 10 : width",
+              "as": "dueX"
+            },
+            {
+              "calculate": "datum.y0 + (compact ? 10 : 45)",
+              "as": "dueY"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "rect",
+                "cornerRadius": {
+                  "expr": "compact ? 10 : 12"
+                },
+                "strokeWidth": 1,
+                "strokeOpacity": 0.35
+              },
+              "encoding": {
+                "x": {
+                  "field": "pillX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "x2": {
+                  "field": "pillX2"
+                },
+                "y": {
+                  "field": "pillY",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "y2": {
+                  "field": "pillY2"
+                },
+                "fill": {
+                  "field": "sevFill",
+                  "type": "nominal",
+                  "scale": null
+                },
+                "stroke": {
+                  "field": "sevKey",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "circle",
+                "size": {
+                  "expr": "compact ? 36 : 64"
+                }
+              },
+              "encoding": {
+                "x": {
+                  "field": "pillDotX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "y": {
+                  "field": "pillMid",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "color": {
+                  "field": "sevKey",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "font": "JetBrains Mono, Consolas, monospace",
+                "fontSize": {
+                  "expr": "compact ? 11 : 12.5"
+                },
+                "fontWeight": 600,
+                "color": {
+                  "expr": "ink"
+                }
+              },
+              "encoding": {
+                "x": {
+                  "field": "pillTextX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "y": {
+                  "field": "pillMid",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "text": {
+                  "field": "sevWord"
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "right",
+                "baseline": "middle",
+                "fontSize": 12,
+                "color": {
+                  "expr": "muted"
+                }
+              },
+              "encoding": {
+                "x": {
+                  "field": "dueX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "y": {
+                  "field": "dueY",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "text": {
+                  "field": "dueText"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.rank === 1 && datum.total > datum.shown"
+        },
+        {
+          "calculate": "'+' + (datum.total - datum.shown) + ' more'",
+          "as": "moreText"
+        },
+        {
+          "calculate": "datum.shown * rowH + moreH / 2",
+          "as": "moreY"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "x": 0,
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "y": {
+          "field": "moreY",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "moreText"
+        },
+        "opacity": null
+      }
+    }
+  ]
+}

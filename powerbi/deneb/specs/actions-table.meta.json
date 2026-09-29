@@ -1,0 +1,7 @@
+{
+  "sample": "actionslist.json",
+  "container": "card",
+  "optional": ["labCode", "labColour", "daysFromRefresh"],
+  "width": 1824,
+  "height": 700
+}

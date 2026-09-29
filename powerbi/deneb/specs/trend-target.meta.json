@@ -1,0 +1,7 @@
+{
+  "sample": "trend.json",
+  "container": "card",
+  "sampleFilter": { "domainId": "stability", "scope": "Estate" },
+  "width": 572,
+  "height": 368
+}

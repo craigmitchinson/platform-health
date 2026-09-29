@@ -1,0 +1,51 @@
+table Quarter
+	lineageTag: 1826257b-7d33-5804-a90f-b58e140ed4e6
+
+	column QuarterKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 62545dbe-4ae5-5e11-bbb5-dba2c7cc34b9
+		summarizeBy: none
+		sourceColumn: QuarterKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterLabel
+		dataType: string
+		lineageTag: 1a2e74a5-e99c-505e-bd58-d361364d65b7
+		summarizeBy: none
+		sourceColumn: QuarterLabel
+		sortByColumn: QuarterKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterStart
+		dataType: dateTime
+		formatString: d mmm yyyy
+		lineageTag: 69ec2eda-4f31-52d9-96e1-925e7543f3d2
+		summarizeBy: none
+		sourceColumn: QuarterStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IsCurrent
+		dataType: boolean
+		lineageTag: acf17bd6-dc71-546b-98cf-4c0c3977857d
+		summarizeBy: none
+		sourceColumn: IsCurrent
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Quarter = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Quarter.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"QuarterKey", Int64.Type}, {"QuarterLabel", type text}, {"QuarterStart", type date}, {"IsCurrent", type logical}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

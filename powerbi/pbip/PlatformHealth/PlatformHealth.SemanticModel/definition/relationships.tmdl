@@ -1,0 +1,90 @@
+relationship fb0b6bc1-b9a0-58d3-b53f-06ba195e43e0
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: Team.LabKey
+	toColumn: Lab.LabKey
+
+relationship d4fb4ec9-8d7a-5564-8843-57905c228e8a
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: MetricValue.TeamKey
+	toColumn: Team.TeamKey
+
+relationship f875a9a5-7463-5037-9c26-d9c6815471e7
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: MetricValue.MetricKey
+	toColumn: Metric.MetricKey
+
+relationship 2891db6e-0e0c-59d5-aceb-06e4e856e78c
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: MetricValue.QuarterKey
+	toColumn: Quarter.QuarterKey
+
+relationship b437a69c-9a7f-598a-a66f-8f322bc5e1e7
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: ScoreFact.TeamKey
+	toColumn: Team.TeamKey
+
+relationship cef69c75-7e6b-5ebf-8d15-520c8e9dd61d
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: ScoreFact.MetricKey
+	toColumn: Metric.MetricKey
+
+relationship 8511b348-10eb-505a-a22b-d0eab82bb5d1
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: ScoreFact.QuarterKey
+	toColumn: Quarter.QuarterKey
+
+relationship b54a38f8-360c-576f-b5b0-8ea662bda44c
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: Metric.DomainKey
+	toColumn: Domain.DomainKey
+
+relationship 48b8be48-81b2-5a72-acf7-163a4b464d5c
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: Action.TeamKey
+	toColumn: Team.TeamKey
+
+relationship 052f27af-56e7-54ca-9e61-008c15f2a481
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: Action.DomainKey
+	toColumn: Domain.DomainKey
+
+relationship 2d099b35-41d4-554e-8ed7-f7726c98d22f
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: Person.TeamKey
+	toColumn: Team.TeamKey
+
+relationship e0767d6c-d754-54b0-b9d4-937441b86f51
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: PersonSkill.PersonKey
+	toColumn: Person.PersonKey
+
+relationship dbbabd37-5a28-5ff2-95dc-b9f50f918860
+	fromCardinality: many
+	toCardinality: one
+	crossFilteringBehavior: oneDirection
+	fromColumn: PersonSkill.SkillKey
+	toColumn: Skill.SkillKey

@@ -1,0 +1,711 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health skills-heat",
+      "description": "Critical skills coverage: a row per skill, thinnest first, and a cell per lab plus the estate total holding the count of people with the skill. Cells are muted at 0, amber with the word thin at 1 or 2, sage at 3 and above; a Depth pill names the estate-wide flag in words.",
+      "author": "Platform Health contributors",
+      "uuid": "c66707ad-95d3-5a9a-b958-e9c1f8f2623e",
+      "generated": "2026-09-29T18:14:26.488Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "skill",
+        "description": "Row; sorted by `estateCount`, then name",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "lab",
+        "description": "Column, in the `labOrder` param order",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound. Optional; the header chips",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound. Optional; the header chips",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "count",
+        "description": "Holders in the lab; blank reads as 0",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__5__",
+        "name": "estateCount",
+        "description": "Holders across the estate, the same on every row of a skill",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__6__",
+        "name": "flag",
+        "description": "`Single-person`, `Thin` or `Covered`",
+        "type": "text",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": false,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Critical skills coverage: a row per skill, thinnest first, and a cell per lab plus the estate total holding the count of people with the skill. Cells are muted at 0, amber with the word thin at 1 or 2, sage at 3 and above; a Depth pill names the estate-wide flag in words.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "brandSoft",
+      "expr": "pbiColor(2)"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "labOrder",
+      "value": [
+        "24*7 Services",
+        "Colleague Tooling",
+        "Agentic Operations",
+        "Data & Insights"
+      ]
+    },
+    {
+      "name": "title",
+      "value": "CRITICAL SKILLS COVERAGE"
+    },
+    {
+      "name": "flagW",
+      "value": 118
+    },
+    {
+      "name": "headH",
+      "value": 28
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "subtitle": "People holding each skill · thin is one or two people",
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": {
+      "expr": "muted"
+    },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    {
+      "calculate": "indexof(labOrder, datum['__1__']) < 0 ? length(labOrder) : indexof(labOrder, datum['__1__'])",
+      "as": "labPos"
+    },
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "labRank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "labPos",
+          "order": "ascending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "distinct",
+          "field": "__1__",
+          "as": "nLabs"
+        }
+      ]
+    },
+    {
+      "calculate": "isValid(datum['__5__']) ? toNumber(datum['__5__']) : 0",
+      "as": "estate"
+    },
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "skillRank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "estate",
+          "order": "ascending"
+        },
+        {
+          "field": "__0__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "isValid(datum['__2__']) && datum['__2__'] !== '' ? datum['__2__'] + '' : upper(substring(datum['__1__'] + '', 0, 2))",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__3__']) && datum['__3__'] !== '' ? datum['__3__'] + '' : muted",
+      "as": "chipColour"
+    },
+    {
+      "calculate": "isValid(datum['__4__']) ? toNumber(datum['__4__']) : 0",
+      "as": "labCount"
+    },
+    {
+      "fold": [
+        "labCount",
+        "estate"
+      ],
+      "as": [
+        "column",
+        "cnt"
+      ]
+    },
+    {
+      "calculate": "datum.column === 'estate' ? datum.nLabs : datum.labRank - 1",
+      "as": "colIdx"
+    },
+    {
+      "calculate": "datum.colIdx + 1",
+      "as": "colEnd"
+    },
+    {
+      "calculate": "datum.colIdx + 0.5",
+      "as": "colMid"
+    },
+    {
+      "calculate": "datum.cnt === 0 ? 'none' : datum.cnt <= 2 ? 'thin' : 'covered'",
+      "as": "depth"
+    },
+    {
+      "calculate": "datum.depth === 'thin' ? datum.cnt + '  thin' : datum.cnt + ''",
+      "as": "cellText"
+    },
+    {
+      "calculate": "datum.column === 'estate' ? 'Estate' : datum['__1__']",
+      "as": "columnLabel"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "__0__",
+      "type": "nominal",
+      "sort": {
+        "field": "skillRank",
+        "op": "min",
+        "order": "ascending"
+      },
+      "scale": {
+        "range": [
+          {
+            "expr": "headH"
+          },
+          {
+            "expr": "height"
+          }
+        ],
+        "paddingInner": 0.16,
+        "paddingOuter": 0
+      },
+      "axis": {
+        "title": null,
+        "orient": "left",
+        "domain": false,
+        "ticks": false,
+        "grid": false,
+        "labelAlign": "right",
+        "labelFontSize": 13,
+        "labelColor": {
+          "expr": "ink"
+        },
+        "labelPadding": 10,
+        "labelLimit": 170
+      }
+    },
+    "tooltip": [
+      {
+        "field": "__0__",
+        "title": "Skill"
+      },
+      {
+        "field": "columnLabel",
+        "title": "Where"
+      },
+      {
+        "field": "cnt",
+        "title": "People"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 5,
+        "xOffset": 2,
+        "x2Offset": -2
+      },
+      "encoding": {
+        "x": {
+          "field": "colIdx",
+          "type": "quantitative",
+          "scale": {
+            "nice": false,
+            "zero": true,
+            "range": [
+              0,
+              {
+                "expr": "max(0, width - flagW - 8)"
+              }
+            ]
+          },
+          "axis": null
+        },
+        "x2": {
+          "field": "colEnd"
+        },
+        "color": {
+          "condition": [
+            {
+              "test": "datum.depth === 'none'",
+              "value": {
+                "expr": "cream"
+              }
+            },
+            {
+              "test": "datum.depth === 'thin'",
+              "value": {
+                "expr": "warnFill"
+              }
+            }
+          ],
+          "value": {
+            "expr": "sage"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "rect",
+        "x": {
+          "expr": "scale('x', datum.colIdx) + 2"
+        },
+        "x2": {
+          "expr": "scale('x', datum.colIdx) + 5"
+        },
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusBottomLeft": 3
+      },
+      "encoding": {
+        "color": {
+          "condition": [
+            {
+              "test": "datum.depth === 'none'",
+              "value": {
+                "expr": "line"
+              }
+            },
+            {
+              "test": "datum.depth === 'thin'",
+              "value": {
+                "expr": "amber"
+              }
+            }
+          ],
+          "value": {
+            "expr": "brandSoft"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "fontSize": 13,
+        "fontWeight": 700
+      },
+      "encoding": {
+        "x": {
+          "field": "colMid",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "cellText"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.depth === 'none'",
+            "value": {
+              "expr": "muted"
+            }
+          },
+          "value": {
+            "expr": "ink"
+          }
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.column === 'labCount'"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "colIdx",
+              "as": "colIdx"
+            }
+          ],
+          "groupby": [
+            "__1__",
+            "chipCode",
+            "chipColour"
+          ]
+        }
+      ],
+      "encoding": {
+        "y": null,
+        "tooltip": null
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 5,
+            "x": {
+              "expr": "scale('x', datum.colIdx + 0.5) - 13"
+            },
+            "x2": {
+              "expr": "scale('x', datum.colIdx + 0.5) + 13"
+            },
+            "y": 4,
+            "y2": 21
+          },
+          "encoding": {
+            "color": {
+              "field": "chipColour",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "scale('x', datum.colIdx + 0.5)"
+            },
+            "y": 12.5,
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": {
+              "expr": "surface"
+            }
+          },
+          "encoding": {
+            "text": {
+              "field": "chipCode"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "max",
+              "field": "nLabs",
+              "as": "nLabs"
+            }
+          ]
+        }
+      ],
+      "encoding": {
+        "y": null,
+        "tooltip": null
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "scale('x', datum.nLabs + 0.5)"
+            },
+            "y": 12.5,
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10.5,
+            "letterSpacing": 0.6,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "text": {
+              "value": "TOTAL"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "width - flagW / 2"
+            },
+            "y": 12.5,
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10.5,
+            "letterSpacing": 0.6,
+            "color": {
+              "expr": "muted"
+            }
+          },
+          "encoding": {
+            "text": {
+              "value": "DEPTH"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "skillRank",
+              "as": "skillRank"
+            }
+          ],
+          "groupby": [
+            "__0__",
+            "__6__"
+          ]
+        },
+        {
+          "calculate": "datum['__6__'] === 'Single-person' ? 'single' : datum['__6__'] === 'Thin' ? 'thin' : 'covered'",
+          "as": "flagKey"
+        }
+      ],
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "__0__",
+            "title": "Skill"
+          },
+          {
+            "field": "__6__",
+            "title": "Depth"
+          }
+        ]
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 10,
+            "x": {
+              "expr": "width - flagW + 4"
+            },
+            "x2": {
+              "expr": "width - 2"
+            },
+            "y": {
+              "expr": "scale('y', datum['__0__']) + bandwidth('y') / 2 - 10"
+            },
+            "y2": {
+              "expr": "scale('y', datum['__0__']) + bandwidth('y') / 2 + 10"
+            }
+          },
+          "encoding": {
+            "y": null,
+            "color": {
+              "condition": [
+                {
+                  "test": "datum.flagKey === 'single'",
+                  "value": {
+                    "expr": "badFill"
+                  }
+                },
+                {
+                  "test": "datum.flagKey === 'thin'",
+                  "value": {
+                    "expr": "warnFill"
+                  }
+                }
+              ],
+              "value": {
+                "expr": "goodFill"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 50,
+            "x": {
+              "expr": "width - flagW + 15"
+            },
+            "y": {
+              "expr": "scale('y', datum['__0__']) + bandwidth('y') / 2"
+            }
+          },
+          "encoding": {
+            "y": null,
+            "color": {
+              "condition": [
+                {
+                  "test": "datum.flagKey === 'single'",
+                  "value": {
+                    "expr": "red"
+                  }
+                },
+                {
+                  "test": "datum.flagKey === 'thin'",
+                  "value": {
+                    "expr": "amber"
+                  }
+                }
+              ],
+              "value": {
+                "expr": "emerald"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": {
+              "expr": "width - flagW + 24"
+            },
+            "y": {
+              "expr": "scale('y', datum['__0__']) + bandwidth('y') / 2"
+            },
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "y": null,
+            "text": {
+              "field": "__6__"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

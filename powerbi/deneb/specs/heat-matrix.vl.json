@@ -1,0 +1,206 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Health score by lab and core domain. Cells are tinted by band and always show the score; the legend line states the thresholds.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    {
+      "name": "domainOrder",
+      "value": ["stability", "incidents", "problems", "maturity", "architecture", "risk", "security", "resilience", "change", "estate", "governance", "delivery", "people"]
+    },
+    {
+      "name": "rowOrder",
+      "value": [
+        "24*7 Services", "Colleague Tooling", "Agentic Operations", "Data & Insights",
+        "Customer Portal", "Claims Intake", "Policy Servicing", "Adviser Workbench", "Underwriting Desk", "Contact Centre",
+        "Automation Platform", "Agent Runtime", "Observability", "Data Platform", "Actuarial Analytics", "Regulatory Reporting"
+      ]
+    },
+    { "name": "title", "value": "HEAT BY LAB" },
+    { "name": "compositeGap", "value": 14 }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "subtitle": "Healthy 80 and above · Watch 60 to 79 · Act below 60",
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": { "expr": "muted" },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    {
+      "calculate": "datum.domainId === 'composite' ? length(domainOrder) : indexof(domainOrder, datum.domainId)",
+      "as": "domainRank"
+    },
+    { "calculate": "datum.domainId === 'composite' ? compositeGap : 0", "as": "gapShift" },
+    { "calculate": "indexof(rowOrder, datum.row) < 0 ? length(rowOrder) : indexof(rowOrder, datum.row)", "as": "rowPos" },
+    { "window": [{ "op": "dense_rank", "as": "rowRank" }], "sort": [{ "field": "rowPos", "order": "ascending" }, { "field": "row", "order": "ascending" }] },
+    { "filter": "datum.domainRank >= 0" },
+    {
+      "calculate": "{'healthy': 'Healthy', 'watch': 'Watch', 'act': 'Act'}[datum.band] || datum.band",
+      "as": "bandWord"
+    },
+    {
+      "calculate": "isValid(datum.labCode) && datum.labCode !== '' ? datum.labCode + '' : upper(substring(datum.row + '', 0, 2))",
+      "as": "chipCode"
+    },
+    { "calculate": "isValid(datum.labColour) && datum.labColour !== '' ? datum.labColour + '' : muted", "as": "chipColour" }
+  ],
+  "encoding": {
+    "x": {
+      "field": "domain",
+      "type": "nominal",
+      "sort": { "field": "domainRank", "op": "min" },
+      "scale": { "paddingInner": 0.12, "paddingOuter": 0, "range": [0, { "expr": "max(0, width - compositeGap)" }] },
+      "axis": {
+        "title": null,
+        "orient": "top",
+        "domain": false,
+        "ticks": false,
+        "grid": false,
+        "labelAngle": 0,
+        "labelAlign": "center",
+        "labelBaseline": "bottom",
+        "labelFont": "Fraunces, Cambria, Georgia, serif",
+        "labelFontSize": 11,
+        "labelFontWeight": 600,
+        "labelColor": { "expr": "ink" },
+        "labelExpr": "indexof(datum.label, ' ') > 0 ? split(datum.label, ' ') : ['', datum.label]",
+        "labelLineHeight": 15,
+        "labelPadding": 24,
+        "labelOffset": { "expr": "datum.value === 'Composite' ? compositeGap : 0" }
+      }
+    },
+    "y": {
+      "field": "row",
+      "type": "nominal",
+      "sort": { "field": "rowRank", "op": "min", "order": "ascending" },
+      "scale": { "paddingInner": 0.18, "paddingOuter": 0 },
+      "axis": {
+        "title": null,
+        "orient": "left",
+        "domain": false,
+        "ticks": false,
+        "grid": false,
+        "labelAlign": "left",
+        "labelFontSize": 13,
+        "labelColor": { "expr": "ink" },
+        "labelPadding": 140,
+        "labelLimit": 0
+      }
+    },
+    "tooltip": [
+      { "field": "row", "title": "Lab" },
+      { "field": "domain", "title": "Domain" },
+      { "field": "score", "title": "Score" },
+      { "field": "bandWord", "title": "Band" }
+    ],
+    "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+  },
+  "layer": [
+    {
+      "transform": [{ "aggregate": [{ "op": "min", "field": "rowRank", "as": "rowRank" }], "groupby": ["row", "chipCode", "chipColour"] }],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 4,
+            "x": -170,
+            "x2": -148,
+            "y": { "expr": "scale('y', datum.row) + bandwidth('y') / 2 - 9" },
+            "y2": { "expr": "scale('y', datum.row) + bandwidth('y') / 2 + 9" }
+          },
+          "encoding": {
+            "x": null,
+            "y": null,
+            "color": { "field": "chipColour", "type": "nominal", "scale": null },
+            "tooltip": null,
+            "opacity": null
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "x": -159,
+            "y": { "expr": "scale('y', datum.row) + bandwidth('y') / 2" },
+            "align": "center",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 10,
+            "fontWeight": 700,
+            "color": { "expr": "surface" }
+          },
+          "encoding": { "x": null, "y": null, "text": { "field": "chipCode" }, "tooltip": null, "opacity": null }
+        }
+      ]
+    },
+    {
+      "params": [
+        { "name": "__select__", "select": { "type": "point", "fields": ["row", "domainId"], "on": "click", "clear": "dblclick" } }
+      ],
+      "mark": { "type": "rect", "cornerRadius": 6, "xOffset": { "expr": "datum.gapShift" } },
+      "encoding": {
+        "color": {
+          "condition": [
+            { "test": "datum.band === 'healthy'", "value": { "expr": "goodFill" } },
+            { "test": "datum.band === 'watch'", "value": { "expr": "warnFill" } },
+            { "test": "datum.band === 'act'", "value": { "expr": "badFill" } }
+          ],
+          "value": { "expr": "sage" }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "rect",
+        "width": 3,
+        "xOffset": { "expr": "1.5 - bandwidth('x') / 2 + datum.gapShift" },
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusBottomLeft": 3
+      },
+      "encoding": {
+        "color": {
+          "condition": [
+            { "test": "datum.band === 'healthy'", "value": { "expr": "emerald" } },
+            { "test": "datum.band === 'watch'", "value": { "expr": "amber" } },
+            { "test": "datum.band === 'act'", "value": { "expr": "red" } }
+          ],
+          "value": { "expr": "muted" }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "fontSize": 14,
+        "fontWeight": 700,
+        "color": { "expr": "ink" },
+        "xOffset": { "expr": "datum.gapShift" }
+      },
+      "encoding": { "text": { "field": "score" } }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "sample": "bars.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "sampleFilter": { "domainId": "stability" },
+  "width": 800,
+  "height": 420
+}

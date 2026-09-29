@@ -1,0 +1,28 @@
+ActionKey,DomainKey,TeamKey,Description,DueDate,Severity
+A01,stability,agents,Root-cause the three repeat SNCs on the agent orchestration queue,2026-10-16,act
+A02,incidents,contact,Cut contact centre telephony MTTR with a documented failover runbook,2026-11-06,watch
+A03,architecture,reporting,Close or renew the four lapsed architecture exceptions on the regulatory returns engine,2026-10-30,act
+A04,architecture,portal,Agree a retirement plan for the legacy portal integrations into policy administration,2026-12-11,watch
+A05,risk,agents,Treat the open BRAM on single-person key management,2026-10-23,act
+A06,risk,onboarding,Re-assess underwriting data retention risk after the policy schema consolidation,2026-11-20,watch
+A07,security,reporting,Remediate overdue critical findings on the regulatory returns gateway,2026-10-09,act
+A08,security,claims,Bring patch compliance on the claims intake servers above 95%,2026-11-13,watch
+A09,resilience,contact,Run and evidence a DR test for the contact centre platform,2026-10-28,act
+A10,resilience,policy,Move policy servicing DR evidence from the register into the control library,2026-12-04,watch
+A11,change,agents,Add automated rollback to the agent runtime release pipeline,2026-11-27,act
+A12,change,portal,Review the failed customer portal changes of the last quarter at CAB,2026-10-21,watch
+A13,estate,claims,Decommission 40 idle claims intake hosts identified in the CMDB sweep,2026-12-18,watch
+A14,estate,reporting,Upgrade the regulatory reporting database off an unsupported version,2026-11-30,act
+A15,governance,reporting,Close the two overdue regulatory actions from the last Solvency II review,2026-10-14,act
+A16,governance,observability,Evidence closure of the monitoring governance audit action,2026-11-18,watch
+A17,delivery,digital,Re-plan the adviser workbench migration milestones now at risk,2026-10-31,act
+A18,delivery,analytics,Confirm funding for the Q1 actuarial valuations platform upgrade,2026-11-10,watch
+A19,people,agents,Hire or cross-train a second agent runtime engineer,2026-12-01,act
+A20,people,portal,Convert two long-running customer portal contractor roles to permanent,2027-01-15,watch
+A21,maturity,reporting,Stand up a problem management review for incidents on the regulatory returns gateway,2026-10-19,act
+A22,maturity,agents,Write and test recovery runbooks for the agent orchestration services,2026-11-04,act
+A23,maturity,contact,Move telephony alerts onto a staffed on-call rota to cut time to acknowledge,2026-11-25,watch
+A24,incidents,agents,Run a major incident review of this quarter’s agent runtime outages,2026-10-12,act
+A25,incidents,portal,Clear the open customer portal incidents older than five days,2026-10-26,watch
+A26,problems,reporting,Complete the overdue RCAs on the regulatory returns gateway problems,2026-10-07,act
+A27,problems,contact,Link claims calls to known errors so repeat calls resolve first time,2026-11-17,watch

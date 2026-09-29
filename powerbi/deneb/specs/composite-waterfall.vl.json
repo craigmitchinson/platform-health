@@ -1,0 +1,149 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Why the composite moved: a waterfall from the composite at the start of the period to now, one step per core domain, each its score change over the period divided by the core domain count.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "WHY THE COMPOSITE MOVED" },
+    { "name": "quarterWords", "value": ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"] },
+    {
+      "name": "quarterCount",
+      "expr": "length(data('dataset')) ? data('dataset')[0].quarters : 0"
+    },
+    {
+      "name": "runningExtent",
+      "expr": "length(data('dataset')) ? extent(pluck(data('dataset'), 'running')) : [0, 100]"
+    },
+    { "name": "yPad", "expr": "max(1, (runningExtent[1] - runningExtent[0]) * 0.3)" },
+    { "name": "yLow", "expr": "max(0, floor(runningExtent[0] - yPad))" },
+    { "name": "yHigh", "expr": "min(100, ceil(runningExtent[1] + yPad))" }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "subtitle": { "expr": "[length(data('dataset')) ? data('dataset')[0].scope + ' · each step is a domain’s ' + (quarterCount < length(quarterWords) ? quarterWords[quarterCount] : quarterCount) + '-quarter change divided by the ' + (length(data('dataset')) - 2) + ' core domains' : '', 'Change in health score, 0 to 100. Up is better.']" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6,
+    "subtitleFont": "Segoe UI, wf_segoe-ui_normal, Arial, sans-serif",
+    "subtitleFontSize": 12,
+    "subtitleColor": { "expr": "muted" },
+    "subtitlePadding": 4
+  },
+  "transform": [
+    { "calculate": "datum.kind === 'delta' ? datum.running - datum.value : yLow", "as": "barFrom" },
+    {
+      "calculate": "datum.kind !== 'delta' ? evergreen : datum.value > 0 ? emerald : datum.value < 0 ? amber : muted",
+      "as": "barColour"
+    },
+    {
+      "calculate": "datum.kind !== 'delta' ? format(datum.value, '.1f') : (datum.value > 0 ? '+' : datum.value < 0 ? '−' : '±') + format(abs(datum.value), '.1f')",
+      "as": "valueLabel"
+    },
+    {
+      "calculate": "datum.kind !== 'delta' ? datum.valueLabel : datum.valueLabel + ' ' + (datum.value > 0 ? 'better' : datum.value < 0 ? 'worse' : 'held')",
+      "as": "valueWord"
+    },
+    { "calculate": "max(datum.barFrom, datum.running)", "as": "barTop" },
+    { "calculate": "min(datum.barFrom, datum.running)", "as": "barBottom" },
+    { "calculate": "isValid(datum.short) && datum.short !== '' ? datum.short + '' : datum.label + ''", "as": "xName" },
+    { "window": [{ "op": "lead", "field": "xName", "as": "nextLabel" }], "sort": [{ "field": "step", "order": "ascending" }] }
+  ],
+  "encoding": {
+    "x": {
+      "field": "xName",
+      "type": "nominal",
+      "sort": { "field": "step", "op": "min" },
+      "scale": { "paddingInner": 0.3, "paddingOuter": 0.15 },
+      "axis": {
+        "title": null,
+        "labelAngle": 0,
+        "labelFontSize": 11,
+        "labelLineHeight": 13,
+        "labelExpr": "indexof(datum.label, ' ') > 0 ? [slice(datum.label, 0, indexof(datum.label, ' ')), slice(datum.label, indexof(datum.label, ' ') + 1)] : datum.label"
+      }
+    },
+    "y": {
+      "type": "quantitative",
+      "scale": { "domain": [{ "expr": "yLow" }, { "expr": "yHigh" }], "nice": false, "zero": false, "clamp": true },
+      "axis": { "title": "Composite", "titlePadding": 10, "tickCount": 5, "format": "d" }
+    },
+    "tooltip": [
+      { "field": "label", "title": "Step" },
+      { "field": "valueWord", "title": "Contribution" },
+      { "field": "running", "title": "Composite after this step", "format": ".1f" }
+    ],
+    "opacity": { "condition": { "test": "datum.__selected__ === 'off'", "value": 0.35 }, "value": 1 }
+  },
+  "layer": [
+    {
+      "transform": [{ "filter": "isValid(datum.nextLabel)" }],
+      "mark": {
+        "type": "rule",
+        "color": { "expr": "muted" },
+        "strokeWidth": 1,
+        "strokeDash": [3, 2],
+        "x2Offset": { "expr": "bandwidth('x') * 0.3 / 0.7" }
+      },
+      "encoding": {
+        "x": { "field": "xName", "type": "nominal", "sort": { "field": "step", "op": "min" }, "bandPosition": 0 },
+        "x2": { "field": "xName", "bandPosition": 1 },
+        "y": { "field": "running" },
+        "tooltip": null
+      }
+    },
+    {
+      "mark": { "type": "bar", "cornerRadius": 2 },
+      "encoding": {
+        "y": { "field": "barBottom" },
+        "y2": { "field": "barTop" },
+        "color": { "field": "barColour", "type": "nominal", "scale": null }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.kind !== 'delta' || datum.value >= 0" }],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "dy": -5,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": { "expr": "ink" }
+      },
+      "encoding": { "y": { "field": "barTop" }, "text": { "field": "valueLabel" } }
+    },
+    {
+      "transform": [{ "filter": "datum.kind === 'delta' && datum.value < 0" }],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "top",
+        "dy": 5,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": { "expr": "ink" }
+      },
+      "encoding": { "y": { "field": "barBottom" }, "text": { "field": "valueLabel" } }
+    }
+  ]
+}

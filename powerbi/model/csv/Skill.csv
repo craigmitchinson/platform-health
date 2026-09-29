@@ -1,0 +1,17 @@
+SkillKey,SkillName,SortOrder
+kubernetes,Kubernetes,1
+gcp,GCP,2
+terraform,Terraform,3
+dynatrace,Dynatrace,4
+servicenow,ServiceNow,5
+kafka,Kafka,6
+python,Python,7
+java,Java,8
+dotnet,.NET,9
+sql,SQL,10
+dataModelling,Data modelling,11
+bigquery,BigQuery,12
+security,Security engineering,13
+incidentCommand,Incident command,14
+mainframe,Mainframe,15
+agentFrameworks,Agent frameworks,16

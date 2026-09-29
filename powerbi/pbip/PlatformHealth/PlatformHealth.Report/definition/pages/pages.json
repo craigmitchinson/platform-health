@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+  "pageOrder": [
+    "overview",
+    "labs",
+    "actions",
+    "movement",
+    "stability",
+    "incidents",
+    "problems",
+    "change",
+    "maturity",
+    "operability",
+    "risk",
+    "security",
+    "resilience",
+    "governance",
+    "architecture",
+    "estate",
+    "cost",
+    "delivery",
+    "people",
+    "people-structure",
+    "lineage"
+  ],
+  "activePageName": "overview"
+}

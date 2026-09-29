@@ -1,0 +1,7 @@
+{
+  "sample": "rolecomposition.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "width": 902,
+  "height": 532
+}

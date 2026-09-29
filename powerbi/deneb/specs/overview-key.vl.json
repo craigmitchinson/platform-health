@@ -1,0 +1,137 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Overview key for the sixteenth domain slot: three lines: the three band pills in a row, each with its threshold beside it, the four domain group tags, and the Proposed tag. Constant; the one bound field only gives Deneb a row to render.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "evergreen", "expr": "pbiColor(0)" },
+    { "name": "emerald", "expr": "pbiColor(1)" },
+    { "name": "sage", "value": "#DCE8E0" },
+    { "name": "amber", "expr": "pbiColor(3)" },
+    { "name": "red", "expr": "pbiColor(4)" },
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "goodFill", "value": "#DDF0E8" },
+    { "name": "warnFill", "value": "#F5EAD6" },
+    { "name": "badFill", "value": "#F3E0DA" },
+    { "name": "title", "value": "KEY" },
+    { "name": "rowH", "expr": "max(14, height / 3)" }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [{ "filter": "isValid(datum.quarters)" }],
+  "layer": [
+    {
+      "data": {
+        "values": [
+          { "slot": 0, "word": "HEALTHY", "band": "healthy", "note": "80+" },
+          { "slot": 1, "word": "WATCH", "band": "watch", "note": "60–79" },
+          { "slot": 2, "word": "ACT", "band": "act", "note": "<60" }
+        ]
+      },
+      "transform": [
+        { "calculate": "0.5 * rowH", "as": "yMid" },
+        { "calculate": "datum.yMid - 9", "as": "y0" },
+        { "calculate": "datum.yMid + 9", "as": "y1" },
+        { "calculate": "datum.slot * width * 0.365", "as": "x0" },
+        { "calculate": "datum.x0 + 6 + length(datum.word) * 5.2", "as": "x1" },
+        { "calculate": "(datum.x0 + datum.x1) / 2", "as": "xMid" },
+        { "calculate": "datum.x1 + 3", "as": "noteX" },
+        { "calculate": "datum.band === 'healthy' ? goodFill : datum.band === 'watch' ? warnFill : badFill", "as": "fill" },
+        { "calculate": "datum.band === 'healthy' ? emerald : datum.band === 'watch' ? amber : red", "as": "dot" }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "rect", "cornerRadius": 9, "strokeWidth": 1, "strokeOpacity": 0.35 },
+          "encoding": {
+            "x": { "field": "x0", "type": "quantitative", "scale": null },
+            "x2": { "field": "x1" },
+            "y": { "field": "y0", "type": "quantitative", "scale": null },
+            "y2": { "field": "y1" },
+            "fill": { "field": "fill", "type": "nominal", "scale": null },
+            "stroke": { "field": "dot", "type": "nominal", "scale": null }
+          }
+        },
+        {
+          "mark": { "type": "text", "align": "center", "baseline": "middle", "font": "JetBrains Mono, Consolas, monospace", "fontSize": 8.5, "fontWeight": 600, "color": { "expr": "ink" } },
+          "encoding": { "x": { "field": "xMid", "type": "quantitative", "scale": null }, "y": { "field": "yMid", "type": "quantitative", "scale": null }, "text": { "field": "word" } }
+        },
+        {
+          "mark": { "type": "text", "align": "left", "baseline": "middle", "fontSize": 10, "color": { "expr": "muted" } },
+          "encoding": { "x": { "field": "noteX", "type": "quantitative", "scale": null }, "y": { "field": "yMid", "type": "quantitative", "scale": null }, "text": { "field": "note" } }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          { "tag": "OPS", "slot": 0 },
+          { "tag": "RISK", "slot": 1 },
+          { "tag": "ARCH", "slot": 2 },
+          { "tag": "DEL", "slot": 3 }
+        ]
+      },
+      "transform": [
+        { "calculate": "1.5 * rowH", "as": "yMid" },
+        { "calculate": "datum.yMid - 8", "as": "y0" },
+        { "calculate": "datum.yMid + 8", "as": "y1" },
+        { "calculate": "datum.slot * width / 4", "as": "x0" },
+        { "calculate": "datum.x0 + width / 4 - 6", "as": "x1" },
+        { "calculate": "(datum.x0 + datum.x1) / 2", "as": "xMid" }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "rect", "cornerRadius": 4, "fill": { "expr": "cream" }, "stroke": { "expr": "line" }, "strokeWidth": 1 },
+          "encoding": {
+            "x": { "field": "x0", "type": "quantitative", "scale": null },
+            "x2": { "field": "x1" },
+            "y": { "field": "y0", "type": "quantitative", "scale": null },
+            "y2": { "field": "y1" }
+          }
+        },
+        {
+          "mark": { "type": "text", "align": "center", "baseline": "middle", "font": "JetBrains Mono, Consolas, monospace", "fontSize": 11, "fontWeight": 600, "color": { "expr": "muted" } },
+          "encoding": {
+            "x": { "field": "xMid", "type": "quantitative", "scale": null },
+            "y": { "field": "yMid", "type": "quantitative", "scale": null },
+            "text": { "field": "tag" }
+          }
+        }
+      ]
+    },
+    {
+      "data": { "values": [{ "tag": "PROPOSED", "note": "not yet sourced" }] },
+      "transform": [
+        { "calculate": "2.5 * rowH", "as": "yMid" },
+        { "calculate": "datum.yMid - 8", "as": "y0" },
+        { "calculate": "datum.yMid + 8", "as": "y1" }
+      ],
+      "layer": [
+        {
+          "mark": { "type": "rect", "x": 0, "x2": 72, "cornerRadius": 4, "fill": { "expr": "sage" }, "stroke": { "expr": "muted" }, "strokeWidth": 1, "strokeDash": [3, 2] },
+          "encoding": { "y": { "field": "y0", "type": "quantitative", "scale": null }, "y2": { "field": "y1" } }
+        },
+        {
+          "mark": { "type": "text", "x": 36, "align": "center", "baseline": "middle", "font": "JetBrains Mono, Consolas, monospace", "fontSize": 11, "fontWeight": 600, "color": { "expr": "ink" } },
+          "encoding": { "y": { "field": "yMid", "type": "quantitative", "scale": null }, "text": { "field": "tag" } }
+        },
+        {
+          "mark": { "type": "text", "x": 80, "align": "left", "baseline": "middle", "fontSize": 11, "color": { "expr": "muted" } },
+          "encoding": { "y": { "field": "yMid", "type": "quantitative", "scale": null }, "text": { "field": "note" } }
+        }
+      ]
+    }
+  ]
+}

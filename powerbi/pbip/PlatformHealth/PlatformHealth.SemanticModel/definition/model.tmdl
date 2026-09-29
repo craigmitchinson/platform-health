@@ -1,0 +1,33 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["CsvFolder","Action","Config","Domain","Lab","Metric","MetricValue","Person","PersonSkill","Quarter","ScoreFact","Skill","SourceRefresh","Team","_Measures"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Action
+ref table Config
+ref table Domain
+ref table Lab
+ref table Metric
+ref table MetricValue
+ref table Person
+ref table PersonSkill
+ref table Quarter
+ref table ScoreFact
+ref table Skill
+ref table SourceRefresh
+ref table Team
+ref table Period
+ref table MovementStep
+ref table Page
+ref table _Measures
+
+ref cultureInfo en-GB

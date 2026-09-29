@@ -1,0 +1,8 @@
+{
+  "sample": "metricheat.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "sampleFilter": { "domainId": "stability" },
+  "width": 664,
+  "height": 332
+}

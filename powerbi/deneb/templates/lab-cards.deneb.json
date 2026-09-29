@@ -1,0 +1,814 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health lab-cards",
+      "description": "One card per lab in a row of four: name, lead, composite score, band pill, teams by band, and a six-quarter composite sparkline.",
+      "author": "Platform Health contributors",
+      "uuid": "9f139604-7165-5b6d-bd87-fa83232cae79",
+      "generated": "2026-09-29T15:36:01.580Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "labId",
+        "description": "Lab key; sets the card order through the `labOrder` param and is the selection key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "lab",
+        "description": "Lab name",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound.",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "lead",
+        "description": "Lab lead",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "composite",
+        "description": "The lab composite, the mean of its team composites",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__6__",
+        "name": "band",
+        "description": "`healthy`, `watch` or `act`; read in lower case, so [Band] works as well as [Band Key]",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__7__",
+        "name": "healthyTeams",
+        "description": "Teams in the lab whose composite is Healthy",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__8__",
+        "name": "watchTeams",
+        "description": "Teams whose composite is Watch",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__9__",
+        "name": "actTeams",
+        "description": "Teams whose composite is Act",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__10__",
+        "name": "q1",
+        "description": "The lab composite for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__11__",
+        "name": "q2",
+        "description": "The lab composite for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__12__",
+        "name": "q3",
+        "description": "The lab composite for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__13__",
+        "name": "q4",
+        "description": "The lab composite for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__14__",
+        "name": "q5",
+        "description": "The lab composite for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__15__",
+        "name": "q6",
+        "description": "The lab composite for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "One card per lab in a row of four: name, lead, composite score, band pill, teams by band, and a six-quarter composite sparkline.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "labOrder",
+      "value": [
+        "core",
+        "customer",
+        "payments",
+        "data"
+      ]
+    },
+    {
+      "name": "cardGap",
+      "value": 16
+    },
+    {
+      "name": "cardW",
+      "expr": "max(1, (width - 3 * cardGap) / 4)"
+    },
+    {
+      "name": "scoreY",
+      "expr": "max(80, height - 50)"
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "isValid(datum.labOrder) && datum.labOrder !== '' ? toNumber(datum.labOrder) : indexof(labOrder, datum['__0__']) < 0 ? length(labOrder) : indexof(labOrder, datum['__0__'])",
+      "as": "labRank"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "card"
+        }
+      ],
+      "sort": [
+        {
+          "field": "labRank",
+          "order": "ascending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "(datum.card - 1) * (cardW + cardGap)",
+      "as": "cellX"
+    },
+    {
+      "calculate": "datum.cellX + cardW",
+      "as": "cellX2"
+    },
+    {
+      "calculate": "lower(datum['__6__'] + '')",
+      "as": "bandId"
+    },
+    {
+      "calculate": "isValid(datum['__2__']) && datum['__2__'] !== '' ? datum['__2__'] + '' : upper(substring(datum['__1__'] + '', 0, 2))",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__3__']) && datum['__3__'] !== '' ? datum['__3__'] + '' : muted",
+      "as": "chipColour"
+    },
+    {
+      "calculate": "datum.cellX + 24",
+      "as": "chipX"
+    },
+    {
+      "calculate": "datum.cellX + 46",
+      "as": "chipX2"
+    },
+    {
+      "calculate": "datum.cellX + 35",
+      "as": "chipMid"
+    },
+    {
+      "calculate": "{'healthy': 'HEALTHY', 'watch': 'WATCH', 'act': 'ACT'}[datum.bandId] || upper(datum.bandId)",
+      "as": "bandWord"
+    },
+    {
+      "calculate": "datum.bandId === 'healthy' ? emerald : datum.bandId === 'watch' ? amber : datum.bandId === 'act' ? red : muted",
+      "as": "bandKey"
+    },
+    {
+      "calculate": "toNumber(datum['__7__']) + ' healthy · ' + toNumber(datum['__8__']) + ' watch · ' + toNumber(datum['__9__']) + ' act'",
+      "as": "teamsText"
+    },
+    {
+      "calculate": "[toNumber(datum['__10__']), toNumber(datum['__11__']), toNumber(datum['__12__']), toNumber(datum['__13__']), toNumber(datum['__14__']), toNumber(datum['__15__'])]",
+      "as": "quarterScores"
+    },
+    {
+      "calculate": "extent(datum.quarterScores)[0]",
+      "as": "cardMin"
+    },
+    {
+      "calculate": "extent(datum.quarterScores)[1]",
+      "as": "cardMax"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "min",
+          "field": "cardMin",
+          "as": "allMin"
+        },
+        {
+          "op": "max",
+          "field": "cardMax",
+          "as": "allMax"
+        }
+      ]
+    },
+    {
+      "calculate": "min(datum.allMin, 60) - 4",
+      "as": "sparkLow"
+    },
+    {
+      "calculate": "min(100, max(datum.allMax, 88) + 3)",
+      "as": "sparkHigh"
+    },
+    {
+      "calculate": "datum.cellX + cardW * 0.56",
+      "as": "sparkX0"
+    },
+    {
+      "calculate": "datum.cellX2 - 24",
+      "as": "sparkX1"
+    },
+    {
+      "calculate": "52",
+      "as": "sparkTop"
+    },
+    {
+      "calculate": "scoreY + 4",
+      "as": "sparkBase"
+    }
+  ],
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "__1__",
+        "title": "Lab"
+      },
+      {
+        "field": "__4__",
+        "title": "Lead"
+      },
+      {
+        "field": "__5__",
+        "title": "Composite"
+      },
+      {
+        "field": "bandWord",
+        "title": "Band"
+      },
+      {
+        "field": "teamsText",
+        "title": "Teams"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "y": 1,
+        "y2": {
+          "expr": "height - 1"
+        },
+        "cornerRadius": 18,
+        "fill": {
+          "expr": "surface"
+        },
+        "stroke": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "cellX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "x2": {
+          "field": "cellX2"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "y": 20,
+        "dx": 54,
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 19,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        },
+        "limit": {
+          "expr": "max(40, cardW - 78)"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "cellX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "__1__"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "rect",
+        "y": 22,
+        "y2": 40,
+        "cornerRadius": 4
+      },
+      "encoding": {
+        "x": {
+          "field": "chipX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "x2": {
+          "field": "chipX2"
+        },
+        "color": {
+          "field": "chipColour",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "y": 31,
+        "align": "center",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 10,
+        "fontWeight": 700,
+        "color": {
+          "expr": "surface"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "chipMid",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "chipCode"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "y": 46,
+        "dx": 24,
+        "fontSize": 13,
+        "color": {
+          "expr": "muted"
+        },
+        "limit": {
+          "expr": "max(40, cardW * 0.56 - 32)"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "cellX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "__4__"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": {
+          "expr": "scoreY"
+        },
+        "dx": 24,
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 34,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "cellX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "__5__"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "34 + length(datum.bandWord) * 7.4",
+          "as": "pillW"
+        },
+        {
+          "calculate": "datum.cellX + 92",
+          "as": "pillX"
+        },
+        {
+          "calculate": "datum.pillX + datum.pillW",
+          "as": "pillX2"
+        },
+        {
+          "calculate": "scoreY - 12",
+          "as": "pillMid"
+        },
+        {
+          "calculate": "datum.pillMid - 12",
+          "as": "pillY"
+        },
+        {
+          "calculate": "datum.pillMid + 12",
+          "as": "pillY2"
+        },
+        {
+          "calculate": "datum.pillX + 15",
+          "as": "pillDotX"
+        },
+        {
+          "calculate": "datum.pillX + 25",
+          "as": "pillTextX"
+        },
+        {
+          "calculate": "datum.bandId === 'healthy' ? goodFill : datum.bandId === 'watch' ? warnFill : datum.bandId === 'act' ? badFill : sage",
+          "as": "pillFill"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 12,
+            "strokeWidth": 1,
+            "strokeOpacity": 0.35
+          },
+          "encoding": {
+            "x": {
+              "field": "pillX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "pillX2"
+            },
+            "y": {
+              "field": "pillY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "pillY2"
+            },
+            "fill": {
+              "field": "pillFill",
+              "type": "nominal",
+              "scale": null
+            },
+            "stroke": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 64
+          },
+          "encoding": {
+            "x": {
+              "field": "pillDotX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "pillMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "pillTextX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "pillMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "bandWord"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "y": {
+          "expr": "scoreY + 26"
+        },
+        "dx": 24,
+        "fontSize": 12.5,
+        "color": {
+          "expr": "muted"
+        },
+        "limit": {
+          "expr": "max(40, cardW - 48)"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "cellX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "teamsText"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "sequence(0, 6)",
+          "as": "quarterIndex"
+        },
+        {
+          "flatten": [
+            "quarterScores",
+            "quarterIndex"
+          ],
+          "as": [
+            "quarterScore",
+            "qi"
+          ]
+        },
+        {
+          "calculate": "datum.sparkX0 + (datum.sparkX1 - datum.sparkX0) * datum.qi / 5",
+          "as": "sx"
+        },
+        {
+          "calculate": "datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (clamp(datum.quarterScore, datum.sparkLow, datum.sparkHigh) - datum.sparkLow) / (datum.sparkHigh - datum.sparkLow)",
+          "as": "sy"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "area",
+            "color": {
+              "expr": "emerald"
+            },
+            "fillOpacity": 0.15
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "sparkBase"
+            },
+            "detail": {
+              "field": "__0__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 1.75,
+            "color": {
+              "expr": "evergreen"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "detail": {
+              "field": "__0__"
+            },
+            "order": {
+              "field": "qi",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.qi === 5"
+            }
+          ],
+          "mark": {
+            "type": "circle",
+            "size": 44,
+            "stroke": {
+              "expr": "surface"
+            },
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

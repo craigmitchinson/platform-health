@@ -1,0 +1,325 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health lab-legend",
+      "description": "The lab legend: the four lab chips with their names in one row, filling the width, for the top right of the header on pages whose tables show chips alone.",
+      "author": "Platform Health contributors",
+      "uuid": "e30b0b13-09ce-57be-8b24-00e5d7841abc",
+      "generated": "2026-09-29T13:01:35.393Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "labId",
+        "description": "Selection key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "lab",
+        "description": "Lab name beside the chip",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "labCode",
+        "description": "Optional; the spec falls back when it is not bound. Optional; the two characters on the chip",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "labColour",
+        "description": "Optional; the spec falls back when it is not bound. Optional; the chip colour",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "sortOrder",
+        "description": "Left to right order",
+        "type": "numeric",
+        "kind": "column"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "The lab legend: the four lab chips with their names in one row, filling the width, for the top right of the header on pages whose tables show chips alone.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "chipW",
+      "value": 20
+    },
+    {
+      "name": "itemGap",
+      "value": 12
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "isValid(datum['__2__']) && datum['__2__'] !== '' ? datum['__2__'] + '' : upper(substring(datum['__1__'] + '', 0, 2))",
+      "as": "chipCode"
+    },
+    {
+      "calculate": "isValid(datum['__3__']) && datum['__3__'] !== '' ? datum['__3__'] + '' : muted",
+      "as": "chipColour"
+    },
+    {
+      "calculate": "chipW + 6 + length(datum['__1__'] + '') * 6",
+      "as": "itemW"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "itemW",
+          "as": "totalW"
+        },
+        {
+          "op": "count",
+          "as": "total"
+        }
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "sum",
+          "field": "itemW",
+          "as": "runW"
+        },
+        {
+          "op": "row_number",
+          "as": "slot"
+        }
+      ],
+      "sort": [
+        {
+          "field": "__4__",
+          "order": "ascending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
+        }
+      ],
+      "frame": [
+        null,
+        0
+      ]
+    },
+    {
+      "calculate": "clamp((width - itemGap * (datum.total - 1)) / datum.totalW, 0.1, 1)",
+      "as": "fitScale"
+    },
+    {
+      "calculate": "max(0, width - datum.totalW * datum.fitScale - itemGap * (datum.total - 1))",
+      "as": "startX"
+    },
+    {
+      "calculate": "datum.startX + (datum.runW - datum.itemW) * datum.fitScale + itemGap * (datum.slot - 1)",
+      "as": "x0"
+    },
+    {
+      "calculate": "datum.x0 + chipW",
+      "as": "chipX2"
+    },
+    {
+      "calculate": "datum.x0 + chipW / 2",
+      "as": "chipMid"
+    },
+    {
+      "calculate": "datum.x0 + chipW + 6",
+      "as": "nameX"
+    },
+    {
+      "calculate": "max(10, datum.itemW * datum.fitScale - chipW - 6)",
+      "as": "nameW"
+    }
+  ],
+  "encoding": {
+    "tooltip": [
+      {
+        "field": "__1__",
+        "title": "Lab"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "test": "datum.__selected__ === 'off'",
+        "value": 0.35
+      },
+      "value": 1
+    }
+  },
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 4,
+        "y": {
+          "expr": "height / 2 - 9"
+        },
+        "y2": {
+          "expr": "height / 2 + 9"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "x0",
+          "type": "quantitative",
+          "scale": null
+        },
+        "x2": {
+          "field": "chipX2"
+        },
+        "color": {
+          "field": "chipColour",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "y": {
+          "expr": "height / 2"
+        },
+        "align": "center",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 10,
+        "fontWeight": 700,
+        "color": {
+          "expr": "surface"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "chipMid",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "chipCode"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "y": {
+          "expr": "height / 2"
+        },
+        "align": "left",
+        "baseline": "middle",
+        "fontSize": 11,
+        "color": {
+          "expr": "ink"
+        },
+        "limit": {
+          "expr": "datum.nameW"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "nameX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "__1__"
+        }
+      }
+    }
+  ]
+}

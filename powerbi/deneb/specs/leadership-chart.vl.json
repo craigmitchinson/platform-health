@@ -1,0 +1,183 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Leadership chart: platform lead, lab leads and team leads as three rows of small cards joined by hairlines. Layout is computed, not a tree transform: each node's x is its rank within its level, and each parent's connector sits at the mean of its children, which is the parent's own centre because every level splits the width evenly.",
+  "data": { "name": "dataset" },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    { "name": "ink", "expr": "pbiColor(0)" },
+    { "name": "muted", "expr": "pbiColor(6)" },
+    { "name": "line", "expr": "pbiColor(8)" },
+    { "name": "surface", "value": "#FFFFFF" },
+    { "name": "cream", "value": "#F7F6F2" },
+    { "name": "title", "value": "LEADERSHIP" },
+    { "name": "gap", "value": 3 }
+  ],
+  "title": {
+    "text": { "expr": "title" },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": { "expr": "muted" },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    { "calculate": "toNumber(datum.level)", "as": "lvl" },
+    { "window": [{ "op": "row_number", "as": "pos" }], "groupby": ["lvl"], "sort": [{ "field": "id", "order": "ascending" }] },
+    { "joinaggregate": [{ "op": "count", "as": "n" }], "groupby": ["lvl"] },
+    { "calculate": "(datum.pos - 1) / datum.n", "as": "x0" },
+    { "calculate": "datum.pos / datum.n", "as": "x1" },
+    { "calculate": "(datum.pos - 0.5) / datum.n", "as": "xc" },
+    { "calculate": "datum.lvl === 1 ? 0 : datum.lvl === 2 ? 54 : 118", "as": "top" },
+    { "calculate": "datum.top + (datum.lvl === 1 ? 34 : datum.lvl === 2 ? 44 : 50)", "as": "bottom" },
+    { "calculate": "datum.top - 10", "as": "mid" },
+    { "calculate": "datum.top - 20", "as": "parentBottom" },
+    { "calculate": "datum.top + (datum.lvl === 3 ? 13 : 15)", "as": "roleY" },
+    { "calculate": "datum.top + (datum.lvl === 1 ? 28 : datum.lvl === 2 ? 34 : 43)", "as": "spanY" },
+    { "calculate": "datum.top + 28", "as": "nameY" },
+    { "calculate": "upper(datum.label + '')", "as": "roleText" },
+    {
+      "calculate": "format(datum.headcount, ',') + ' people' + (datum.lvl < 3 ? ' · ' + format(datum.contractorPct, 'd') + '% contractors' : '')",
+      "as": "spanText"
+    },
+    { "calculate": "isValid(datum.labCode) && datum.labCode !== '' ? datum.labCode + '' : ''", "as": "chipCode" },
+    { "calculate": "isValid(datum.labColour) && datum.labColour !== '' ? datum.labColour + '' : muted", "as": "chipColour" }
+  ],
+  "encoding": {
+    "tooltip": [
+      { "field": "label", "title": "Role" },
+      { "field": "sublabel", "title": "Leads" },
+      { "field": "headcount", "title": "People" },
+      { "field": "contractorPct", "title": "Contractors %" }
+    ]
+  },
+  "layer": [
+    {
+      "transform": [{ "filter": "datum.lvl > 1" }],
+      "mark": { "type": "rule", "strokeWidth": 1, "color": { "expr": "line" } },
+      "encoding": {
+        "x": { "field": "xc", "type": "quantitative", "scale": { "domain": [0, 1], "nice": false, "zero": false }, "axis": null },
+        "y": { "field": "mid", "type": "quantitative", "scale": null, "axis": null },
+        "y2": { "field": "top" },
+        "tooltip": null
+      }
+    },
+    {
+      "transform": [
+        { "filter": "datum.lvl > 1" },
+        { "aggregate": [{ "op": "min", "field": "xc", "as": "xa" }, { "op": "max", "field": "xc", "as": "xb" }, { "op": "min", "field": "mid", "as": "mid" }], "groupby": ["parentId"] }
+      ],
+      "mark": { "type": "rule", "strokeWidth": 1, "color": { "expr": "line" } },
+      "encoding": {
+        "x": { "field": "xa", "type": "quantitative", "scale": { "domain": [0, 1], "nice": false, "zero": false }, "axis": null },
+        "x2": { "field": "xb" },
+        "y": { "field": "mid", "type": "quantitative", "scale": null, "axis": null },
+        "tooltip": null
+      }
+    },
+    {
+      "transform": [
+        { "filter": "datum.lvl > 1" },
+        {
+          "aggregate": [{ "op": "mean", "field": "xc", "as": "xm" }, { "op": "min", "field": "mid", "as": "mid" }, { "op": "min", "field": "parentBottom", "as": "parentBottom" }],
+          "groupby": ["parentId"]
+        }
+      ],
+      "mark": { "type": "rule", "strokeWidth": 1, "color": { "expr": "line" } },
+      "encoding": {
+        "x": { "field": "xm", "type": "quantitative", "scale": { "domain": [0, 1], "nice": false, "zero": false }, "axis": null },
+        "y": { "field": "parentBottom", "type": "quantitative", "scale": null, "axis": null },
+        "y2": { "field": "mid" },
+        "tooltip": null
+      }
+    },
+    {
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 8,
+        "fill": { "expr": "cream" },
+        "stroke": { "expr": "line" },
+        "strokeWidth": 1,
+        "xOffset": { "expr": "gap" },
+        "x2Offset": { "expr": "-gap" }
+      },
+      "encoding": {
+        "x": { "field": "x0", "type": "quantitative", "scale": { "domain": [0, 1], "nice": false, "zero": false }, "axis": null },
+        "x2": { "field": "x1" },
+        "y": { "field": "top", "type": "quantitative", "scale": null, "axis": null },
+        "y2": { "field": "bottom" }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.lvl === 2" }],
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 5,
+        "x": { "expr": "scale('x', datum.xc) - 44" },
+        "x2": { "expr": "scale('x', datum.xc) - 22" },
+        "y": { "expr": "datum.top + 6" },
+        "y2": { "expr": "datum.top + 23" }
+      },
+      "encoding": { "color": { "field": "chipColour", "type": "nominal", "scale": null }, "tooltip": null }
+    },
+    {
+      "transform": [{ "filter": "datum.lvl === 2" }],
+      "mark": {
+        "type": "text",
+        "x": { "expr": "scale('x', datum.xc) - 33" },
+        "y": { "expr": "datum.top + 15" },
+        "align": "center",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 10,
+        "fontWeight": 700,
+        "color": { "expr": "surface" }
+      },
+      "encoding": { "text": { "field": "chipCode" }, "tooltip": null }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 10.5,
+        "letterSpacing": 0.8,
+        "color": { "expr": "muted" },
+        "xOffset": { "expr": "datum.lvl === 2 ? 14 : 0" }
+      },
+      "encoding": {
+        "x": { "field": "xc", "type": "quantitative", "scale": { "domain": [0, 1], "nice": false, "zero": false }, "axis": null },
+        "y": { "field": "roleY", "type": "quantitative", "scale": null, "axis": null },
+        "text": { "field": "roleText" }
+      }
+    },
+    {
+      "transform": [{ "filter": "datum.lvl === 3" }],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "middle",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": { "expr": "ink" },
+        "limit": { "expr": "max(20, width / 12 - 16)" }
+      },
+      "encoding": {
+        "x": { "field": "xc", "type": "quantitative", "scale": { "domain": [0, 1], "nice": false, "zero": false }, "axis": null },
+        "y": { "field": "nameY", "type": "quantitative", "scale": null, "axis": null },
+        "text": { "field": "sublabel" }
+      }
+    },
+    {
+      "mark": { "type": "text", "align": "center", "baseline": "middle", "fontSize": 12, "color": { "expr": "ink" } },
+      "encoding": {
+        "x": { "field": "xc", "type": "quantitative", "scale": { "domain": [0, 1], "nice": false, "zero": false }, "axis": null },
+        "y": { "field": "spanY", "type": "quantitative", "scale": null, "axis": null },
+        "text": { "field": "spanText" }
+      }
+    }
+  ]
+}

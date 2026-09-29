@@ -1,0 +1,77 @@
+table Team
+	lineageTag: fd7110b5-03d2-53e2-b328-4459ff27ed1e
+
+	column TeamKey
+		dataType: string
+		lineageTag: 691278a1-c83f-5e15-8b2f-a1d2fbe0a458
+		summarizeBy: none
+		sourceColumn: TeamKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column TeamName
+		dataType: string
+		lineageTag: 88e47d70-f6d8-5792-9792-6335749dc8f3
+		summarizeBy: none
+		sourceColumn: TeamName
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabKey
+		dataType: string
+		lineageTag: 5efc34e3-3f7b-59ca-aa6b-fb57704e28a1
+		summarizeBy: none
+		sourceColumn: LabKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lead
+		dataType: string
+		lineageTag: 82800e93-918b-5497-9b28-11c283b81768
+		summarizeBy: none
+		sourceColumn: Lead
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: f7aa4353-3a26-57d9-a4f7-eb5684fa21c0
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabName = RELATED ( 'Lab'[LabName] )
+		dataType: string
+		lineageTag: 0a48f910-ee51-5f25-ab1d-83b6a4e3e54b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabCode = RELATED ( 'Lab'[LabCode] )
+		dataType: string
+		lineageTag: 13be346c-e140-5314-b835-ab0f798636eb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LabColour = RELATED ( 'Lab'[LabColour] )
+		dataType: string
+		lineageTag: 06b29770-1e19-5531-b1f1-f65c2dbaac69
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Team = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Team.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"TeamKey", type text}, {"TeamName", type text}, {"LabKey", type text}, {"Lead", type text}, {"SortOrder", Int64.Type}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

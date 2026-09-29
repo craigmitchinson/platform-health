@@ -1,0 +1,5 @@
+LabKey,LabName,LabCode,LabColour,Lead,SortOrder
+core,24*7 Services,24,#1E5B4F,Gareth Lloyd,1
+customer,Colleague Tooling,CT,#8E5E48,Tom Hadley,2
+payments,Agentic Operations,AO,#44618A,Priya Raman,3
+data,Data & Insights,DI,#1A6F7C,Aisha Okafor,4

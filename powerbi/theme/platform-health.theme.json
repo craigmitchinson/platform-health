@@ -1,0 +1,114 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/powerbi-desktop-samples/main/Report-Theme-JSON-Schema/reportThemeSchema-2.140.json",
+  "name": "Platform Health",
+  "dataColors": [
+    "#0F4D43",
+    "#0B8A6B",
+    "#5E8C82",
+    "#B9852C",
+    "#B6462F",
+    "#2A6A5F",
+    "#5F6E69",
+    "#CFDDD4",
+    "#D6D9D2",
+    "#1E5B4F",
+    "#8E5E48",
+    "#44618A",
+    "#1A6F7C"
+  ],
+  "background": "#F2F0EA",
+  "foreground": "#0F4D43",
+  "tableAccent": "#0B8A6B",
+  "good": "#0B8A6B",
+  "neutral": "#B9852C",
+  "bad": "#B6462F",
+  "maximum": "#0B8A6B",
+  "center": "#B9852C",
+  "minimum": "#B6462F",
+  "textClasses": {
+    "callout": { "fontFace": "Fraunces, Cambria, Georgia, serif", "fontSize": 30, "color": "#0F4D43" },
+    "title": { "fontFace": "Fraunces, Cambria, Georgia, serif", "fontSize": 13, "color": "#0F4D43" },
+    "header": { "fontFace": "Fraunces, Cambria, Georgia, serif", "fontSize": 11, "color": "#0F4D43" },
+    "largeTitle": { "fontFace": "Fraunces, Cambria, Georgia, serif", "fontSize": 18, "color": "#0F4D43" },
+    "label": { "fontFace": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif", "fontSize": 11, "color": "#0F4D43" },
+    "smallLabel": { "fontFace": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif", "fontSize": 10, "color": "#5F6E69" }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [
+          { "show": true, "color": { "solid": { "color": "#FFFFFF" } }, "transparency": 0 }
+        ],
+        "border": [
+          { "show": true, "color": { "solid": { "color": "#D6D9D2" } }, "radius": 18 }
+        ],
+        "dropShadow": [{ "show": false }],
+        "visualHeader": [{ "show": false }],
+        "title": [
+          { "fontFamily": "Georgia", "fontSize": 13, "fontColor": { "solid": { "color": "#0F4D43" } } }
+        ],
+        "outspacePane": [
+          {
+            "backgroundColor": { "solid": { "color": "#DCE8E0" } },
+            "foregroundColor": { "solid": { "color": "#0F4D43" } },
+            "borderColor": { "solid": { "color": "#CFDDD4" } },
+            "transparency": 0,
+            "fontFamily": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif",
+            "titleSize": 13,
+            "headerSize": 11,
+            "searchTextSize": 10,
+            "inputBoxColor": { "solid": { "color": "#FFFFFF" } },
+            "checkboxAndApplyColor": { "solid": { "color": "#0B8A6B" } }
+          }
+        ],
+        "filterCard": [
+          {
+            "$id": "Applied",
+            "backgroundColor": { "solid": { "color": "#FFFFFF" } },
+            "foregroundColor": { "solid": { "color": "#0F4D43" } },
+            "border": true,
+            "borderColor": { "solid": { "color": "#CFDDD4" } },
+            "transparency": 0,
+            "fontFamily": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif",
+            "textSize": 10,
+            "inputBoxColor": { "solid": { "color": "#F7F6F2" } }
+          },
+          {
+            "$id": "Available",
+            "backgroundColor": { "solid": { "color": "#F7F6F2" } },
+            "foregroundColor": { "solid": { "color": "#0F4D43" } },
+            "border": true,
+            "borderColor": { "solid": { "color": "#D6D9D2" } },
+            "transparency": 0,
+            "fontFamily": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif",
+            "textSize": 10,
+            "inputBoxColor": { "solid": { "color": "#FFFFFF" } }
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          { "color": { "solid": { "color": "#F2F0EA" } }, "transparency": 0 }
+        ],
+        "outspace": [
+          { "color": { "solid": { "color": "#F2F0EA" } }, "transparency": 0 }
+        ]
+      }
+    },
+    "card": {
+      "*": {
+        "background": [
+          { "show": true, "color": { "solid": { "color": "#FFFFFF" } }, "transparency": 0 }
+        ],
+        "labels": [
+          { "fontFamily": "Georgia", "fontSize": 30, "color": { "solid": { "color": "#0F4D43" } } }
+        ],
+        "categoryLabels": [
+          { "fontFamily": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif", "fontSize": 10, "color": { "solid": { "color": "#5F6E69" } } }
+        ]
+      }
+    }
+  }
+}

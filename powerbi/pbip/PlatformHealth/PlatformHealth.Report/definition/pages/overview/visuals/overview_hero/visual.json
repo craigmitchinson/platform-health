@@ -1,0 +1,399 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "overview_hero",
+  "position": {
+    "x": 48,
+    "y": 208,
+    "z": 2000,
+    "width": 1824,
+    "height": 180,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Scope Name"
+                }
+              },
+              "queryRef": "_Measures.Scope Name",
+              "nativeQueryRef": "Scope Name"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Composite"
+                }
+              },
+              "queryRef": "_Measures.Composite",
+              "nativeQueryRef": "Composite"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Domains Healthy Display"
+                }
+              },
+              "queryRef": "_Measures.Domains Healthy Display",
+              "nativeQueryRef": "Domains Healthy Display"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Domains Watch Display"
+                }
+              },
+              "queryRef": "_Measures.Domains Watch Display",
+              "nativeQueryRef": "Domains Watch Display"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Domains Act Display"
+                }
+              },
+              "queryRef": "_Measures.Domains Act Display",
+              "nativeQueryRef": "Domains Act Display"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Core Domains"
+                }
+              },
+              "queryRef": "_Measures.Core Domains",
+              "nativeQueryRef": "Core Domains"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Teams Needing Action Display"
+                }
+              },
+              "queryRef": "_Measures.Teams Needing Action Display",
+              "nativeQueryRef": "Teams Needing Action Display"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Worst Domain"
+                }
+              },
+              "queryRef": "_Measures.Worst Domain",
+              "nativeQueryRef": "Worst Domain"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score Q1"
+                }
+              },
+              "queryRef": "_Measures.Score Q1",
+              "nativeQueryRef": "Score Q1"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score Q2"
+                }
+              },
+              "queryRef": "_Measures.Score Q2",
+              "nativeQueryRef": "Score Q2"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score Q3"
+                }
+              },
+              "queryRef": "_Measures.Score Q3",
+              "nativeQueryRef": "Score Q3"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score Q4"
+                }
+              },
+              "queryRef": "_Measures.Score Q4",
+              "nativeQueryRef": "Score Q4"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score Q5"
+                }
+              },
+              "queryRef": "_Measures.Score Q5",
+              "nativeQueryRef": "Score Q5"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Score"
+                }
+              },
+              "queryRef": "_Measures.Score",
+              "nativeQueryRef": "Score"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Overview hero band: composite health score, band and six-quarter sparkline, the Overview headline, and a stacked bar of core domains per band, from one row per scope.\",\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"width\": \"container\",\n  \"height\": \"container\",\n  \"background\": \"transparent\",\n  \"params\": [\n    {\n      \"name\": \"evergreen\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"emerald\",\n      \"expr\": \"pbiColor(1)\"\n    },\n    {\n      \"name\": \"sage\",\n      \"value\": \"#DCE8E0\"\n    },\n    {\n      \"name\": \"amber\",\n      \"expr\": \"pbiColor(3)\"\n    },\n    {\n      \"name\": \"red\",\n      \"expr\": \"pbiColor(4)\"\n    },\n    {\n      \"name\": \"ink\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"muted\",\n      \"expr\": \"pbiColor(6)\"\n    },\n    {\n      \"name\": \"line\",\n      \"expr\": \"pbiColor(8)\"\n    },\n    {\n      \"name\": \"surface\",\n      \"value\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"cream\",\n      \"value\": \"#F7F6F2\"\n    },\n    {\n      \"name\": \"goodFill\",\n      \"value\": \"#DDF0E8\"\n    },\n    {\n      \"name\": \"warnFill\",\n      \"value\": \"#F5EAD6\"\n    },\n    {\n      \"name\": \"badFill\",\n      \"value\": \"#F3E0DA\"\n    },\n    {\n      \"name\": \"scoreWidth\",\n      \"value\": 440\n    },\n    {\n      \"name\": \"segmentGap\",\n      \"value\": 6\n    },\n    {\n      \"name\": \"minSegment\",\n      \"value\": 170\n    }\n  ],\n  \"transform\": [\n    {\n      \"calculate\": \"round(datum[''Composite''])\",\n      \"as\": \"compositeScore\"\n    },\n    {\n      \"calculate\": \"datum.compositeScore >= 80 ? ''healthy'' : datum.compositeScore >= 60 ? ''watch'' : ''act''\",\n      \"as\": \"compositeBand\"\n    },\n    {\n      \"calculate\": \"datum.compositeBand === ''healthy'' ? emerald : datum.compositeBand === ''watch'' ? amber : red\",\n      \"as\": \"compositeKey\"\n    },\n    {\n      \"calculate\": \"datum[''Scope Name''] === ''Estate'' ? ''the estate'' : datum[''Scope Name'']\",\n      \"as\": \"scopeName\"\n    },\n    {\n      \"calculate\": \"datum[''Teams Needing Action Display''] === 0 ? ''No team needs action; '' + datum[''Worst Domain''] + '' is the weakest domain.'' : datum[''Teams Needing Action Display''] + (datum[''Teams Needing Action Display''] === 1 ? '' team needs'' : '' teams need'') + '' action, led by '' + datum[''Worst Domain''] + ''.''\",\n      \"as\": \"teamsLine\"\n    },\n    {\n      \"calculate\": \"[datum[''Domains Healthy Display''] + '' of '' + datum[''Core Domains''] + '' domains healthy across '' + datum.scopeName + ''.'', datum.teamsLine]\",\n      \"as\": \"headline\"\n    },\n    {\n      \"calculate\": \"max(0, (height - 164) / 2)\",\n      \"as\": \"top\"\n    },\n    {\n      \"calculate\": \"datum.top + 144\",\n      \"as\": \"pillMid\"\n    },\n    {\n      \"calculate\": \"scoreWidth + 48\",\n      \"as\": \"rightStart\"\n    },\n    {\n      \"calculate\": \"24 + length(toString(datum.compositeScore)) * 58\",\n      \"as\": \"sparkX0\"\n    },\n    {\n      \"calculate\": \"scoreWidth - 8\",\n      \"as\": \"sparkX1\"\n    }\n  ],\n  \"layer\": [\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"text\": \"COMPOSITE HEALTH\",\n        \"align\": \"left\",\n        \"baseline\": \"top\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 12.5,\n        \"fontWeight\": 600,\n        \"color\": {\n          \"expr\": \"muted\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"datum\": 0,\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"top\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"calculate\": \"datum.top + 108\",\n          \"as\": \"valueY\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"left\",\n        \"baseline\": \"alphabetic\",\n        \"font\": \"Fraunces, Cambria, Georgia, serif\",\n        \"fontSize\": 96,\n        \"fontWeight\": 600,\n        \"color\": {\n          \"expr\": \"ink\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"datum\": -4,\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"valueY\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"compositeScore\"\n        },\n        \"tooltip\": [\n          {\n            \"field\": \"Scope Name\",\n            \"title\": \"Scope\"\n          },\n          {\n            \"field\": \"Composite\",\n            \"title\": \"Composite (mean of team composites)\"\n          },\n          {\n            \"field\": \"Core Domains\",\n            \"title\": \"Core domains\"\n          }\n        ]\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"calculate\": \"datum.compositeBand === ''healthy'' ? ''HEALTHY'' : datum.compositeBand === ''watch'' ? ''WATCH'' : ''ACT''\",\n          \"as\": \"pillLabel\"\n        },\n        {\n          \"calculate\": \"datum.compositeBand === ''healthy'' ? goodFill : datum.compositeBand === ''watch'' ? warnFill : badFill\",\n          \"as\": \"pillFill\"\n        },\n        {\n          \"calculate\": \"0\",\n          \"as\": \"pillX\"\n        },\n        {\n          \"calculate\": \"datum.pillMid - 12\",\n          \"as\": \"pillY\"\n        },\n        {\n          \"calculate\": \"datum.pillMid + 12\",\n          \"as\": \"pillY2\"\n        },\n        {\n          \"calculate\": \"34 + length(datum.pillLabel) * 7.4\",\n          \"as\": \"pillW\"\n        }\n      ],\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"rect\",\n            \"cornerRadius\": 12,\n            \"strokeWidth\": 1,\n            \"strokeOpacity\": 0.35\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"pillX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"x2\": {\n              \"field\": \"pillW\"\n            },\n            \"y\": {\n              \"field\": \"pillY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"pillY2\"\n            },\n            \"fill\": {\n              \"field\": \"pillFill\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            },\n            \"stroke\": {\n              \"field\": \"compositeKey\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"circle\",\n            \"size\": 64,\n            \"opacity\": 1\n          },\n          \"encoding\": {\n            \"x\": {\n              \"datum\": 15,\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"pillMid\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"color\": {\n              \"field\": \"compositeKey\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 12.5,\n            \"fontWeight\": 600,\n            \"color\": {\n              \"expr\": \"ink\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"datum\": 25,\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"pillMid\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"pillLabel\"\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"transform\": [\n        {\n          \"calculate\": \"[datum[''Score Q1''], datum[''Score Q2''], datum[''Score Q3''], datum[''Score Q4''], datum[''Score Q5''], datum[''Score'']]\",\n          \"as\": \"quarterScores\"\n        },\n        {\n          \"calculate\": \"sequence(0, 6)\",\n          \"as\": \"quarterIndex\"\n        },\n        {\n          \"flatten\": [\n            \"quarterScores\",\n            \"quarterIndex\"\n          ],\n          \"as\": [\n            \"quarterScore\",\n            \"qi\"\n          ]\n        },\n        {\n          \"calculate\": \"''q'' + (datum.qi + 1)\",\n          \"as\": \"quarterKey\"\n        },\n        {\n          \"joinaggregate\": [\n            {\n              \"op\": \"min\",\n              \"field\": \"quarterScore\",\n              \"as\": \"qMin\"\n            },\n            {\n              \"op\": \"max\",\n              \"field\": \"quarterScore\",\n              \"as\": \"qMax\"\n            }\n          ]\n        },\n        {\n          \"calculate\": \"max(datum.qMax - datum.qMin, 10)\",\n          \"as\": \"qRange\"\n        },\n        {\n          \"calculate\": \"(datum.qMax + datum.qMin - datum.qRange) / 2\",\n          \"as\": \"qLow\"\n        },\n        {\n          \"calculate\": \"datum.top + 36\",\n          \"as\": \"sparkTop\"\n        },\n        {\n          \"calculate\": \"datum.top + 108\",\n          \"as\": \"sparkBase\"\n        },\n        {\n          \"calculate\": \"datum.sparkX0 + (datum.sparkX1 - datum.sparkX0) * datum.qi / 5\",\n          \"as\": \"sx\"\n        },\n        {\n          \"calculate\": \"datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (datum.quarterScore - datum.qLow) / datum.qRange\",\n          \"as\": \"sy\"\n        }\n      ],\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"area\",\n            \"color\": {\n              \"expr\": \"emerald\"\n            },\n            \"opacity\": 0.18\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"sx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"sy\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"sparkBase\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"line\",\n            \"strokeWidth\": 2,\n            \"color\": {\n              \"expr\": \"evergreen\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"sx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"sy\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"order\": {\n              \"field\": \"qi\",\n              \"type\": \"quantitative\"\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"circle\",\n            \"size\": 120,\n            \"opacity\": 0\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"sx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"sy\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"tooltip\": [\n              {\n                \"field\": \"quarterKey\",\n                \"title\": \"Quarter\"\n              },\n              {\n                \"field\": \"quarterScore\",\n                \"title\": \"Composite\"\n              }\n            ]\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"filter\": \"datum.qi === 5\"\n            }\n          ],\n          \"mark\": {\n            \"type\": \"circle\",\n            \"size\": 70,\n            \"opacity\": 1,\n            \"stroke\": {\n              \"expr\": \"surface\"\n            },\n            \"strokeWidth\": 2\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"sx\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"sy\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"color\": {\n              \"field\": \"compositeKey\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"transform\": [\n            {\n              \"filter\": \"datum.qi === 5\"\n            },\n            {\n              \"calculate\": \"datum[''Score Q1''] + '' to '' + datum[''Score''] + '' over six quarters''\",\n              \"as\": \"sparkCaption\"\n            }\n          ],\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"right\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13,\n            \"color\": {\n              \"expr\": \"muted\"\n            },\n            \"limit\": {\n              \"expr\": \"max(0, scoreWidth - 140)\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"sparkX1\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"pillMid\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"sparkCaption\"\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"transform\": [\n        {\n          \"calculate\": \"scoreWidth + 24\",\n          \"as\": \"dividerX\"\n        },\n        {\n          \"calculate\": \"0\",\n          \"as\": \"dividerY\"\n        },\n        {\n          \"calculate\": \"height\",\n          \"as\": \"dividerY2\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"rule\",\n        \"color\": {\n          \"expr\": \"line\"\n        },\n        \"strokeWidth\": 1\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"dividerX\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"dividerY\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y2\": {\n          \"field\": \"dividerY2\"\n        }\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"left\",\n        \"baseline\": \"top\",\n        \"font\": \"Fraunces, Cambria, Georgia, serif\",\n        \"fontSize\": 26,\n        \"fontWeight\": 600,\n        \"lineHeight\": 32,\n        \"color\": {\n          \"expr\": \"ink\"\n        },\n        \"limit\": {\n          \"expr\": \"max(0, width - scoreWidth - 48)\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"rightStart\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"y\": {\n          \"field\": \"top\",\n          \"type\": \"quantitative\",\n          \"scale\": null\n        },\n        \"text\": {\n          \"field\": \"headline\"\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"calculate\": \"datum.top + 88\",\n          \"as\": \"mixY\"\n        },\n        {\n          \"calculate\": \"datum[''Core Domains''] + '' core domains''\",\n          \"as\": \"mixNote\"\n        },\n        {\n          \"calculate\": \"width\",\n          \"as\": \"mixEnd\"\n        }\n      ],\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"text\": \"DOMAIN MIX\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"font\": \"JetBrains Mono, Consolas, monospace\",\n            \"fontSize\": 12.5,\n            \"fontWeight\": 600,\n            \"color\": {\n              \"expr\": \"muted\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"rightStart\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"mixY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"right\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 13,\n            \"color\": {\n              \"expr\": \"muted\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"mixEnd\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"mixY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"mixNote\"\n            }\n          }\n        }\n      ]\n    },\n    {\n      \"transform\": [\n        {\n          \"calculate\": \"[datum[''Domains Healthy Display''], datum[''Domains Watch Display''], datum[''Domains Act Display'']]\",\n          \"as\": \"segCounts\"\n        },\n        {\n          \"calculate\": \"sequence(0, 3)\",\n          \"as\": \"segIndexes\"\n        },\n        {\n          \"flatten\": [\n            \"segCounts\",\n            \"segIndexes\"\n          ],\n          \"as\": [\n            \"segCount\",\n            \"segIndex\"\n          ]\n        },\n        {\n          \"calculate\": \"datum[''Domains Healthy Display''] + datum[''Domains Watch Display''] + datum[''Domains Act Display'']\",\n          \"as\": \"segTotal\"\n        },\n        {\n          \"filter\": \"datum.segCount > 0 && datum.segTotal > 0\"\n        },\n        {\n          \"calculate\": \"[0, datum[''Domains Healthy Display''], datum[''Domains Healthy Display''] + datum[''Domains Watch Display'']][datum.segIndex]\",\n          \"as\": \"segStart\"\n        },\n        {\n          \"joinaggregate\": [\n            {\n              \"op\": \"count\",\n              \"as\": \"segPresent\"\n            }\n          ]\n        },\n        {\n          \"calculate\": \"(datum.segIndex >= 1 && datum[''Domains Healthy Display''] > 0 ? 1 : 0) + (datum.segIndex >= 2 && datum[''Domains Watch Display''] > 0 ? 1 : 0)\",\n          \"as\": \"segBefore\"\n        },\n        {\n          \"calculate\": \"max(0, width - datum.rightStart - datum.segPresent * minSegment)\",\n          \"as\": \"barRest\"\n        },\n        {\n          \"calculate\": \"datum.rightStart + datum.segBefore * minSegment + datum.barRest * datum.segStart / datum.segTotal\",\n          \"as\": \"segEdge\"\n        },\n        {\n          \"calculate\": \"datum.segEdge + minSegment + datum.barRest * datum.segCount / datum.segTotal\",\n          \"as\": \"segEdge2\"\n        },\n        {\n          \"calculate\": \"datum.segEdge + (datum.segBefore > 0 ? segmentGap / 2 : 0)\",\n          \"as\": \"segX\"\n        },\n        {\n          \"calculate\": \"datum.segEdge2 - (datum.segBefore + 1 < datum.segPresent ? segmentGap / 2 : 0)\",\n          \"as\": \"segX2\"\n        },\n        {\n          \"calculate\": \"datum.top + 108\",\n          \"as\": \"segY\"\n        },\n        {\n          \"calculate\": \"datum.top + 156\",\n          \"as\": \"segY2\"\n        },\n        {\n          \"calculate\": \"datum.top + 132\",\n          \"as\": \"segMid\"\n        },\n        {\n          \"calculate\": \"datum.segX + 18\",\n          \"as\": \"segDotX\"\n        },\n        {\n          \"calculate\": \"datum.segX + 30\",\n          \"as\": \"segTextX\"\n        },\n        {\n          \"calculate\": \"max(0, datum.segX2 - datum.segX - 40)\",\n          \"as\": \"segTextLimit\"\n        },\n        {\n          \"calculate\": \"[goodFill, warnFill, badFill][datum.segIndex]\",\n          \"as\": \"segFill\"\n        },\n        {\n          \"calculate\": \"[emerald, amber, red][datum.segIndex]\",\n          \"as\": \"segKey\"\n        },\n        {\n          \"calculate\": \"datum.segCount + ['' healthy'', '' to watch'', '' to act''][datum.segIndex]\",\n          \"as\": \"segLabel\"\n        }\n      ],\n      \"layer\": [\n        {\n          \"mark\": {\n            \"type\": \"rect\",\n            \"cornerRadius\": 10,\n            \"strokeWidth\": 1.5\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"segX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"x2\": {\n              \"field\": \"segX2\"\n            },\n            \"y\": {\n              \"field\": \"segY\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y2\": {\n              \"field\": \"segY2\"\n            },\n            \"fill\": {\n              \"field\": \"segFill\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            },\n            \"stroke\": {\n              \"field\": \"segKey\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            },\n            \"tooltip\": [\n              {\n                \"field\": \"segLabel\",\n                \"title\": \"Domains\"\n              },\n              {\n                \"field\": \"Core Domains\",\n                \"title\": \"Core domains\"\n              }\n            ]\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"circle\",\n            \"size\": 64,\n            \"opacity\": 1\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"segDotX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"segMid\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"color\": {\n              \"field\": \"segKey\",\n              \"type\": \"nominal\",\n              \"scale\": null\n            }\n          }\n        },\n        {\n          \"mark\": {\n            \"type\": \"text\",\n            \"align\": \"left\",\n            \"baseline\": \"middle\",\n            \"fontSize\": 15,\n            \"fontWeight\": 600,\n            \"color\": {\n              \"expr\": \"ink\"\n            },\n            \"limit\": {\n              \"expr\": \"datum.segTextLimit\"\n            }\n          },\n          \"encoding\": {\n            \"x\": {\n              \"field\": \"segTextX\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"y\": {\n              \"field\": \"segMid\",\n              \"type\": \"quantitative\",\n              \"scale\": null\n            },\n            \"text\": {\n              \"field\": \"segLabel\"\n            }\n          }\n        }\n      ]\n    }\n  ]\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'canvas'"
+                }
+              }
+            },
+            "isNewDialogOpen": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

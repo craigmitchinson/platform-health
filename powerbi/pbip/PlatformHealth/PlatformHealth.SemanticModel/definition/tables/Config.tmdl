@@ -1,0 +1,43 @@
+table Config
+	lineageTag: 72c6edc3-5c30-5b18-8397-7792111b4455
+
+	column RefreshDate
+		dataType: dateTime
+		formatString: d mmm yyyy
+		lineageTag: dd9ec184-7347-5c6a-9ce3-836fa189d8e5
+		summarizeBy: none
+		sourceColumn: RefreshDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column HealthyThreshold
+		dataType: int64
+		formatString: 0
+		lineageTag: c84e665b-e101-5f10-a013-f671a7785aa2
+		summarizeBy: none
+		sourceColumn: HealthyThreshold
+
+		annotation SummarizationSetBy = Automatic
+
+	column WatchThreshold
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e031ca7-18d1-544f-a020-492e27251cfb
+		summarizeBy: none
+		sourceColumn: WatchThreshold
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Config = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Config.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"RefreshDate", type date}, {"HealthyThreshold", Int64.Type}, {"WatchThreshold", Int64.Type}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

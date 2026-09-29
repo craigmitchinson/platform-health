@@ -1,0 +1,416 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.0.0/schema.json",
+  "name": "people-structure_leadership",
+  "position": {
+    "x": 48,
+    "y": 208,
+    "z": 2000,
+    "width": 1824,
+    "height": 300,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "deneb7E15AEF80B9E4D4F8E12924291ECE89A",
+    "query": {
+      "queryState": {
+        "dataset": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Person"
+                    }
+                  },
+                  "Property": "LeadLevel"
+                }
+              },
+              "queryRef": "Person.LeadLevel",
+              "nativeQueryRef": "LeadLevel"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Person"
+                    }
+                  },
+                  "Property": "PersonKey"
+                }
+              },
+              "queryRef": "Person.PersonKey",
+              "nativeQueryRef": "PersonKey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Person"
+                    }
+                  },
+                  "Property": "ParentKey"
+                }
+              },
+              "queryRef": "Person.ParentKey",
+              "nativeQueryRef": "ParentKey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Person"
+                    }
+                  },
+                  "Property": "Role"
+                }
+              },
+              "queryRef": "Person.Role",
+              "nativeQueryRef": "Role"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Person"
+                    }
+                  },
+                  "Property": "UnitName"
+                }
+              },
+              "queryRef": "Person.UnitName",
+              "nativeQueryRef": "UnitName"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Person"
+                    }
+                  },
+                  "Property": "LabCode"
+                }
+              },
+              "queryRef": "Person.LabCode",
+              "nativeQueryRef": "LabCode"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Person"
+                    }
+                  },
+                  "Property": "LabColour"
+                }
+              },
+              "queryRef": "Person.LabColour",
+              "nativeQueryRef": "LabColour"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Span Headcount"
+                }
+              },
+              "queryRef": "_Measures.Span Headcount",
+              "nativeQueryRef": "Span Headcount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Span Contractor Pct"
+                }
+              },
+              "queryRef": "_Measures.Span Contractor Pct",
+              "nativeQueryRef": "Span Contractor Pct"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "vega": [
+        {
+          "properties": {
+            "provider": {
+              "expr": {
+                "Literal": {
+                  "Value": "'vegaLite'"
+                }
+              }
+            },
+            "jsonSpec": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v5.json\",\n  \"description\": \"Leadership chart: platform lead, lab leads and team leads as three rows of small cards joined by hairlines. Layout is computed, not a tree transform: each node''s x is its rank within its level, and each parent''s connector sits at the mean of its children, which is the parent''s own centre because every level splits the width evenly.\",\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"width\": \"container\",\n  \"height\": \"container\",\n  \"background\": \"transparent\",\n  \"params\": [\n    {\n      \"name\": \"ink\",\n      \"expr\": \"pbiColor(0)\"\n    },\n    {\n      \"name\": \"muted\",\n      \"expr\": \"pbiColor(6)\"\n    },\n    {\n      \"name\": \"line\",\n      \"expr\": \"pbiColor(8)\"\n    },\n    {\n      \"name\": \"surface\",\n      \"value\": \"#FFFFFF\"\n    },\n    {\n      \"name\": \"cream\",\n      \"value\": \"#F7F6F2\"\n    },\n    {\n      \"name\": \"title\",\n      \"value\": \"LEADERSHIP\"\n    },\n    {\n      \"name\": \"gap\",\n      \"value\": 3\n    }\n  ],\n  \"title\": {\n    \"text\": {\n      \"expr\": \"title\"\n    },\n    \"font\": \"JetBrains Mono, Consolas, monospace\",\n    \"fontSize\": 12.5,\n    \"fontWeight\": 600,\n    \"color\": {\n      \"expr\": \"muted\"\n    },\n    \"anchor\": \"start\",\n    \"offset\": 6\n  },\n  \"transform\": [\n    {\n      \"calculate\": \"toNumber(datum[''LeadLevel''])\",\n      \"as\": \"lvl\"\n    },\n    {\n      \"window\": [\n        {\n          \"op\": \"row_number\",\n          \"as\": \"pos\"\n        }\n      ],\n      \"groupby\": [\n        \"lvl\"\n      ],\n      \"sort\": [\n        {\n          \"field\": \"PersonKey\",\n          \"order\": \"ascending\"\n        }\n      ]\n    },\n    {\n      \"joinaggregate\": [\n        {\n          \"op\": \"count\",\n          \"as\": \"n\"\n        }\n      ],\n      \"groupby\": [\n        \"lvl\"\n      ]\n    },\n    {\n      \"calculate\": \"(datum.pos - 1) / datum.n\",\n      \"as\": \"x0\"\n    },\n    {\n      \"calculate\": \"datum.pos / datum.n\",\n      \"as\": \"x1\"\n    },\n    {\n      \"calculate\": \"(datum.pos - 0.5) / datum.n\",\n      \"as\": \"xc\"\n    },\n    {\n      \"calculate\": \"datum.lvl === 1 ? 0 : datum.lvl === 2 ? 54 : 118\",\n      \"as\": \"top\"\n    },\n    {\n      \"calculate\": \"datum.top + (datum.lvl === 1 ? 34 : datum.lvl === 2 ? 44 : 50)\",\n      \"as\": \"bottom\"\n    },\n    {\n      \"calculate\": \"datum.top - 10\",\n      \"as\": \"mid\"\n    },\n    {\n      \"calculate\": \"datum.top - 20\",\n      \"as\": \"parentBottom\"\n    },\n    {\n      \"calculate\": \"datum.top + (datum.lvl === 3 ? 13 : 15)\",\n      \"as\": \"roleY\"\n    },\n    {\n      \"calculate\": \"datum.top + (datum.lvl === 1 ? 28 : datum.lvl === 2 ? 34 : 43)\",\n      \"as\": \"spanY\"\n    },\n    {\n      \"calculate\": \"datum.top + 28\",\n      \"as\": \"nameY\"\n    },\n    {\n      \"calculate\": \"upper(datum[''Role''] + '''')\",\n      \"as\": \"roleText\"\n    },\n    {\n      \"calculate\": \"format(datum[''Span Headcount''], '','') + '' people'' + (datum.lvl < 3 ? '' · '' + format(datum[''Span Contractor Pct''], ''d'') + ''% contractors'' : '''')\",\n      \"as\": \"spanText\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabCode'']) && datum[''LabCode''] !== '''' ? datum[''LabCode''] + '''' : ''''\",\n      \"as\": \"chipCode\"\n    },\n    {\n      \"calculate\": \"isValid(datum[''LabColour'']) && datum[''LabColour''] !== '''' ? datum[''LabColour''] + '''' : muted\",\n      \"as\": \"chipColour\"\n    }\n  ],\n  \"encoding\": {\n    \"tooltip\": [\n      {\n        \"field\": \"Role\",\n        \"title\": \"Role\"\n      },\n      {\n        \"field\": \"UnitName\",\n        \"title\": \"Leads\"\n      },\n      {\n        \"field\": \"Span Headcount\",\n        \"title\": \"People\"\n      },\n      {\n        \"field\": \"Span Contractor Pct\",\n        \"title\": \"Contractors %\"\n      }\n    ]\n  },\n  \"layer\": [\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.lvl > 1\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"rule\",\n        \"strokeWidth\": 1,\n        \"color\": {\n          \"expr\": \"line\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"xc\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              0,\n              1\n            ],\n            \"nice\": false,\n            \"zero\": false\n          },\n          \"axis\": null\n        },\n        \"y\": {\n          \"field\": \"mid\",\n          \"type\": \"quantitative\",\n          \"scale\": null,\n          \"axis\": null\n        },\n        \"y2\": {\n          \"field\": \"top\"\n        },\n        \"tooltip\": null\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.lvl > 1\"\n        },\n        {\n          \"aggregate\": [\n            {\n              \"op\": \"min\",\n              \"field\": \"xc\",\n              \"as\": \"xa\"\n            },\n            {\n              \"op\": \"max\",\n              \"field\": \"xc\",\n              \"as\": \"xb\"\n            },\n            {\n              \"op\": \"min\",\n              \"field\": \"mid\",\n              \"as\": \"mid\"\n            }\n          ],\n          \"groupby\": [\n            \"ParentKey\"\n          ]\n        }\n      ],\n      \"mark\": {\n        \"type\": \"rule\",\n        \"strokeWidth\": 1,\n        \"color\": {\n          \"expr\": \"line\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"xa\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              0,\n              1\n            ],\n            \"nice\": false,\n            \"zero\": false\n          },\n          \"axis\": null\n        },\n        \"x2\": {\n          \"field\": \"xb\"\n        },\n        \"y\": {\n          \"field\": \"mid\",\n          \"type\": \"quantitative\",\n          \"scale\": null,\n          \"axis\": null\n        },\n        \"tooltip\": null\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.lvl > 1\"\n        },\n        {\n          \"aggregate\": [\n            {\n              \"op\": \"mean\",\n              \"field\": \"xc\",\n              \"as\": \"xm\"\n            },\n            {\n              \"op\": \"min\",\n              \"field\": \"mid\",\n              \"as\": \"mid\"\n            },\n            {\n              \"op\": \"min\",\n              \"field\": \"parentBottom\",\n              \"as\": \"parentBottom\"\n            }\n          ],\n          \"groupby\": [\n            \"ParentKey\"\n          ]\n        }\n      ],\n      \"mark\": {\n        \"type\": \"rule\",\n        \"strokeWidth\": 1,\n        \"color\": {\n          \"expr\": \"line\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"xm\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              0,\n              1\n            ],\n            \"nice\": false,\n            \"zero\": false\n          },\n          \"axis\": null\n        },\n        \"y\": {\n          \"field\": \"parentBottom\",\n          \"type\": \"quantitative\",\n          \"scale\": null,\n          \"axis\": null\n        },\n        \"y2\": {\n          \"field\": \"mid\"\n        },\n        \"tooltip\": null\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"rect\",\n        \"cornerRadius\": 8,\n        \"fill\": {\n          \"expr\": \"cream\"\n        },\n        \"stroke\": {\n          \"expr\": \"line\"\n        },\n        \"strokeWidth\": 1,\n        \"xOffset\": {\n          \"expr\": \"gap\"\n        },\n        \"x2Offset\": {\n          \"expr\": \"-gap\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"x0\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              0,\n              1\n            ],\n            \"nice\": false,\n            \"zero\": false\n          },\n          \"axis\": null\n        },\n        \"x2\": {\n          \"field\": \"x1\"\n        },\n        \"y\": {\n          \"field\": \"top\",\n          \"type\": \"quantitative\",\n          \"scale\": null,\n          \"axis\": null\n        },\n        \"y2\": {\n          \"field\": \"bottom\"\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.lvl === 2\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"rect\",\n        \"cornerRadius\": 5,\n        \"x\": {\n          \"expr\": \"scale(''x'', datum.xc) - 44\"\n        },\n        \"x2\": {\n          \"expr\": \"scale(''x'', datum.xc) - 22\"\n        },\n        \"y\": {\n          \"expr\": \"datum.top + 6\"\n        },\n        \"y2\": {\n          \"expr\": \"datum.top + 23\"\n        }\n      },\n      \"encoding\": {\n        \"color\": {\n          \"field\": \"chipColour\",\n          \"type\": \"nominal\",\n          \"scale\": null\n        },\n        \"tooltip\": null\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.lvl === 2\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"x\": {\n          \"expr\": \"scale(''x'', datum.xc) - 33\"\n        },\n        \"y\": {\n          \"expr\": \"datum.top + 15\"\n        },\n        \"align\": \"center\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 10,\n        \"fontWeight\": 700,\n        \"color\": {\n          \"expr\": \"surface\"\n        }\n      },\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"chipCode\"\n        },\n        \"tooltip\": null\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"center\",\n        \"baseline\": \"middle\",\n        \"font\": \"JetBrains Mono, Consolas, monospace\",\n        \"fontSize\": 10.5,\n        \"letterSpacing\": 0.8,\n        \"color\": {\n          \"expr\": \"muted\"\n        },\n        \"xOffset\": {\n          \"expr\": \"datum.lvl === 2 ? 14 : 0\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"xc\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              0,\n              1\n            ],\n            \"nice\": false,\n            \"zero\": false\n          },\n          \"axis\": null\n        },\n        \"y\": {\n          \"field\": \"roleY\",\n          \"type\": \"quantitative\",\n          \"scale\": null,\n          \"axis\": null\n        },\n        \"text\": {\n          \"field\": \"roleText\"\n        }\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.lvl === 3\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"center\",\n        \"baseline\": \"middle\",\n        \"fontSize\": 12.5,\n        \"fontWeight\": 600,\n        \"color\": {\n          \"expr\": \"ink\"\n        },\n        \"limit\": {\n          \"expr\": \"max(20, width / 12 - 16)\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"xc\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              0,\n              1\n            ],\n            \"nice\": false,\n            \"zero\": false\n          },\n          \"axis\": null\n        },\n        \"y\": {\n          \"field\": \"nameY\",\n          \"type\": \"quantitative\",\n          \"scale\": null,\n          \"axis\": null\n        },\n        \"text\": {\n          \"field\": \"UnitName\"\n        }\n      }\n    },\n    {\n      \"mark\": {\n        \"type\": \"text\",\n        \"align\": \"center\",\n        \"baseline\": \"middle\",\n        \"fontSize\": 12,\n        \"color\": {\n          \"expr\": \"ink\"\n        }\n      },\n      \"encoding\": {\n        \"x\": {\n          \"field\": \"xc\",\n          \"type\": \"quantitative\",\n          \"scale\": {\n            \"domain\": [\n              0,\n              1\n            ],\n            \"nice\": false,\n            \"zero\": false\n          },\n          \"axis\": null\n        },\n        \"y\": {\n          \"field\": \"spanY\",\n          \"type\": \"quantitative\",\n          \"scale\": null,\n          \"axis\": null\n        },\n        \"text\": {\n          \"field\": \"spanText\"\n        }\n      }\n    }\n  ]\n}'"
+                }
+              }
+            },
+            "jsonConfig": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}'"
+                }
+              }
+            },
+            "renderMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'canvas'"
+                }
+              }
+            },
+            "isNewDialogOpen": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableContextMenu": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "enableSelection": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableHighlight": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D6D9D2'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "83a85297297601edfc99",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Person"
+              }
+            },
+            "Property": "IsLead"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "Person",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "t"
+                          }
+                        },
+                        "Property": "IsLead"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "true"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

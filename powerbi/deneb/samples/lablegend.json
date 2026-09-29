@@ -1,0 +1,6 @@
+[
+  {"labId":"core","lab":"24*7 Services","labCode":"24","labColour":"#1E5B4F","sortOrder":1},
+  {"labId":"customer","lab":"Colleague Tooling","labCode":"CT","labColour":"#8E5E48","sortOrder":2},
+  {"labId":"payments","lab":"Agentic Operations","labCode":"AO","labColour":"#44618A","sortOrder":3},
+  {"labId":"data","lab":"Data & Insights","labCode":"DI","labColour":"#1A6F7C","sortOrder":4}
+]

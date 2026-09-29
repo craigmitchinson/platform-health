@@ -1,0 +1,157 @@
+table Metric
+	lineageTag: 8c75e64c-f4c6-5581-8ebf-e0bec784c8f9
+
+	column MetricKey
+		dataType: string
+		lineageTag: ba012ccb-16b0-5f9f-8b46-17c729bbd0c3
+		summarizeBy: none
+		sourceColumn: MetricKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainKey
+		dataType: string
+		lineageTag: 65736176-9dbb-5f47-8119-4c896deed3ae
+		summarizeBy: none
+		sourceColumn: DomainKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricName
+		dataType: string
+		lineageTag: 61e3e0d4-abc5-5632-b2ae-a17ca32586c6
+		summarizeBy: none
+		sourceColumn: MetricName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShortName
+		dataType: string
+		lineageTag: bc476239-bc72-5202-bb28-8c150371cb78
+		summarizeBy: none
+		sourceColumn: ShortName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unit
+		dataType: string
+		lineageTag: 6f0e10e4-ecbc-5d66-96fa-f9058501f1e0
+		summarizeBy: none
+		sourceColumn: Unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column Direction
+		dataType: string
+		lineageTag: 586bbb71-aac5-5498-87dd-557febb306b0
+		summarizeBy: none
+		sourceColumn: Direction
+
+		annotation SummarizationSetBy = Automatic
+
+	column Target
+		dataType: double
+		lineageTag: 688ebc3f-94a5-58b6-9122-31dbf854fe39
+		summarizeBy: none
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+	column Aggregate
+		dataType: string
+		lineageTag: 630f82df-6e56-5dc5-b358-364ca6cc9f6b
+		summarizeBy: none
+		sourceColumn: Aggregate
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsScored
+		dataType: boolean
+		lineageTag: 416d0cda-e260-5114-a4d2-003b0b7ec8fe
+		summarizeBy: none
+		sourceColumn: IsScored
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem
+		dataType: string
+		lineageTag: 4903225d-a890-505b-9d39-7d06e65286d4
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	column IngestionMode
+		dataType: string
+		lineageTag: 29f88935-33e2-5cc0-a259-a4011e342059
+		summarizeBy: none
+		sourceColumn: IngestionMode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Refresh
+		dataType: string
+		lineageTag: 49414ff2-f9a7-577a-a2df-191e3a222fe6
+		summarizeBy: none
+		sourceColumn: Refresh
+
+		annotation SummarizationSetBy = Automatic
+
+	column Owner
+		dataType: string
+		lineageTag: 9d4f2034-4930-5ee1-8ad6-db29e0680841
+		summarizeBy: none
+		sourceColumn: Owner
+
+		annotation SummarizationSetBy = Automatic
+
+	column Readiness
+		dataType: string
+		lineageTag: 5ca69719-b210-5cab-adf5-705a68990feb
+		summarizeBy: none
+		sourceColumn: Readiness
+
+		annotation SummarizationSetBy = Automatic
+
+	column Note
+		dataType: string
+		lineageTag: f516ee3c-ba90-5e7a-b075-b3240091fb6b
+		summarizeBy: none
+		sourceColumn: Note
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: 9cbe5e65-b4f4-5ab1-bd1f-15ef8885921f
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainName = RELATED ( 'Domain'[DomainName] )
+		dataType: string
+		lineageTag: ee4fd8b1-5bc6-5654-a52e-dcdf23a047e7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReadinessWord = SWITCH ( 'Metric'[Readiness], "live", "Live", "partial", "Partial", "aspirational", "Aspirational", 'Metric'[Readiness] )
+		dataType: string
+		lineageTag: dfee49a7-6830-543f-a245-2728ad60bd2a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Metric = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Metric.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"MetricKey", type text}, {"DomainKey", type text}, {"MetricName", type text}, {"ShortName", type text}, {"Unit", type text}, {"Direction", type text}, {"Target", type number}, {"Aggregate", type text}, {"IsScored", type logical}, {"SourceSystem", type text}, {"IngestionMode", type text}, {"Refresh", type text}, {"Owner", type text}, {"Readiness", type text}, {"Note", type text}, {"SortOrder", Int64.Type}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

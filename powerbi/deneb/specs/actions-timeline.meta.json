@@ -1,0 +1,7 @@
+{
+  "sample": "actions.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "width": 1400,
+  "height": 520
+}

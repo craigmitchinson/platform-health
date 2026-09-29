@@ -1,0 +1,58 @@
+MetricKey,DomainKey,MetricName,ShortName,Unit,Direction,Target,Aggregate,IsScored,SourceSystem,IngestionMode,Refresh,Owner,Readiness,Note,SortOrder
+openSncs,stability,Open SNCs,SNCs,count,lower,6,sum,true,ServiceNow,sql,Daily,Service Management,live,,1
+sncAge,stability,Median SNC age,SNC age,days,lower,14,avg,true,ServiceNow,sql,Daily,Service Management,live,,2
+repeatSncs,stability,Repeat SNCs,Repeats,pct,lower,10,avg,true,ServiceNow,sql,Daily,Service Management,live,,3
+p1p2Incidents,incidents,P1 and P2 incidents (90 days),P1 and P2,count,lower,6,sum,true,ServiceNow,sql,Daily,Service Management,live,,4
+majorIncidents,incidents,Major incidents (90 days),Major,count,lower,1,sum,true,ServiceNow,sql,Daily,Service Management,live,,5
+mttr,incidents,Mean time to restore (hours),MTTR,count,lower,4,avg,true,Dynatrace,api,Real time,Site Reliability,live,,6
+repeatIncidents,incidents,Repeat incidents,Repeats,pct,lower,10,avg,true,ServiceNow,sql,Daily,Service Management,live,,7
+incidentBacklog,incidents,Open incidents over 5 days,Over 5 days,count,lower,5,sum,true,ServiceNow,sql,Daily,Service Management,live,,8
+openProblems,problems,Open problems,Open,count,lower,8,sum,true,ServiceNow,sql,Daily,Service Management,live,,9
+rcaOverdue,problems,RCAs overdue,RCAs overdue,count,lower,0,sum,true,ServiceNow,sql,Daily,Service Management,live,,10
+knownErrors,problems,Known error backlog,Known errors,count,lower,10,sum,true,ServiceNow,sql,Daily,Service Management,live,,11
+problemAge,problems,Median problem age (days),Age,days,lower,30,avg,true,ServiceNow,sql,Daily,Service Management,live,,12
+problemLinkage,problems,Incidents linked to a problem,Linked,pct,higher,80,avg,true,ServiceNow,sql,Daily,Service Management,live,,13
+failedChanges,change,Failed changes (90 days),Failed,count,lower,2,sum,true,ServiceNow,sql,Daily,Service Management,live,,14
+changeSuccess,change,Change success rate,Success,pct,higher,95,avg,true,ServiceNow,sql,Daily,Service Management,live,,15
+releases,change,Releases per month,Releases,perMonth,higher,8,sum,true,Jira,api,Hourly,Delivery Office,live,,16
+emergencyChanges,change,Emergency changes,Emergency,pct,lower,5,avg,true,ServiceNow,sql,Daily,Service Management,live,,17
+changeLeadTime,change,Change lead time (days),Lead time,days,lower,5,avg,true,ServiceNow,sql,Daily,Service Management,live,,18
+serviceMaturity,maturity,Overall maturity,Overall,level,higher,4,avg,true,Maturity self-assessment,spreadsheet,Quarterly,Service Management,partial,,19
+triageMaturity,maturity,Triage and on-call,Triage,level,higher,4,avg,true,Maturity self-assessment,spreadsheet,Quarterly,Service Management,partial,,20
+incidentMaturity,maturity,Incident management,Incident,level,higher,4,avg,true,Maturity self-assessment,spreadsheet,Quarterly,Service Management,partial,,21
+recoveryMaturity,maturity,Technical recovery,Recovery,level,higher,4,avg,true,Maturity self-assessment,spreadsheet,Quarterly,Service Management,partial,,22
+resolutionMaturity,maturity,Resolution and problem management,Resolution,level,higher,4,avg,true,Maturity self-assessment,spreadsheet,Quarterly,Service Management,partial,,23
+runbookCoverage,maturity,Runbook coverage,Runbooks,pct,higher,90,avg,true,ServiceNow,sql,Daily,Service Management,partial,,24
+mtta,maturity,Mean time to acknowledge (minutes),MTTA,count,lower,15,avg,true,Dynatrace,api,Real time,Site Reliability,live,,25
+sloAttainment,operability,SLO attainment,SLOs,pct,higher,99,avg,true,Dynatrace,api,Real time,Site Reliability,partial,,26
+monitoringCoverage,operability,Monitoring coverage,Coverage,pct,higher,90,avg,true,Dynatrace,api,Real time,Site Reliability,partial,,27
+alertNoise,operability,Actionable alerts,Actionable,pct,higher,70,avg,true,Dynatrace,api,Real time,Site Reliability,partial,,28
+brams,risk,BRAMs open,BRAMs,count,lower,2,sum,true,Risk register (SharePoint),spreadsheet,Weekly,Technology Risk,partial,,29
+techRisks,risk,Open tech risks,Tech risks,count,lower,5,sum,true,Risk register (SharePoint),spreadsheet,Weekly,Technology Risk,partial,,30
+riskTrend,risk,Net new risks this quarter,Net new,count,lower,0,sum,true,Risk register (SharePoint),spreadsheet,Weekly,Technology Risk,partial,,31
+vulns,security,Critical and high vulnerabilities,Vulns,count,lower,15,sum,true,Qualys / Tenable,csv,Daily,Cyber Security,live,,32
+patchCompliance,security,Patch compliance,Patching,pct,higher,95,avg,true,Intune / SCCM,sql,Daily,End User and Hosting,live,,33
+criticalFindings,security,Critical findings overdue,Overdue,count,lower,0,sum,true,Qualys / Tenable,csv,Daily,Cyber Security,live,,34
+drCompliance,resilience,DR compliance,DR,pct,higher,90,avg,true,DR register,spreadsheet,Monthly,Operational Resilience,partial,,35
+resilienceActions,resilience,Resilience actions open,Actions,count,lower,3,sum,true,DR register,spreadsheet,Monthly,Operational Resilience,partial,,36
+controlHealth,resilience,Control health,Controls,pct,higher,90,avg,true,Risk register (SharePoint),spreadsheet,Weekly,Technology Risk,partial,,37
+auditActions,governance,Audit actions open,Audit,count,lower,2,sum,true,Audit and regulatory tracker,spreadsheet,Monthly,Internal Audit,partial,,38
+regActions,governance,Regulatory actions open,Regulatory,count,lower,1,sum,true,Audit and regulatory tracker,spreadsheet,Monthly,Internal Audit,partial,,39
+overdueActions,governance,Overdue actions,Overdue,count,lower,0,sum,true,Audit and regulatory tracker,spreadsheet,Monthly,Internal Audit,partial,,40
+techDebt,architecture,Tech debt backlog (items),Tech debt,count,lower,25,sum,true,Jira,api,Hourly,Delivery Office,live,,41
+archExceptions,architecture,Architecture exceptions open,Exceptions,count,lower,2,sum,true,Architecture register (SharePoint),spreadsheet,Weekly,Enterprise Architecture,partial,,42
+strategicAlignment,architecture,Strategic alignment,Alignment,pct,higher,80,avg,true,Architecture register (SharePoint),spreadsheet,Weekly,Enterprise Architecture,partial,,43
+applications,estate,Applications,Apps,count,lower,12,sum,false,ServiceNow,sql,Daily,Configuration Management,live,"context, not scored",44
+infraFootprint,estate,Infra footprint (hosts),Hosts,count,lower,60,sum,true,GCP asset inventory + CMDB,api,Daily,Cloud Platform,partial,,45
+currency,estate,Currency (in vendor support),Currency,pct,higher,90,avg,true,ServiceNow,sql,Daily,Configuration Management,live,,46
+cloudMigration,estate,Cloud migration,Cloud,pct,higher,70,avg,true,GCP asset inventory + CMDB,api,Daily,Cloud Platform,partial,,47
+endOfSupport,estate,End of support within 12 months,End of support,count,lower,5,sum,true,ServiceNow,sql,Daily,Configuration Management,partial,,48
+runCostVsBudget,cost,Run cost vs budget,Vs budget,pct,lower,100,avg,true,Azure Cost Management,api,Daily,FinOps,aspirational,,49
+cloudSpendTrend,cost,Cloud spend change,Cloud spend,pct,lower,3,avg,true,GCP Billing export (BigQuery),api,Daily,FinOps,aspirational,,50
+orphanedSpend,cost,Orphaned spend,Orphaned,gbp,lower,5000,sum,true,GCP Billing export (BigQuery),api,Daily,FinOps,aspirational,,51
+milestones,delivery,Key milestones due (90 days),Milestones,count,lower,6,sum,false,Jira,api,Hourly,Delivery Office,live,"context, not scored",52
+roadmapHealth,delivery,Roadmap health (on track),On track,pct,higher,85,avg,true,Jira,api,Hourly,Delivery Office,live,,53
+commitmentsAtRisk,delivery,Commitments at risk,At risk,count,lower,1,sum,true,Jira,api,Hourly,Delivery Office,live,,54
+vacancies,people,Vacancies,Vacancies,count,lower,1,sum,true,Workday,semantic,Weekly,People Partners,partial,,55
+skillsRisks,people,Critical skills risks,Skills,count,lower,1,sum,true,Skills register,spreadsheet,Quarterly,People Partners,aspirational,,56
+contractorDependency,people,Contractor dependency,Contractors,pct,lower,20,avg,true,Workday,semantic,Weekly,People Partners,partial,,57

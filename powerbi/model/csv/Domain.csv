@@ -1,0 +1,16 @@
+DomainKey,DomainName,DomainGroup,DomainGroupName,SortOrder,IsCore,Question
+stability,Stability,operations,Operations,1,true,"Are our services stable, and are we fixing causes rather than symptoms?"
+incidents,Incidents,operations,Operations,2,true,Are incidents under control and shrinking?
+problems,Problems,operations,Operations,3,true,"Are we removing causes, not just symptoms?"
+change,Change,operations,Operations,4,true,Can we change safely and often?
+maturity,Maturity,operations,Operations,5,true,How mature is each team’s incident and service management practice?
+operability,Operability,operations,Operations,6,false,Do we know our services are healthy before our customers tell us?
+risk,Risk,risk,Risk and control,7,true,"How much open technology risk do we hold, and is it rising?"
+security,Security,risk,Risk and control,8,true,"Are we exposed, and are we closing exposure inside policy?"
+resilience,Resilience,risk,Risk and control,9,true,Could we recover our important business services within tolerance?
+governance,Governance,risk,Risk and control,10,true,Are we meeting our commitments to audit and the regulator?
+architecture,Architecture,architecture,Architecture and estate,11,true,"Is the estate converging on the target architecture, or drifting from it?"
+estate,Estate,architecture,Architecture and estate,12,true,"What do we run, and how current and cloud-ready is it?"
+cost,Cost,architecture,Architecture and estate,13,false,"Are we spending what we planned, and is any of it wasted?"
+delivery,Delivery,delivery,Delivery and people,14,true,Will we deliver what we have committed to this quarter?
+people,People,delivery,Delivery and people,15,true,Do we have the people and skills to run and change the platform?

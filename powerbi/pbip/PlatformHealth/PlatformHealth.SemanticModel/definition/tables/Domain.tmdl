@@ -1,0 +1,72 @@
+table Domain
+	lineageTag: 1bb0760a-bc6c-563d-9205-168b52509a41
+
+	column DomainKey
+		dataType: string
+		lineageTag: 002d6e20-a1b8-5147-926c-e699dedd69fb
+		summarizeBy: none
+		sourceColumn: DomainKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainName
+		dataType: string
+		lineageTag: f905e4b4-ba4a-5630-8bdb-c8eace68487d
+		summarizeBy: none
+		sourceColumn: DomainName
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainGroup
+		dataType: string
+		lineageTag: 12960aa2-cd9d-5750-b9ba-04e265b93b94
+		summarizeBy: none
+		sourceColumn: DomainGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column DomainGroupName
+		dataType: string
+		lineageTag: f1c7c6b6-b161-55ef-9c25-a3d71b9d72c4
+		summarizeBy: none
+		sourceColumn: DomainGroupName
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: e42a5fce-0aa3-59f4-954d-5ced7366b500
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCore
+		dataType: boolean
+		lineageTag: 8ca12fb0-c2d7-5cde-8da7-4d6e15438e36
+		summarizeBy: none
+		sourceColumn: IsCore
+
+		annotation SummarizationSetBy = Automatic
+
+	column Question
+		dataType: string
+		lineageTag: df3f3735-1ff8-51dc-b63b-83b986198ff8
+		summarizeBy: none
+		sourceColumn: Question
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Domain = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\Domain.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"DomainKey", type text}, {"DomainName", type text}, {"DomainGroup", type text}, {"DomainGroupName", type text}, {"SortOrder", Int64.Type}, {"IsCore", type logical}, {"Question", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

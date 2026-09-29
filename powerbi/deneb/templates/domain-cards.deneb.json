@@ -1,0 +1,972 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health domain-cards",
+      "description": "Overview grid of domain cards, two rows with columns derived from the domain count: name, score, band pill, change since last quarter (named in the title), weakest driver with units, and a six-quarter sparkline against the healthy band.",
+      "author": "Platform Health contributors",
+      "uuid": "04ee663c-ae3e-5ca4-aef6-cd03a3308cd5",
+      "generated": "2026-09-29T18:14:26.390Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "domainId",
+        "description": "Unique per card",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "domain",
+        "description": "Domain name, shown in the serif face",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "proposed",
+        "description": "True shows the Proposed kicker",
+        "type": "bool",
+        "kind": "measure"
+      },
+      {
+        "key": "__3__",
+        "name": "score",
+        "description": "Current domain score out of 100",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__4__",
+        "name": "band",
+        "description": "`healthy`, `watch`, `act` or `context`",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__5__",
+        "name": "driverLabel",
+        "description": "Short name of the weakest scored metric",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__6__",
+        "name": "driverValueFormatted",
+        "description": "`driverValue` with its unit, formatted as `formatted` is in kpi-tiles, for example \"14.3%\"",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__7__",
+        "name": "driverTargetFormatted",
+        "description": "`driverTarget` formatted the same way, for example \"10%\"",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__8__",
+        "name": "q1",
+        "description": "Domain score for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__9__",
+        "name": "q2",
+        "description": "Domain score for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__10__",
+        "name": "q3",
+        "description": "Domain score for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__11__",
+        "name": "q4",
+        "description": "Domain score for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__12__",
+        "name": "q5",
+        "description": "Domain score for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__13__",
+        "name": "q6",
+        "description": "Domain score for each of the last six quarters, oldest first",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Overview grid of domain cards, two rows with columns derived from the domain count: name, score, band pill, change since last quarter (named in the title), weakest driver with units, and a six-quarter sparkline against the healthy band.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "title",
+      "value": "DOMAINS · CHANGE ON LAST QUARTER"
+    },
+    {
+      "name": "domainOrder",
+      "value": [
+        "stability",
+        "incidents",
+        "problems",
+        "maturity",
+        "architecture",
+        "risk",
+        "security",
+        "resilience",
+        "change",
+        "estate",
+        "governance",
+        "delivery",
+        "people",
+        "cost",
+        "operability"
+      ]
+    },
+    {
+      "name": "rowGap",
+      "value": 12
+    },
+    {
+      "name": "rowH",
+      "expr": "max(0, (height - rowGap) / 2)"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "calculate": "indexof(domainOrder, datum['__0__']) < 0 ? length(domainOrder) : indexof(domainOrder, datum['__0__'])",
+      "as": "domainRank"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "card"
+        }
+      ],
+      "sort": [
+        {
+          "field": "domainRank",
+          "order": "ascending"
+        },
+        {
+          "field": "__1__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "count",
+          "as": "cardCount"
+        }
+      ]
+    },
+    {
+      "calculate": "max(1, ceil(datum.cardCount / 2))",
+      "as": "cols"
+    },
+    {
+      "calculate": "width / datum.cols",
+      "as": "cardW"
+    },
+    {
+      "calculate": "(datum.card - 1) % datum.cols",
+      "as": "c0"
+    },
+    {
+      "calculate": "(datum.c0 + 1) * datum.cardW",
+      "as": "c1"
+    },
+    {
+      "calculate": "floor((datum.card - 1) / datum.cols)",
+      "as": "r0"
+    },
+    {
+      "calculate": "datum.c0 * datum.cardW",
+      "as": "cellX"
+    },
+    {
+      "calculate": "datum.r0 * (rowH + rowGap)",
+      "as": "cardTop"
+    },
+    {
+      "calculate": "datum.cardTop + rowH",
+      "as": "cardBottom"
+    },
+    {
+      "calculate": "datum.cardTop - 6",
+      "as": "cellY"
+    },
+    {
+      "calculate": "{'healthy': 'HEALTHY', 'watch': 'WATCH', 'act': 'ACT', 'context': 'CONTEXT'}[datum['__4__']] || upper(datum['__4__'])",
+      "as": "bandWord"
+    },
+    {
+      "calculate": "datum['__4__'] === 'healthy' ? emerald : datum['__4__'] === 'watch' ? amber : datum['__4__'] === 'act' ? red : muted",
+      "as": "bandKey"
+    },
+    {
+      "calculate": "datum['__5__'] + ' ' + datum['__6__'] + ' vs ' + datum['__7__']",
+      "as": "driverText"
+    },
+    {
+      "calculate": "datum['__13__'] - datum['__12__']",
+      "as": "change"
+    },
+    {
+      "calculate": "(datum.change > 0 ? '+' : datum.change < 0 ? '−' : '±') + abs(datum.change) + (datum.change > 0 ? ' better' : datum.change < 0 ? ' worse' : ' held') ",
+      "as": "changeText"
+    },
+    {
+      "calculate": "datum.change > 0 ? emerald : datum.change < 0 ? amber : muted",
+      "as": "changeColour"
+    },
+    {
+      "calculate": "min(datum['__8__'], datum['__9__'], datum['__10__'], datum['__11__'], datum['__12__'], datum['__13__'])",
+      "as": "cardMin"
+    },
+    {
+      "calculate": "max(datum['__8__'], datum['__9__'], datum['__10__'], datum['__11__'], datum['__12__'], datum['__13__'])",
+      "as": "cardMax"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "min",
+          "field": "cardMin",
+          "as": "allMin"
+        },
+        {
+          "op": "max",
+          "field": "cardMax",
+          "as": "allMax"
+        }
+      ]
+    },
+    {
+      "calculate": "min(datum.allMin, 76) - 4",
+      "as": "sparkLow"
+    },
+    {
+      "calculate": "min(100, max(datum.allMax, 88) + 3)",
+      "as": "sparkHigh"
+    },
+    {
+      "calculate": "datum['__2__'] === true ? 0.5 : 1",
+      "as": "dim"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "cellX",
+      "type": "quantitative",
+      "scale": null,
+      "axis": null
+    },
+    "y": {
+      "field": "cellY",
+      "type": "quantitative",
+      "scale": null
+    },
+    "tooltip": [
+      {
+        "field": "__1__",
+        "title": "Domain"
+      },
+      {
+        "field": "__3__",
+        "title": "Score"
+      },
+      {
+        "field": "bandWord",
+        "title": "Band"
+      },
+      {
+        "field": "changeText",
+        "title": "Change"
+      },
+      {
+        "field": "driverText",
+        "title": "Driver"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "__select__",
+          "select": {
+            "type": "point",
+            "fields": [
+              "__0__"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "xOffset": 6,
+        "x2Offset": -6,
+        "cornerRadius": 18,
+        "fill": {
+          "expr": "surface"
+        },
+        "stroke": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x2": {
+          "field": "c1"
+        },
+        "y": {
+          "field": "cardTop",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y2": {
+          "field": "cardBottom"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "dx": 24,
+        "dy": 22,
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 17,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        },
+        "limit": {
+          "expr": "max(40, datum.cardW - 36 - (datum['__2__'] === true ? 60 : 0))"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "__1__"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "field": "dim",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum['__2__'] === true"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "top",
+        "dx": -24,
+        "dy": 24,
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "c1",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "value": "PROPOSED"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "dx": 24,
+        "dy": 82,
+        "font": "Fraunces, Cambria, Georgia, serif",
+        "fontSize": 36,
+        "fontWeight": 600,
+        "color": {
+          "expr": "ink"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "__3__"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "field": "dim",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "34 + length(datum.bandWord) * 7.4",
+          "as": "pillW"
+        },
+        {
+          "calculate": "datum.cellX + 104",
+          "as": "pillX"
+        },
+        {
+          "calculate": "datum.pillX + datum.pillW",
+          "as": "pillX2"
+        },
+        {
+          "calculate": "datum.cellY + 48",
+          "as": "pillY"
+        },
+        {
+          "calculate": "datum.pillY + 24",
+          "as": "pillY2"
+        },
+        {
+          "calculate": "datum.pillY + 12",
+          "as": "pillMid"
+        },
+        {
+          "calculate": "datum.pillX + 15",
+          "as": "pillDotX"
+        },
+        {
+          "calculate": "datum.pillX + 25",
+          "as": "pillTextX"
+        },
+        {
+          "calculate": "datum['__4__'] === 'healthy' ? goodFill : datum['__4__'] === 'watch' ? warnFill : datum['__4__'] === 'act' ? badFill : sage",
+          "as": "pillFill"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rect",
+            "cornerRadius": 12,
+            "strokeWidth": 1,
+            "strokeOpacity": 0.35
+          },
+          "encoding": {
+            "x": {
+              "field": "pillX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "pillX2"
+            },
+            "y": {
+              "field": "pillY",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "pillY2"
+            },
+            "fill": {
+              "field": "pillFill",
+              "type": "nominal",
+              "scale": null
+            },
+            "stroke": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "field": "dim",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 64
+          },
+          "encoding": {
+            "x": {
+              "field": "pillDotX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "pillMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "field": "dim",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "JetBrains Mono, Consolas, monospace",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "pillTextX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "pillMid",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "bandWord"
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "field": "dim",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.cellX + 104",
+          "as": "changeX"
+        },
+        {
+          "calculate": "datum.cellY + 88",
+          "as": "changeY"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11.5,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "x": {
+          "field": "changeX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "changeY",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "changeText"
+        },
+        "color": {
+          "field": "changeColour",
+          "type": "nominal",
+          "scale": null
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "field": "dim",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "alphabetic",
+        "dx": 24,
+        "dy": 104,
+        "fontSize": 13,
+        "limit": {
+          "expr": "max(40, datum.cardW - 36)"
+        },
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "text": {
+          "field": "driverText"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "field": "dim",
+          "type": "quantitative",
+          "scale": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.cellX + 24",
+          "as": "bandX"
+        },
+        {
+          "calculate": "datum.cellX + datum.cardW - 24",
+          "as": "bandX2"
+        },
+        {
+          "calculate": "datum.cellY + 110",
+          "as": "sparkTop"
+        },
+        {
+          "calculate": "max(datum.cellY + 124, datum.cardBottom - 10)",
+          "as": "sparkBase"
+        },
+        {
+          "calculate": "datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (80 - datum.sparkLow) / (datum.sparkHigh - datum.sparkLow)",
+          "as": "band80"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "color": {
+          "expr": "goodFill"
+        },
+        "opacity": 0.35,
+        "cornerRadius": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "bandX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "x2": {
+          "field": "bandX2"
+        },
+        "y": {
+          "field": "sparkTop",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y2": {
+          "field": "band80"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "[datum['__8__'], datum['__9__'], datum['__10__'], datum['__11__'], datum['__12__'], datum['__13__']]",
+          "as": "quarterScores"
+        },
+        {
+          "calculate": "sequence(0, 6)",
+          "as": "quarterIndex"
+        },
+        {
+          "flatten": [
+            "quarterScores",
+            "quarterIndex"
+          ],
+          "as": [
+            "quarterScore",
+            "qi"
+          ]
+        },
+        {
+          "calculate": "datum.cellY + 110",
+          "as": "sparkTop"
+        },
+        {
+          "calculate": "max(datum.cellY + 124, datum.cardBottom - 10)",
+          "as": "sparkBase"
+        },
+        {
+          "calculate": "datum.cellX + 24 + (datum.cardW - 48) * datum.qi / 5",
+          "as": "sx"
+        },
+        {
+          "calculate": "datum.sparkBase - (datum.sparkBase - datum.sparkTop) * (clamp(datum.quarterScore, datum.sparkLow, datum.sparkHigh) - datum.sparkLow) / (datum.sparkHigh - datum.sparkLow)",
+          "as": "sy"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "area",
+            "color": {
+              "expr": "emerald"
+            },
+            "opacity": 0.15
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "sparkBase"
+            },
+            "detail": {
+              "field": "__0__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 1.75,
+            "color": {
+              "expr": "evergreen"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "detail": {
+              "field": "__0__"
+            },
+            "order": {
+              "field": "qi",
+              "type": "quantitative"
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "field": "dim",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.qi === 5"
+            }
+          ],
+          "mark": {
+            "type": "circle",
+            "size": 44,
+            "stroke": {
+              "expr": "surface"
+            },
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "x": {
+              "field": "sx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "sy",
+              "type": "quantitative",
+              "scale": null
+            },
+            "color": {
+              "field": "bandKey",
+              "type": "nominal",
+              "scale": null
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.__selected__ === 'off'",
+                "value": 0.35
+              },
+              "field": "dim",
+              "type": "quantitative",
+              "scale": null
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

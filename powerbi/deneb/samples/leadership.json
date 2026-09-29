@@ -1,0 +1,19 @@
+[
+  {"level":1,"id":"P001","parentId":"","label":"Platform lead","sublabel":"Platform","labCode":"","labColour":"","headcount":340,"contractorPct":24},
+  {"level":2,"id":"P002","parentId":"P001","label":"Lab lead","sublabel":"24*7 Services","labCode":"24","labColour":"#1E5B4F","headcount":87,"contractorPct":22},
+  {"level":3,"id":"P003","parentId":"P002","label":"Team lead","sublabel":"Customer Portal","labCode":"24","labColour":"#1E5B4F","headcount":34,"contractorPct":24},
+  {"level":3,"id":"P037","parentId":"P002","label":"Team lead","sublabel":"Claims Intake","labCode":"24","labColour":"#1E5B4F","headcount":30,"contractorPct":20},
+  {"level":3,"id":"P067","parentId":"P002","label":"Team lead","sublabel":"Policy Servicing","labCode":"24","labColour":"#1E5B4F","headcount":22,"contractorPct":23},
+  {"level":2,"id":"P089","parentId":"P001","label":"Lab lead","sublabel":"Colleague Tooling","labCode":"CT","labColour":"#8E5E48","headcount":85,"contractorPct":25},
+  {"level":3,"id":"P090","parentId":"P089","label":"Team lead","sublabel":"Adviser Workbench","labCode":"CT","labColour":"#8E5E48","headcount":30,"contractorPct":20},
+  {"level":3,"id":"P120","parentId":"P089","label":"Team lead","sublabel":"Underwriting Desk","labCode":"CT","labColour":"#8E5E48","headcount":22,"contractorPct":18},
+  {"level":3,"id":"P142","parentId":"P089","label":"Team lead","sublabel":"Contact Centre","labCode":"CT","labColour":"#8E5E48","headcount":32,"contractorPct":34},
+  {"level":2,"id":"P174","parentId":"P001","label":"Lab lead","sublabel":"Agentic Operations","labCode":"AO","labColour":"#44618A","headcount":83,"contractorPct":24},
+  {"level":3,"id":"P175","parentId":"P174","label":"Team lead","sublabel":"Automation Platform","labCode":"AO","labColour":"#44618A","headcount":28,"contractorPct":18},
+  {"level":3,"id":"P203","parentId":"P174","label":"Team lead","sublabel":"Agent Runtime","labCode":"AO","labColour":"#44618A","headcount":30,"contractorPct":37},
+  {"level":3,"id":"P233","parentId":"P174","label":"Team lead","sublabel":"Observability","labCode":"AO","labColour":"#44618A","headcount":24,"contractorPct":17},
+  {"level":2,"id":"P257","parentId":"P001","label":"Lab lead","sublabel":"Data & Insights","labCode":"DI","labColour":"#1A6F7C","headcount":84,"contractorPct":24},
+  {"level":3,"id":"P258","parentId":"P257","label":"Team lead","sublabel":"Data Platform","labCode":"DI","labColour":"#1A6F7C","headcount":26,"contractorPct":19},
+  {"level":3,"id":"P284","parentId":"P257","label":"Team lead","sublabel":"Actuarial Analytics","labCode":"DI","labColour":"#1A6F7C","headcount":28,"contractorPct":21},
+  {"level":3,"id":"P312","parentId":"P257","label":"Team lead","sublabel":"Regulatory Reporting","labCode":"DI","labColour":"#1A6F7C","headcount":29,"contractorPct":31}
+]

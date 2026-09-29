@@ -1,0 +1,4 @@
+expression CsvFolder = "C:\PlatformHealth\model\csv" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 912edc7e-adcf-56ac-905d-a728c4e2b18c
+
+	annotation PBI_ResultType = Text

@@ -1,0 +1,33 @@
+table Period
+	lineageTag: c675cdee-6213-5276-aa24-a869bef3d46f
+
+	column Quarters
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a632259-5a0e-5b7f-97ae-bafbdae70abc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarters]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Period
+		dataType: string
+		lineageTag: 5316972a-ece4-59fd-97e8-39036b446e36
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Period]
+		sortByColumn: Quarters
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Period = calculated
+		mode: import
+		source =
+				DATATABLE (
+				    "Quarters", INTEGER,
+				    "Period", STRING,
+				    { { 2, "Last 2 quarters" }, { 4, "Last 4 quarters" }, { 6, "Last 6 quarters" } }
+				)
+
+	annotation PBI_ResultType = Table

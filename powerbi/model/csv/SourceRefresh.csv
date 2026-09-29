@@ -1,0 +1,16 @@
+System,Short,LastRefresh,Cadence
+ServiceNow,ServiceNow,2026-09-28T06:00:00,Daily
+Dynatrace,Dynatrace,2026-09-28T09:45:00,Real time
+Maturity self-assessment,Maturity assessment,2026-06-30T17:00:00,Quarterly
+Jira,Jira,2026-09-28T07:00:00,Hourly
+Architecture register (SharePoint),Architecture register,2026-09-27T18:00:00,Weekly
+Risk register (SharePoint),Risk register,2026-09-27T18:00:00,Weekly
+Qualys / Tenable,Qualys / Tenable,2026-09-27T22:00:00,Daily
+Intune / SCCM,Intune / SCCM,2026-09-28T05:30:00,Daily
+DR register,DR register,2026-09-27T18:00:00,Monthly
+GCP asset inventory + CMDB,GCP assets,2026-09-28T04:30:00,Daily
+Audit and regulatory tracker,Audit tracker,2026-09-25T16:00:00,Monthly
+Workday,Workday,2026-09-21T05:00:00,Weekly
+Skills register,Skills register,2026-06-30T17:00:00,Quarterly
+Azure Cost Management,Azure cost,2026-09-26T04:00:00,Daily
+GCP Billing export (BigQuery),GCP billing,2026-09-26T04:00:00,Daily

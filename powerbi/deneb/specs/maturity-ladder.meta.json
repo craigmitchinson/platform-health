@@ -1,0 +1,7 @@
+{
+  "sample": "maturity.json",
+  "container": "card",
+  "optional": ["labCode", "labColour"],
+  "width": 800,
+  "height": 460
+}

@@ -1,0 +1,30 @@
+table PersonSkill
+	lineageTag: 500d6f61-c25b-5cd0-93ee-a65d8844cfb0
+
+	column PersonKey
+		dataType: string
+		lineageTag: 1c8833ac-a0fb-5e67-8713-2eafc07227ee
+		summarizeBy: none
+		sourceColumn: PersonKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SkillKey
+		dataType: string
+		lineageTag: 57022bb3-51c2-5b8a-89fa-939fc4f0b3f1
+		summarizeBy: none
+		sourceColumn: SkillKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PersonSkill = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(CsvFolder & "\PersonSkill.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"PersonKey", type text}, {"SkillKey", type text}})
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,976 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.7.0.0",
+      "metaVersion": 1,
+      "provider": "vegaLite",
+      "providerVersion": "5.23"
+    },
+    "information": {
+      "name": "Platform Health lineage-table",
+      "description": "Metric lineage in two side-by-side tables, split where the running row count first reaches half: domain (once per group), metric, source system, mode, refresh, owner and a readiness pill.",
+      "author": "Platform Health contributors",
+      "uuid": "d4bf38c8-c4cc-5c9a-8223-628f6684357e",
+      "generated": "2026-09-29T18:14:26.435Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "domainId",
+        "description": "Groups the rows",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "domain",
+        "description": "Domain name",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "domainOrder",
+        "description": "Group order",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "metricId",
+        "description": "Selection key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "metricOrder",
+        "description": "Optional; the spec falls back when it is not bound. Optional; order within a domain, else by metric name",
+        "type": "numeric",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "metric",
+        "description": "Metric name",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__6__",
+        "name": "system",
+        "description": "Source system",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__7__",
+        "name": "mode",
+        "description": "Ingestion mode key",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__8__",
+        "name": "modeLabel",
+        "description": "Full mode label, used in tooltips and for an unknown mode",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__9__",
+        "name": "refresh",
+        "description": "Refresh cadence",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__10__",
+        "name": "owner",
+        "description": "Data owner",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__11__",
+        "name": "readiness",
+        "description": "`live`, `partial` or `aspirational`",
+        "type": "text",
+        "kind": "column"
+      }
+    ],
+    "config": "{\n  \"background\": \"transparent\",\n  \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n  \"padding\": 8,\n  \"view\": {\n    \"stroke\": null\n  },\n  \"title\": {\n    \"font\": \"Fraunces, Cambria, Georgia, serif\",\n    \"fontSize\": 17,\n    \"fontWeight\": 600,\n    \"color\": \"#0F4D43\",\n    \"anchor\": \"start\",\n    \"offset\": 12\n  },\n  \"axis\": {\n    \"domain\": false,\n    \"ticks\": false,\n    \"grid\": true,\n    \"gridColor\": \"#E6E8E2\",\n    \"gridWidth\": 1,\n    \"labelColor\": \"#5F6E69\",\n    \"labelFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"labelFontSize\": 12,\n    \"labelPadding\": 8,\n    \"titleColor\": \"#5F6E69\",\n    \"titleFont\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"titleFontSize\": 12,\n    \"titleFontWeight\": \"normal\"\n  },\n  \"axisX\": {\n    \"grid\": false\n  },\n  \"legend\": {\n    \"disable\": true\n  },\n  \"range\": {\n    \"category\": [\n      \"#0F4D43\",\n      \"#0B8A6B\",\n      \"#5E8C82\",\n      \"#B9852C\",\n      \"#B6462F\",\n      \"#2A6A5F\",\n      \"#5F6E69\",\n      \"#CFDDD4\",\n      \"#D6D9D2\"\n    ]\n  },\n  \"text\": {\n    \"font\": \"Segoe UI, wf_segoe-ui_normal, Arial, sans-serif\",\n    \"color\": \"#0F4D43\"\n  },\n  \"line\": {\n    \"color\": \"#0F4D43\",\n    \"strokeWidth\": 2.5,\n    \"strokeJoin\": \"round\",\n    \"strokeCap\": \"round\"\n  },\n  \"point\": {\n    \"color\": \"#0B8A6B\",\n    \"filled\": true\n  },\n  \"rule\": {\n    \"color\": \"#D6D9D2\"\n  }\n}",
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "selectionMode": "advanced",
+      "highlight": false,
+      "dataPointLimit": 30000
+    }
+  },
+  "description": "Metric lineage in two side-by-side tables, split where the running row count first reaches half: domain (once per group), metric, source system, mode, refresh, owner and a readiness pill.",
+  "data": {
+    "name": "dataset"
+  },
+  "width": "container",
+  "height": "container",
+  "background": "transparent",
+  "params": [
+    {
+      "name": "evergreen",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "emerald",
+      "expr": "pbiColor(1)"
+    },
+    {
+      "name": "sage",
+      "value": "#DCE8E0"
+    },
+    {
+      "name": "amber",
+      "expr": "pbiColor(3)"
+    },
+    {
+      "name": "red",
+      "expr": "pbiColor(4)"
+    },
+    {
+      "name": "ink",
+      "expr": "pbiColor(0)"
+    },
+    {
+      "name": "muted",
+      "expr": "pbiColor(6)"
+    },
+    {
+      "name": "line",
+      "expr": "pbiColor(8)"
+    },
+    {
+      "name": "surface",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "cream",
+      "value": "#F7F6F2"
+    },
+    {
+      "name": "goodFill",
+      "value": "#DDF0E8"
+    },
+    {
+      "name": "warnFill",
+      "value": "#F5EAD6"
+    },
+    {
+      "name": "badFill",
+      "value": "#F3E0DA"
+    },
+    {
+      "name": "rowH",
+      "value": 17
+    },
+    {
+      "name": "headY",
+      "value": 32
+    },
+    {
+      "name": "bodyY",
+      "value": 44
+    },
+    {
+      "name": "tableGap",
+      "value": 24
+    },
+    {
+      "name": "tableW",
+      "expr": "max(1, (width - tableGap) / 2)"
+    },
+    {
+      "name": "title",
+      "value": "LINEAGE"
+    },
+    {
+      "name": "perCol",
+      "expr": "max(2, floor((height - bodyY) / rowH))"
+    }
+  ],
+  "title": {
+    "text": {
+      "expr": "title"
+    },
+    "font": "JetBrains Mono, Consolas, monospace",
+    "fontSize": 12.5,
+    "fontWeight": 600,
+    "color": {
+      "expr": "muted"
+    },
+    "anchor": "start",
+    "offset": 6
+  },
+  "transform": [
+    {
+      "calculate": "isValid(datum['__4__']) ? toNumber(datum['__4__']) : 0",
+      "as": "metricSort"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "idx"
+        }
+      ],
+      "sort": [
+        {
+          "field": "__2__",
+          "order": "ascending"
+        },
+        {
+          "field": "metricSort",
+          "order": "ascending"
+        },
+        {
+          "field": "__5__",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "count",
+          "as": "total"
+        }
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "min",
+          "field": "idx",
+          "as": "firstIdx"
+        },
+        {
+          "op": "max",
+          "field": "idx",
+          "as": "lastIdx"
+        }
+      ],
+      "groupby": [
+        "__0__"
+      ]
+    },
+    {
+      "calculate": "(datum.firstIdx - 1) * 2 < datum.total ? 1 : 0",
+      "as": "isLeft"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "isLeft",
+          "as": "leftCount"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.isLeft === 1 ? 0 : 1",
+      "as": "side"
+    },
+    {
+      "calculate": "datum.isLeft === 1 ? datum.idx - 1 : datum.idx - 1 - datum.leftCount",
+      "as": "sideRow"
+    },
+    {
+      "window": [
+        {
+          "op": "first_value",
+          "field": "__1__",
+          "as": "sideFirst"
+        },
+        {
+          "op": "last_value",
+          "field": "__1__",
+          "as": "sideLast"
+        }
+      ],
+      "groupby": [
+        "side"
+      ],
+      "sort": [
+        {
+          "field": "idx",
+          "order": "ascending"
+        }
+      ],
+      "frame": [
+        null,
+        null
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "count",
+          "as": "sideCount"
+        }
+      ],
+      "groupby": [
+        "side"
+      ]
+    },
+    {
+      "calculate": "datum.sideCount > perCol",
+      "as": "sideOver"
+    },
+    {
+      "filter": "!datum.sideOver || datum.sideRow < perCol - 1"
+    },
+    {
+      "calculate": "datum.side * (tableW + tableGap)",
+      "as": "tx"
+    },
+    {
+      "calculate": "bodyY + datum.sideRow * rowH",
+      "as": "y0"
+    },
+    {
+      "calculate": "datum.y0 + rowH",
+      "as": "y1"
+    },
+    {
+      "calculate": "datum.y0 + rowH / 2",
+      "as": "yMid"
+    },
+    {
+      "calculate": "datum.idx === datum.firstIdx",
+      "as": "isFirst"
+    },
+    {
+      "calculate": "datum.tx + tableW * 0.125",
+      "as": "metricX"
+    },
+    {
+      "calculate": "datum.tx + tableW * 0.34",
+      "as": "systemX"
+    },
+    {
+      "calculate": "datum.tx + tableW * 0.56",
+      "as": "modeX"
+    },
+    {
+      "calculate": "datum.tx + tableW * 0.637",
+      "as": "refreshX"
+    },
+    {
+      "calculate": "datum.tx + tableW * 0.703",
+      "as": "ownerX"
+    },
+    {
+      "calculate": "datum.tx + tableW * 0.868",
+      "as": "readyX"
+    },
+    {
+      "calculate": "datum.tx + tableW",
+      "as": "tx2"
+    },
+    {
+      "calculate": "{'sql': 'SQL', 'semantic': 'Semantic', 'spreadsheet': 'Spreadsheet', 'csv': 'CSV', 'api': 'API'}[datum['__7__']] || datum['__8__']",
+      "as": "modeShort"
+    },
+    {
+      "calculate": "lower(datum['__11__'] + '')",
+      "as": "readyId"
+    },
+    {
+      "calculate": "{'live': 'LIVE', 'partial': 'PARTIAL', 'aspirational': 'ASPIRATIONAL'}[datum.readyId] || upper(datum.readyId)",
+      "as": "readyWord"
+    },
+    {
+      "calculate": "datum.readyId === 'live' ? goodFill : datum.readyId === 'partial' ? warnFill : sage",
+      "as": "readyFill"
+    },
+    {
+      "calculate": "datum.readyId === 'live' ? emerald : datum.readyId === 'partial' ? amber : muted",
+      "as": "readyKey"
+    }
+  ],
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.sideRow === 0"
+        },
+        {
+          "calculate": "upper('Metric sources, ' + datum.sideFirst + ' to ' + datum.sideLast)",
+          "as": "caption"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "y": 8,
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "tx",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "caption"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "head": "DOMAIN",
+            "share": 0
+          },
+          {
+            "head": "METRIC",
+            "share": 0.125
+          },
+          {
+            "head": "SOURCE SYSTEM",
+            "share": 0.34
+          },
+          {
+            "head": "MODE",
+            "share": 0.56
+          },
+          {
+            "head": "REFRESH",
+            "share": 0.637
+          },
+          {
+            "head": "OWNER",
+            "share": 0.703
+          },
+          {
+            "head": "READINESS",
+            "share": 0.868
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "[0, 1]",
+          "as": "sides"
+        },
+        {
+          "flatten": [
+            "sides"
+          ],
+          "as": [
+            "headSide"
+          ]
+        },
+        {
+          "calculate": "datum.headSide * (tableW + tableGap) + datum.share * tableW",
+          "as": "headX"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "y": {
+          "expr": "headY"
+        },
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "color": {
+          "expr": "muted"
+        },
+        "limit": {
+          "expr": "tableW * 0.125 - 4"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "headX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "head"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "headSide": 0
+          },
+          {
+            "headSide": 1
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "datum.headSide * (tableW + tableGap)",
+          "as": "ruleX"
+        },
+        {
+          "calculate": "datum.ruleX + tableW",
+          "as": "ruleX2"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "y": {
+          "expr": "bodyY - 0.5"
+        },
+        "color": {
+          "expr": "line"
+        },
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "ruleX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "x2": {
+          "field": "ruleX2"
+        }
+      }
+    },
+    {
+      "encoding": {
+        "y": {
+          "field": "yMid",
+          "type": "quantitative",
+          "scale": null
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.__selected__ === 'off'",
+            "value": 0.35
+          },
+          "value": 1
+        }
+      },
+      "layer": [
+        {
+          "params": [
+            {
+              "name": "__select__",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "__3__"
+                ],
+                "on": "click",
+                "clear": "dblclick"
+              }
+            }
+          ],
+          "mark": {
+            "type": "rect",
+            "fill": "transparent"
+          },
+          "encoding": {
+            "x": {
+              "field": "tx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "tx2"
+            },
+            "y": {
+              "field": "y0",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y2": {
+              "field": "y1"
+            },
+            "tooltip": [
+              {
+                "field": "__1__",
+                "title": "Domain"
+              },
+              {
+                "field": "__5__",
+                "title": "Metric"
+              },
+              {
+                "field": "__6__",
+                "title": "Source system"
+              },
+              {
+                "field": "__8__",
+                "title": "Mode"
+              },
+              {
+                "field": "__9__",
+                "title": "Refresh"
+              },
+              {
+                "field": "__10__",
+                "title": "Owner"
+              },
+              {
+                "field": "readyWord",
+                "title": "Readiness"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "rule",
+            "color": {
+              "expr": "line"
+            },
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "x": {
+              "field": "tx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "x2": {
+              "field": "tx2"
+            },
+            "y": {
+              "field": "y1",
+              "type": "quantitative",
+              "scale": null
+            },
+            "strokeOpacity": {
+              "condition": {
+                "test": "datum.idx === datum.lastIdx",
+                "value": 1
+              },
+              "value": 0.5
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.isFirst"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "font": "Fraunces, Cambria, Georgia, serif",
+            "fontSize": 12.5,
+            "fontWeight": 600,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "tableW * 0.125 - 6"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "tx",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "__1__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 11,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "tableW * 0.215 - 6"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "metricX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "__5__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 11,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "tableW * 0.22 - 6"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "systemX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "__6__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 11,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "tableW * 0.077 - 6"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "modeX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "modeShort"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 11,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "tableW * 0.066 - 6"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "refreshX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "__9__"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "fontSize": 11,
+            "color": {
+              "expr": "ink"
+            },
+            "limit": {
+              "expr": "tableW * 0.165 - 6"
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "ownerX",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "__10__"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "calculate": "min(tableW * 0.132 - 4, 22 + length(datum.readyWord) * 6.3)",
+              "as": "pillW"
+            },
+            {
+              "calculate": "datum.readyX + datum.pillW",
+              "as": "pillX2"
+            },
+            {
+              "calculate": "datum.yMid - 7.5",
+              "as": "pillY"
+            },
+            {
+              "calculate": "datum.yMid + 7.5",
+              "as": "pillY2"
+            },
+            {
+              "calculate": "datum.readyX + 9",
+              "as": "pillDotX"
+            },
+            {
+              "calculate": "datum.readyX + 16",
+              "as": "pillTextX"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "rect",
+                "cornerRadius": 7.5,
+                "strokeWidth": 1,
+                "strokeOpacity": 0.35
+              },
+              "encoding": {
+                "x": {
+                  "field": "readyX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "x2": {
+                  "field": "pillX2"
+                },
+                "y": {
+                  "field": "pillY",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "y2": {
+                  "field": "pillY2"
+                },
+                "fill": {
+                  "field": "readyFill",
+                  "type": "nominal",
+                  "scale": null
+                },
+                "stroke": {
+                  "field": "readyKey",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "circle",
+                "size": 30
+              },
+              "encoding": {
+                "x": {
+                  "field": "pillDotX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "color": {
+                  "field": "readyKey",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "middle",
+                "font": "JetBrains Mono, Consolas, monospace",
+                "fontSize": 10,
+                "fontWeight": 600,
+                "color": {
+                  "expr": "ink"
+                },
+                "limit": {
+                  "expr": "tableW * 0.132 - 24"
+                }
+              },
+              "encoding": {
+                "x": {
+                  "field": "pillTextX",
+                  "type": "quantitative",
+                  "scale": null
+                },
+                "text": {
+                  "field": "readyWord"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.sideOver && datum.sideRow === perCol - 2"
+        },
+        {
+          "calculate": "datum.yMid + rowH",
+          "as": "moreY"
+        },
+        {
+          "calculate": "'+' + (datum.sideCount - perCol + 1) + ' more'",
+          "as": "moreText"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "font": "JetBrains Mono, Consolas, monospace",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": {
+          "expr": "muted"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "metricX",
+          "type": "quantitative",
+          "scale": null
+        },
+        "y": {
+          "field": "moreY",
+          "type": "quantitative",
+          "scale": null
+        },
+        "text": {
+          "field": "moreText"
+        }
+      }
+    }
+  ]
+}
