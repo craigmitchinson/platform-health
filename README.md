@@ -229,6 +229,10 @@ the number is illustrative. The Lineage page shows this plainly, rather than pre
 figure is equally trustworthy. It is the only page that shows readiness; the other pages say how
 fresh their figures are instead.
 
+Taking a domain live is planned in [docs/JIRA-BREAKDOWN.md](docs/JIRA-BREAKDOWN.md). Incidents has
+its own specification, [docs/INCIDENT-DATA.md](docs/INCIDENT-DATA.md): the ServiceNow fields to
+extract, how each metric is calculated per team and quarter, and how a figure becomes a score.
+
 Footer rule. Every page footer reads "Platform Health · {Report} · {Page}" on the left and, on the
 right, the source systems behind that page with their last refresh, most recent first, at most
 five, then "+N more". Overview, Labs and teams, Actions and Movement list the systems behind the

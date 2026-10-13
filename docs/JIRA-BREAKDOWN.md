@@ -142,7 +142,7 @@ Goal: a read-only route into ServiceNow and agreed definitions for every metric 
 | --- | --- |
 | T1 | Agree the route (reporting replica preferred) and obtain a read-only service account. No personal credentials in the model. |
 | T2 | Confirm the record types and fields above against the instance, including the SNC table and any custom RCA fields. |
-| T3 | Agree definitions with the service management owner: repeat, overdue RCA, failed and emergency change, lead time start and end, the linkage denominator, and whether MTTR comes from ServiceNow or Dynatrace. Record each (X.4). |
+| T3 | Agree definitions with the service management owner: repeat, overdue RCA, failed and emergency change, lead time start and end, the linkage denominator, and whether MTTR comes from ServiceNow or Dynatrace. Record each (X.4). Incident fields, calculations and the open decisions are set out in [INCIDENT-DATA.md](INCIDENT-DATA.md). |
 
 ### 1.2 Assignment group mapping
 Goal: every in-scope assignment group maps to one team. Estimate: 1. Depends on: 1.1, X.1. Done when: every group with records in the last six quarters is mapped or marked out of scope, and the lab leads agree the list.
